@@ -1,4 +1,4 @@
 Repositorio Capstone Grupo 3.
-Belen Bahamondes,
+Maria Bahamondes,
 Agustin Rodrigez,
 Carlos Cortez
