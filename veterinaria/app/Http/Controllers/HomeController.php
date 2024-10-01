@@ -12,6 +12,7 @@ class HomeController extends Controller
     }
 
     public function nose(){
-        return view('nose');
+        return "hola perros asd";
     }
+    
 }
