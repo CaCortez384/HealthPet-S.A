@@ -11,5 +11,5 @@ Route::get('/post', function(){
     return "holas";
 });
 
-
+Route::get('/inventario', [HomeController::class, 'inventario'] );
 
