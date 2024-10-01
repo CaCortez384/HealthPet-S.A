@@ -15,4 +15,7 @@ class HomeController extends Controller
         return "hola perros asd";
     }
     
+    public function listar(){
+        return view('inventario/listar');
+    }
 }
