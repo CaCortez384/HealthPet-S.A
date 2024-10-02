@@ -92,7 +92,7 @@
                 
           <div class="nav_list">
 
-            <a href="#" class="nav_link active">
+            <a href="./inicio" class="nav_link active">
               <i class='bx bx-grid-alt'></i>
               <span class="nav_name">Dashboard</span>
             </a>
@@ -102,9 +102,9 @@
               <span class="nav_name">Users</span>
             </a>
 
-            <a href="#" class="nav_link">
+            <a href="./inventario" class="nav_link">
               <i class='bx bx-message'></i>
-              <span class="nav_name">Messages</span>
+              <span class="nav_name">Inventario</span>
             </a>
 
             <a href="#" class="nav_link">
