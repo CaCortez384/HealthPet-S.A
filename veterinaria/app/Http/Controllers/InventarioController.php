@@ -86,4 +86,13 @@ class InventarioController extends Controller
         return view('detalle/producto');
     }
 
+    public function eliminar($producto){
+        $producto = Producto::find($producto);
+        if ($producto === null) {
+            return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
+        }
+        $producto->delete();
+        return redirect()->route('listar.productos');
+    }
+
 }

@@ -100,16 +100,17 @@
                                     <div slot="headline">
                                         Eliminar Producto "{{ $producto->nombre }}"
                                     </div>
-                                    <form slot="content" id="form-id-{{ $producto->id }}" method="dialog">
-                                        ¿Esta seguro que desea eliminar el producto?
+                                    <form slot="content" id="form-id-{{ $producto->id }}" method="POST" action="{{ route('eliminar.producto', $producto->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        ¿Está seguro que desea eliminar el producto?
                                     </form>
                                     <div slot="actions">
                                         <md-text-button id="closeButton_{{ $producto->id }}"
                                             form="form-id-{{ $producto->id }}">Cancelar</md-text-button>
 
-                                        {{-- Asignarle la funcion al boton para eliminar producto --}}
-                                        <md-text-button id="closeButton_{{ $producto->id }}"
-                                            form="form-id-{{ $producto->id }}">Eliminar</md-text-button>
+                                        {{-- Botón para confirmar la eliminación del producto --}}
+                                        <md-text-button type="submit" form="form-id-{{ $producto->id }}">Eliminar</md-text-button>
                                     </div>
                                 </md-dialog>
                             </td>

@@ -19,6 +19,7 @@ Route::post('/inventario', [InventarioController::class, 'store'])->name('invent
 
 Route::get('/inventario/{producto}/editar', [InventarioController::class, 'editar'] )->name('editar.producto');
 ROUTE::put('/inventario/{producto}', [InventarioController::class, 'update'] )->name('actualizar.producto');
+Route::delete('/inventario/{producto}', [InventarioController::class, 'eliminar'] )->name('eliminar.producto');
 
 Route::get('/inventario/detalle', [InventarioController::class, 'detalle'] )->name('detalle.producto');
 
