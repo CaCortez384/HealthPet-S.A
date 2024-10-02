@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function inicio(){
         return view('home');
     }
 
@@ -15,7 +15,5 @@ class HomeController extends Controller
         return "hola perros asd";
     }
     
-    public function listar(){
-        return view('inventario/listar');
-    }
+    
 }
