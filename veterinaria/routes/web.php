@@ -14,7 +14,7 @@ Route::get('/nose', [HomeController::class, 'nose'] );
 Route::get('/inventario', [InventarioController::class, 'listar'] );
 
 Route::get('/inventario/crear', [InventarioController::class, 'crear'] );
-Route::post('/inventario', [InventarioController::class, 'store'] );
+Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
 
 Route::get('/inventario/editar', [InventarioController::class, 'editar'] );
 

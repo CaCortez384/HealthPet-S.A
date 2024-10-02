@@ -1,10 +1,16 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 body {
     background-color: rgb(230,234,238);
+    font-family:   "Roboto";
+    
+    
 }
 .nav_link{
     margin-top: 10px;
 }
+
+
 
 .l-navbar {
     position: fixed;
@@ -52,6 +58,7 @@ body {
 
     .l-navbar.show {
         left: 0;
+        z-index: 100;
         
     }
 
@@ -85,6 +92,7 @@ background-color: rgb(73, 97, 194);
 margin-top: 20px;
 border-radius: 20px;
 width: 100%;
+z-index: 1000; 
 
 }
 
