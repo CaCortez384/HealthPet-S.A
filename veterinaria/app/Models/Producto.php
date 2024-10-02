@@ -25,7 +25,7 @@ class Producto extends Model
     protected function casts(): array
     {
         return [
-            'fecha_de_vencimiento' => 'datetime',
+            'fecha_de_vencimiento' => 'datetime:Y-m-d',
         ];
     }
 

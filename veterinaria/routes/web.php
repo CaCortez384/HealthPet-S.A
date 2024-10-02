@@ -7,18 +7,20 @@ use App\Models\Producto;
 
 #rutas uri para acceder mediante el navegador
 
-Route::get('/inicio', [HomeController::class, 'inicio'] );
+Route::get('/', [HomeController::class, 'inicio'] );
 
 Route::get('/nose', [HomeController::class, 'nose'] );
 
-Route::get('/inventario', [InventarioController::class, 'listar'] );
-
-Route::get('/inventario/crear', [InventarioController::class, 'crear'] );
+//rutas para gestion de inventario
+Route::get('/inventario', [InventarioController::class, 'listar'])->name('listar.productos');
+Route::get('/inventario/crear', [InventarioController::class, 'crear'])->name('inventario.crear');
 Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
 
-Route::get('/inventario/editar', [InventarioController::class, 'editar'] );
 
-Route::get('/inventario/detalle', [InventarioController::class, 'detalle'] );
+Route::get('/inventario/{producto}/editar', [InventarioController::class, 'editar'] )->name('editar.producto');
+ROUTE::put('/inventario/{producto}', [InventarioController::class, 'update'] )->name('actualizar.producto');
+
+Route::get('/inventario/detalle', [InventarioController::class, 'detalle'] )->name('detalle.producto');
 
 //Route::get('/prueba', function () {
     #crear producto

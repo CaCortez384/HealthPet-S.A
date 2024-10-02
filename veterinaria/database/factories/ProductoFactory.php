@@ -21,7 +21,7 @@ class ProductoFactory extends Factory
             'codigo' => $this->faker->unique()->randomNumber(),
             'precio_de_compra' => $this->faker->randomNumber(),
             'precio_de_venta' => $this->faker->randomNumber(),
-            'unidades' => $this->faker->word(),
+            'id_unidad' => $this->faker->numberBetween(1, 4),
             'stock' => $this->faker->randomNumber(),
             'id_presentacion' => $this->faker->numberBetween(1, 10),
             'id_categoria' => $this->faker->numberBetween(1, 2),

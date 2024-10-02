@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('codigo')-> unique();
             $table->integer('precio_de_compra');
             $table->integer('precio_de_venta');
-            $table->string('unidades');
+            $table->string('id_unidad');
             $table->integer('stock');
             $table->integer('id_presentacion')->nullable();
             $table->integer('id_categoria')->nullable();
