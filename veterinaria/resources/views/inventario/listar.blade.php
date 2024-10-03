@@ -53,7 +53,7 @@
             <div id="lista-productos">
                 <h6>Listado de productos</h6>
                 {{-- Botón para agregar un nuevo producto --}}
-                <a href="inventario/crear">
+                <a href="{{ route('inventario.crear') }}">
                     <md-fab label="agregar">
                         <md-icon slot="icon">add</md-icon>
                     </md-fab>
