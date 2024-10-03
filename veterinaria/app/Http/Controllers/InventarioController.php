@@ -72,6 +72,14 @@ class InventarioController extends Controller
         return redirect()->route('listar.productos')->with('success', 'Producto agregado correctamente.');
     }
 
+    // funcion para validar codigo antes de agregar nuevo registro
+    public function validarCodigo($codigo)
+{
+    $existe = Producto::where('codigo', $codigo)->exists();
+    return response()->json(['existe' => $existe]);
+}
+
+
     public function editar($producto){
         $categorias = Categoria::all();
         $unidades = Unidad::all();

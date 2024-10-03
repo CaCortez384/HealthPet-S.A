@@ -21,6 +21,11 @@ Route::get('/inventario/{producto}/editar', [InventarioController::class, 'edita
 ROUTE::put('/inventario/{producto}', [InventarioController::class, 'update'] )->name('actualizar.producto');
 Route::delete('/inventario/{producto}', [InventarioController::class, 'eliminar'] )->name('eliminar.producto');
 
+// validar id del producto antes de agregar
+
+Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCodigo'])->name('inventario.validarCodigo');
+
+
 Route::get('/inventario/detalle', [InventarioController::class, 'detalle'] )->name('detalle.producto');
 
 //Route::get('/prueba', function () {

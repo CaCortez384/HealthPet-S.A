@@ -33,10 +33,10 @@
                 <form action="{{ route('inventario.store') }}" method="POST" id="formulario-productos">
                     @csrf
                     <div id="formulario-crear">
-
+                
                         <md-filled-text-field label="Nombre del producto" value="" name="nombre" required>
                         </md-filled-text-field>
-
+                
                         <md-filled-select class="input-busqueda" label="Categoría" name="categoria">
                             <md-select-option value="" selected>Selecciona una opción</md-select-option>
                             @foreach ($categorias as $categoria)
@@ -44,61 +44,103 @@
                                     value="{{ $categoria->id }}">{{ $categoria->nombre }}</md-select-option>
                             @endforeach
                         </md-filled-select>
-
-                        <md-filled-text-field label="Codigo" value="" type="number" name="codigo">
+                
+                        <md-filled-text-field label="Codigo" value="" type="number" name="codigo" min="0" max="999999999" id="codigo" required>
                         </md-filled-text-field>
-
-                        <md-filled-text-field label="Precio de compra" value="" type="number"
+                
+                        <md-filled-text-field label="Precio de compra" value="" type="number" min="0" max="999999999"
                             name="precio_de_compra" required prefix-text="$">
-
                         </md-filled-text-field>
-
-                        <md-filled-text-field label="Precio de venta" value="" type="number"
+                
+                        <md-filled-text-field label="Precio de venta" value="" type="number" min="0" max="999999999"
                             name="precio_de_venta" required prefix-text="$">
                         </md-filled-text-field>
-
+                
                         <md-filled-select class="input-busqueda" label="Unidades ml, kg, L" name="unidad">
                             <md-select-option value="" selected>Selecciona una opción</md-select-option>
                             @foreach ($unidades as $unidad)
                                 <md-select-option value="{{ $unidad->id }}">{{ $unidad->nombre }}</md-select-option>
                             @endforeach
                         </md-filled-select>
-
-                        <md-filled-text-field label="Stock" value="" name="stock" type="number" required>
+                
+                        <md-filled-text-field label="Stock" value="" name="stock" type="number" min="0" max="999999999" required>
                         </md-filled-text-field>
-
-                        <md-filled-text-field label="Fecha de Expiración" value="" type="date"
-                            name="fecha_de_vencimiento" required>>
+                
+                        <md-filled-text-field label="Fecha de Expiración" type="date" name="fecha_de_vencimiento" required
+                            min="2023-12-31" max="2037-12-31">
                         </md-filled-text-field>
-
-                        <md-filled-text-field label="Cantidad minima requerida" value="" type="number"
+                
+                        <md-filled-text-field label="Cantidad minima requerida" value="" type="number" min="0" max="999999999"
                             name="cantidad_minima_requerida" required>
                         </md-filled-text-field>
                     </div>
                     <div id="boton-enviar">
-                        <md-fab onclick="submitForm()" size="large" label="Agregar Producto">
+                        <md-fab onclick="submitForm(event)" size="large" label="Agregar Producto">
                             <md-icon slot="icon">save</md-icon>
                         </md-fab>
                     </div>
-
-
-
+                
+                    <!-- Contenedor para la alerta -->
+                    <div id="alerta-error" class="alert alert-danger" role="alert" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;">
+                        El código ingresado ya se encuentra registrado. Por favor, elija otro.
+                    </div>
+                
                     <script>
-                        function submitForm() {
+                        function submitForm(event) {
+                            event.preventDefault(); // Evita el envío del formulario temporalmente
                             const form = document.getElementById('formulario-productos');
-
-                            // Verifica si el formulario es válido antes de enviarlo
-                            if (form.checkValidity()) {
-                                form.submit();
+                            const codigoField = document.getElementById('codigo');
+                            const codigo = codigoField.value;
+                
+                            if (codigo) {
+                                // Generar la URL de la ruta utilizando la función de Blade
+                                const url = `{{ route('inventario.validarCodigo', ['codigo' => 'CODIGO_PLACEHOLDER']) }}`.replace('CODIGO_PLACEHOLDER', codigo);
+                
+                                // Realizar la solicitud AJAX para verificar si el código ya existe
+                                fetch(url)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.existe) {
+                                            // Mostrar la alerta de error
+                                            mostrarAlerta();
+                                            // Marcar el campo como inválido
+                                            codigoField.setCustomValidity('El código ya existe');
+                                        } else {
+                                            // Restablecer la validez si el código es único
+                                            codigoField.setCustomValidity('');
+                                            // Si el formulario es válido, enviarlo
+                                            if (form.checkValidity()) {
+                                                form.submit();
+                                            }
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error al verificar el código:', error);
+                                    });
                             } else {
-                                // Si el formulario no es válido, muestra los mensajes de error
-                                form.reportValidity();
+                                // Si el campo está vacío, restablecer la validez
+                                codigoField.setCustomValidity('');
+                                // Verifica si el formulario es válido antes de enviarlo
+                                if (form.checkValidity()) {
+                                    form.submit();
+                                } else {
+                                    // Si el formulario no es válido, muestra los mensajes de error
+                                    form.reportValidity();
+                                }
                             }
                         }
+                
+                        function mostrarAlerta() {
+                            const alerta = document.getElementById('alerta-error');
+                            alerta.style.display = 'block';
+                
+                            // Ocultar la alerta después de 5 segundos
+                            setTimeout(() => {
+                                alerta.style.display = 'none';
+                            }, 5000);
+                        }
                     </script>
-
                 </form>
-
             </div>
         </div>
     </div>
