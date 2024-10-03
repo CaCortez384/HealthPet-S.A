@@ -10,30 +10,38 @@ use App\Models\Unidad;
 
 class InventarioController extends Controller
 {
-    public function listar(Request $request){
+    public function listar(Request $request) {
         $query = Producto::query();
-        
+    
         $nombre = $request->input('nombre');
         $categoria = $request->input('categoria');
         $codigo = $request->input('codigo');
-        
+    
         if ($nombre) {
             $query->where('nombre', 'like', '%' . $nombre . '%');
         }
-        
+    
         if ($categoria) {
             $query->where('id_categoria', $categoria);
         }
-
+    
         if ($codigo) {
             $query->where('codigo', 'like', '%' . $codigo . '%');
         }
-        
+    
         $productos = $query->get();
-        $categorias = Categoria::all(); // Asegúrate de obtener las categorías aquí
-        
-        // Retorna la vista con los productos filtrados y las categorías para mostrar en el select
-        return view('inventario/listar', ['productos' => $productos, 'categorias' => $categorias]);
+        $categorias = Categoria::all(); // Obtener las categorías disponibles
+    
+        // Pasar los filtros aplicados a la vista además de los productos y categorías
+        return view('inventario/listar', [
+            'productos' => $productos,
+            'categorias' => $categorias,
+            'filtros' => [
+                'nombre' => $nombre,
+                'categoria' => $categoria,
+                'codigo' => $codigo,
+            ],
+        ]);
     }
 
     //funcion para redirigir y crear nuevos productos

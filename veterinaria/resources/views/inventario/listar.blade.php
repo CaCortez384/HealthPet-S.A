@@ -32,14 +32,14 @@
                             </md-filled-select>
 
                             {{-- Botón para buscar un producto --}}
-                            <a href="{{ route('listar.productos') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                            <a class="buscar-botons"  href="{{ route('listar.productos') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                                 <md-fab label="buscar">
                                     <md-icon slot="icon">search</md-icon>
                                 </md-fab>
                             </a>
                             
                             {{-- Botón para limpiar el filtro aplicado --}}
-                            <a href="{{ route('listar.productos') }}">
+                            <a class="buscar-botons" href="{{ route('listar.productos') }}">
                                 <md-fab label="Eliminar filtro">
                                     <md-icon slot="icon">delete</md-icon>
                                 </md-fab>
@@ -47,6 +47,37 @@
                       </div>
                   </form>
                 </div>
+
+                {{-- en esta seccion se muestran los filtros aplixados anteriormente --}}
+                @if($filtros['nombre'] || $filtros['categoria'] || $filtros['codigo'])
+    <div class="filtros-activos">
+        <h5>Filtros Aplicados:</h5>
+        <md-chip-set>
+            @if($filtros['nombre'])
+                    <md-assist-chip >Nombre: "{{ $filtros['nombre'] }}"
+                        <md-icon slot="icon">inventory_2</md-icon>
+                    </md-assist-chip>
+
+            @endif
+            @if($filtros['categoria'])
+
+                <md-assist-chip >Categoría: "{{ $categorias->firstWhere('id', $filtros['categoria'])->nombre }}"    
+                    <md-icon slot="icon">category</md-icon>
+                  </md-assist-chip>
+            @endif
+            @if($filtros['codigo'])
+                <md-assist-chip >Código: "{{ $filtros['codigo'] }}"   
+                    <md-icon slot="icon">barcode_scanner</md-icon>
+                </md-assist-chip>
+
+            @endif
+        </md-chip-set>
+
+        
+       
+    </div>
+@endif
+
             </div>
 
         <div id="contenedor">
@@ -74,7 +105,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                  @foreach ($productos as $producto)
+                    {{-- recorrer todos los productos --}}
+                    @forelse($productos as $producto)
                     <tr>
                         <th scope="row">{{ $producto->nombre }}</th>
                         <td>{{ $producto->codigo }}</td>
@@ -114,7 +146,13 @@
                                 </md-dialog>
                             </td>
                         </tr>
-                    @endforeach
+                        {{-- valida si se encontraron productos --}}
+                        @empty
+                        <tr>
+                            <td colspan="3">No se encontraron productos con los filtros aplicados.</td>
+                        </tr>
+                    @endforelse
+   
                 </tbody>
             </table>
 

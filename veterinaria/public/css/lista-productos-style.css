@@ -5,6 +5,11 @@
        padding: 20px;
   }
 
+  .buscar-botons{
+    margin: 10px 10px 10px 10px;
+
+  }
+
   select {
           display: none;
       }
