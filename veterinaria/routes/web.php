@@ -25,6 +25,10 @@ Route::delete('/inventario/{producto}', [InventarioController::class, 'eliminar'
 
 Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCodigo'])->name('inventario.validarCodigo');
 
+// validar id del producto antes de aditar producto
+
+Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->name('inventario.validarCodigoEdit');
+
 
 Route::get('/inventario/detalle', [InventarioController::class, 'detalle'] )->name('detalle.producto');
 

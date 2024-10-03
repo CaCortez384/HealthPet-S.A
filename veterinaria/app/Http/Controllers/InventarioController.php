@@ -47,6 +47,8 @@ class InventarioController extends Controller
         ]);
     }
 
+    
+
     //funcion para redirigir y crear nuevos productos
     public function crear(){
         //obtiene las categorias y unidades de la base de datos para mostrar en los select
@@ -54,6 +56,8 @@ class InventarioController extends Controller
         $unidades = Unidad::all();
         return view('inventario/crear', ['categorias' => $categorias, 'unidades' => $unidades]);
     }
+
+
     
     //guarda los datos del formulario
     public function store(Request $request){
@@ -78,6 +82,18 @@ class InventarioController extends Controller
     $existe = Producto::where('codigo', $codigo)->exists();
     return response()->json(['existe' => $existe]);
 }
+
+public function validarCodigoEdit(Request $request, $codigo, $id)
+{
+    // Verifica si existe otro producto con el mismo código que no sea el producto actual
+    $existe = Producto::where('codigo', $codigo)
+        ->where('id', '!=', $id)
+        ->exists();
+
+    // Retorna la respuesta en formato JSON
+    return response()->json(['existe' => $existe, 'id' => $existe ? Producto::where('codigo', $codigo)->first()->id : null]);
+}
+
 
 
     public function editar($producto){
