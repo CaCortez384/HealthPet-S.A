@@ -32,11 +32,11 @@
                             </md-filled-select>
 
                             {{-- Botón para buscar un producto --}}
-                            <button type="submit" style="all: unset;">
+                            <a href="{{ route('listar.productos') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                                 <md-fab label="buscar">
-                                <md-icon slot="icon">search</md-icon>
+                                    <md-icon slot="icon">search</md-icon>
                                 </md-fab>
-                            </button>
+                            </a>
                             
                             {{-- Botón para limpiar el filtro aplicado --}}
                             <a href="{{ route('listar.productos') }}">
