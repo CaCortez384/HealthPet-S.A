@@ -106,8 +106,7 @@
                                         ¿Está seguro que desea eliminar el producto?
                                     </form>
                                     <div slot="actions">
-                                        <md-text-button id="closeButton_{{ $producto->id }}"
-                                            form="form-id-{{ $producto->id }}">Cancelar</md-text-button>
+                                        <md-text-button id="closeButton_{{ $producto->id }}">Cancelar</md-text-button>
 
                                         {{-- Botón para confirmar la eliminación del producto --}}
                                         <md-text-button type="submit" form="form-id-{{ $producto->id }}">Eliminar</md-text-button>
