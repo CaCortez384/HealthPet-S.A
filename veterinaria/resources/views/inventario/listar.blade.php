@@ -83,11 +83,15 @@
                         <td>{{ $producto->stock }}</td>
                         <td>{{ $producto->categoria->nombre ?? 'Sin categoría' }}</td>
                         <td>
-                                <a href="/inventario/{{$producto->id}}/editar">
+                            <form action="{{ route('editar.producto', ['producto' => $producto->id]) }}">
+                                <a type="submit">
                                     <md-fab size="small" aria-label="Edit">
                                         <md-icon slot="icon">edit</md-icon>
                                     </md-fab>
                                 </a>
+
+                                <button type="submit">Editar Producto</button>
+                            </form>
                                 
                                 <!-- Botón para dialogo alerta eliminar -->
                                 <a id="openDialogButton_{{ $producto->id }}">
