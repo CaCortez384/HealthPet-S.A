@@ -13,10 +13,12 @@ class InventarioController extends Controller
     public function listar(Request $request) {
         $query = Producto::query();
     
+        // Obtener los filtros de la solicitud
         $nombre = $request->input('nombre');
         $categoria = $request->input('categoria');
         $codigo = $request->input('codigo');
     
+        // Aplicar filtros a la consulta
         if ($nombre) {
             $query->where('nombre', 'like', '%' . $nombre . '%');
         }
@@ -29,11 +31,12 @@ class InventarioController extends Controller
             $query->where('codigo', 'like', '%' . $codigo . '%');
         }
     
-        $productos = $query->get();
+        // Usar paginate() para obtener productos en lugar de get()
+        $productos = $query->paginate(20); // Paginación de 20 productos por página
         $categorias = Categoria::all(); // Obtener las categorías disponibles
     
         // Pasar los filtros aplicados a la vista además de los productos y categorías
-        return view('inventario/listar', [
+        return view('inventario.listar', [
             'productos' => $productos,
             'categorias' => $categorias,
             'filtros' => [
@@ -66,7 +69,7 @@ class InventarioController extends Controller
         $producto->cantidad_minima_requerida = $request->cantidad_minima_requerida;
         $producto->save();
         //redirecciona a la lista de productos atraves de la ruta listar.productos (al retornar una vista return view('inventario/listar') no funciona;)
-        return redirect()->route('listar.productos');
+        return redirect()->route('listar.productos')->with('success', 'Producto agregado correctamente.');
     }
 
     public function editar($producto){
