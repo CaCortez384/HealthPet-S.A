@@ -34,6 +34,16 @@ Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'valid
 Route::get('/inventario/detalle/{id}', [InventarioController::class, 'detalle'])->name('detalle.producto');
 ///
 
+
+// rutas para el login
+
+Route::view('/login',"login.login")->name('login');
+Route::view('/registro',"login.register")->name('registro');
+
+Route::post('/validar-registro', [LoginController::class, 'register'])-> name('validar-regitro');
+Route::post('/iniciar-sesion', [LoginController::class, 'login'])-> name('iniciar-sesion');
+Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
+
 //Route::get('/prueba', function () {
     #crear producto
     // $producto = new Producto();
