@@ -4,17 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('css\layout-style.css') }}"  rel="stylesheet" >  
+    
+    <!-- Local CSS file for layout styles -->
+    <link href="{{ asset('css\layout-style.css') }}"  rel="stylesheet">  
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Boxicons CSS for icons -->
     <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- jQuery library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
 
+    <!-- Google Material Symbols Sharp font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
+    
+    <!-- Google Material Symbols Outlined font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    <!-- Material Web Components -->
     <script src="https://esm.run/@material/web/all.js" type="module"></script>
 
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- Preconnect to Google Fonts' static content delivery network -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      
+    <!-- Material Design Filled Select CSS -->
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@material/web@latest/md-filled-select/md-filled-select.min.css">
+      
+    <!-- Custom CSS for product list styling -->
+    <link href="{{ asset('css\lista-productos-style.css') }}" rel="stylesheet">
     <title>Vet</title>
     
 </head>
@@ -103,15 +129,28 @@
               <span class="nav_name">Users</span>
             </a>
 
-            <a href="./inventario" class="nav_link">
-              <i class='bx bx-message'></i>
+            <div class="nav_link dropdown"> 
+              <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class='bx bx-box'></i>
               <span class="nav_name">Inventario</span>
-            </a>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="inventarioDropdown" style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+              <li><a class="dropdown-item" href="{{ route('inventario.crear') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo producto</a></li>
+              <li><a class="dropdown-item" href="{{ route('listar.productos') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Lista de productos</a></li>
+              </ul>
+            </div>
 
-            <a href="#" class="nav_link">
-              <i class='bx bx-message'></i>
-              <span class="nav_name">Messages</span>
-            </a>
+            <div class="nav_link dropdown"> 
+              <a href="#" class="dropdown-toggle" id="ventasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class='bx bx-box'></i>
+              <span class="nav_name">Ventas</span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="ventasDropdown" style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+              <li><a class="dropdown-item" href="#" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo venta</a></li>
+              <li><a class="dropdown-item" href="#" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Historial de ventas</a></li>
+              <li><a class="dropdown-item" href="#" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Deudores</a></li>
+              </ul>
+            </div>
 
 
             <a href="#" class="nav_link">
