@@ -1,22 +1,29 @@
 <x-app-layout>
 
+    <div>
+        {{-- Alerta que muestra productos bajo stock --}}
+        @if ($productosBajoStock->count() > 0)
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Atención!</strong> Tienes {{ $productosBajoStock->count() }} productos con bajo stock.
+                <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#productosBajoStock">
+                    Ver productos
+                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-    {{-- base para trabajar, se podria guarar el css para las campos donde se ingrsaran los datos como enb estre ejemplo --}}
-    
-      <div style="background: white; margin-top: 10px; border-radius: 20px; padding: 20px;">
-        <div>
-          <h1>Inicio</h1>
-          <p>holas este es el inicio</p>
-        
-        </div>
-      </div>
-    
-    
-      <div style="background: white; margin-top: 10px; border-radius: 20px; padding: 20px;">
-        <div>
+            <div id="productosBajoStock" class="collapse">
+                <ul class="list-group mt-3">
+                    @foreach ($productosBajoStock as $producto)
+                        <li class="list-group-item">
+                            {{ $producto->nombre }} - Stock: {{ $producto->stock }} (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
 
-          
-        </div>
-      </div>
-    
-    </x-app-layout>
+        <h1>Bienvenido a la página de inicio</h1>
+        <!-- Aquí puedes agregar más contenido para tu página de inicio -->
+    </div>
+</x-app-layout>

@@ -29,6 +29,23 @@ class Producto extends Model
         ];
     }
 
+    // Función para formatear los precios de compra y venta
+    protected function precioDeCompra(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => number_format(str_replace([',', '.'], '', $value), 2, '.', ''),
+            get: fn($value) => number_format($value, 0, '', '.')
+        );
+    }
+
+    protected function precioDeVenta(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => number_format(str_replace([',', '.'], '', $value), 2, '.', ''),
+            get: fn($value) => number_format($value, 0, '', '.')
+        );
+    }
+
     // Relación con la tabla categoria
     public function categoria()
     {
