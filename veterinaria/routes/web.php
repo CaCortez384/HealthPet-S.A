@@ -29,8 +29,9 @@ Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCod
 
 Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->name('inventario.validarCodigoEdit');
 
-
-Route::get('/inventario/detalle', [InventarioController::class, 'detalle'] )->name('detalle.producto');
+//BELEN EDITO AQUI//
+Route::get('/inventario/detalle/{id}', [InventarioController::class, 'detalle'])->name('detalle.producto');
+///
 
 //Route::get('/prueba', function () {
     #crear producto

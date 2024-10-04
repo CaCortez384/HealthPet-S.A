@@ -127,7 +127,10 @@
                     {{-- recorrer todos los productos --}}
                     @forelse($productos as $producto)
                         <tr>
-                            <th scope="row">{{ $producto->nombre }}</th>
+                            <th scope="row">
+                            <a href="{{ route('detalle.producto', ['id' => $producto->id]) }}">
+                             {{ $producto->nombre }}
+                            </a></th>
                             <td>{{ $producto->codigo }}</td>
                             <td><strong>$</strong>{{ $producto->precio_de_compra }}</td>
                             <td><strong>$</strong>{{ $producto->precio_de_venta }}</td>
