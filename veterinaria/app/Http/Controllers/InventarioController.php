@@ -124,17 +124,17 @@ public function validarCodigoEdit(Request $request, $codigo, $id)
 
     /* BELEN EDITO AQUII */
     public function detalle($id) {
-        // Buscar el producto por ID
+        // Busca el producto por ID
         $producto = Producto::find($id);
-    
-        // Verificar si el producto existe
-        if (!$producto) {
+        
+        // Verifica si el producto existe
+        if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
         }
-    
-        return view('inventario.detalle', ['producto' => $producto]);
+
+        // Devuelve la vista detalle y pasa el producto encontrado
+        return view('inventario.detalle', compact('producto'));
     }
-    
 
 /* BELEN EDITO AQUII */
 

@@ -15,7 +15,6 @@
         integrity="sha384-M0xuBCs8yz0+kUnD6s7aoVFEFAeF4IiJ60+EK4/N9Jeu8Hr0sJ0uoP6RW47HJ2Gs" crossorigin="anonymous">
 
 
-
     <div>
 
         {{-- alerta que muestra cuando un producto se agrego con exito --}}
@@ -29,6 +28,7 @@
         @endif
 
         <div id="contenedor">
+            
             <div>
                 <h6>Buscar articulo</h6>
             </div>
@@ -65,6 +65,7 @@
                                 <md-icon slot="icon">delete</md-icon>
                             </md-fab>
                         </a>
+                        
                     </div>
                 </form>
             </div>
