@@ -18,15 +18,14 @@
 
     <div>
 
+        @include('components.alert')
+
+
         {{-- alerta que muestra cuando un producto se agrego con exito --}}
-        @if (session('success'))
-            <div class="alert  alert-dismissible fixed-bottom fade show" id="customAlert" role="alert">
-                Producto agregado correctamente.
-                <button type="button" class="close no-style" data-dismiss="alert" aria-label="Close">
-                    <p id="aceptar">Aceptar</p>
-                </button>
-            </div>
-        @endif
+        @section('content')
+        @include('components.alert')
+  
+    @endsection
 
         <div id="contenedor">
             <div>
@@ -207,12 +206,7 @@
             });
 
 
-            document.addEventListener('click', function(event) {
-                const alertBox = document.getElementById('customAlert');
-                if (alertBox && !alertBox.contains(event.target)) {
-                    $(alertBox).alert('close');
-                }
-            });
+         
         </script>
 
 

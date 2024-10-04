@@ -74,6 +74,7 @@ class InventarioController extends Controller
         $producto->save();
         //redirecciona a la lista de productos atraves de la ruta listar.productos (al retornar una vista return view('inventario/listar') no funciona;)
         return redirect()->route('listar.productos')->with('success', 'Producto agregado correctamente.');
+
     }
 
     // funcion para validar codigo antes de agregar nuevo registro
@@ -123,7 +124,7 @@ public function validarCodigoEdit(Request $request, $codigo, $id)
     }
 
     public function detalle(){
-        return view('detalle/producto');
+        return view('inventario.detalle');
     }
 
     public function eliminar($producto){

@@ -60,7 +60,8 @@
 
                       <div id="user-data">
 
-                        <h4>hola Pedrito</h4>
+                        <h4>Hola @auth {{Auth::user()->name}}    @endauth</h4>
+                        <a href="{{route('logout')}}">salir</a>
                         
                       </div>
 
