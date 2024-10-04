@@ -169,7 +169,7 @@
             </table>
             
             {{-- Enlaces de paginación --}}
-            <div class="pagination">
+            <div class="pagination" >
                 {{ $productos->links() }} <!-- Agrega enlaces de paginación aquí -->
             </div>
             
