@@ -12,19 +12,33 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function register(Request $request) {
-        // Validar los datos
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:4', // Cambié a 4 para que cumpla tu requerimiento
-        ]);
+
     
         // Verificar si el usuario ya existe
         if (User::where('email', $request->email)->exists()) {
-            return redirect()->back()->withErrors([
-                'email' => 'El email ya está registrado en el sistema.'
-            ]);
+            return redirect()->back()->with('success', 'El email ya está registrado en el sistema.');
+        
+            
+        }else{
+                    // Validar los datos
+            // Validar los datos con mensajes personalizados
+    $request->validate([
+        'name' => 'required|string|max:50',
+        'email' => 'required|string|email|max:50|unique:users,email', // Añade unique para validar que no esté registrado
+        'password' => 'required|string|min:4',
+    ], [
+        'name.required' => 'El campo nombre es obligatorio.',
+        'name.max' => 'El nombre no puede tener más de 50 caracteres.',
+        'email.required' => 'El campo correo electrónico es obligatorio.',
+        'email.email' => 'El correo electrónico debe ser una dirección de correo válida.',
+        'email.max' => 'El correo electrónico no puede tener más de 50 caracteres.',
+        'email.unique' => 'El correo electrónico ya está registrado en el sistema.', // Mensaje personalizado para el campo email
+        'password.required' => 'El campo contraseña es obligatorio.',
+        'password.min' => 'La contraseña debe tener al menos 4 caracteres.',
+    ]);
         }
+
+        
     
         // Crear un nuevo usuario
         $user = new User();

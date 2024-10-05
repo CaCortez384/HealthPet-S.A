@@ -22,8 +22,6 @@
 
 #logo{
     margin-left: 50px;
-    display: flex;
-    flex-direction: column;
 }
 
 #form {
@@ -56,7 +54,7 @@
     transition-duration: 0.2s;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1300px) {
     #modal {
         background-color: rgb(230, 234, 238);
         border-radius: 20px;
@@ -68,6 +66,7 @@
         margin: auto;
         margin-top: 5px;
         margin-bottom: 5px;
+
         flex-direction: column;
         height: 100%;
 

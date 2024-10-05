@@ -64,6 +64,7 @@
 <div id="logo">
 
     <img src="img\logo-vet.png" alt="logo" width="100px">
+    <h5>Inicia Sesi&oacute;n</h5>
 
 </div>
 
