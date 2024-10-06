@@ -13,7 +13,12 @@ Route::get('/', [HomeController::class, 'inicio'] )->middleware('auth')->name('i
 Route::get('/nose', [HomeController::class, 'nose'] );
 
 //rutas para gestion de inventario
+
+// esta ruta tiene restriccion de acceso, solo admin puede ingresar. 
+//Route::get('/inventario', [InventarioController::class, 'listar'])->middleware('role:admin')->name('listar.productos');
 Route::get('/inventario', [InventarioController::class, 'listar'])->name('listar.productos');
+
+
 Route::get('/inventario/crear', [InventarioController::class, 'crear'])->name('inventario.crear');
 Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
 
