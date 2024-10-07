@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         
         Producto::factory()->count(40)->create();
-        Categoria::factory()->count(2)->create();
-        Presentacion::factory()->count(10)->create();
-        Unidad::factory()->count(4)->create();
+        // Categoria::factory()->create();
+        // Presentacion::factory()->create();
+        // Unidad::factory()->create();
 
         User::factory()->create([
             'name' => 'Test User',
@@ -31,5 +31,24 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin,'
         ]);
 
+        Categoria::factory()->createMany([
+            ['nombre' => 'web'],
+            ['nombre' => 'local'],
+        ]);
+
+        Presentacion::factory()->createMany([
+            ['nombre' => 'comprimidos'],
+            ['nombre' => 'inyectable'],
+            ['nombre' => 'granel'],
+
+        ]);
+
+        Unidad::factory()->createMany([
+            ['nombre' => 'miligramos'],
+            ['nombre' => 'gramos'],
+            ['nombre' => 'kilogramos'],
+            ['nombre' => 'mililitros'],
+            ['nombre' => 'litros'],
+        ]);
     }
 }

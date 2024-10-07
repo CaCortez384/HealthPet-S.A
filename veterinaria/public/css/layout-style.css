@@ -3,7 +3,7 @@
 body {
     background-color: rgb(230,234,238);
     font-family:   "Roboto";
-    
+    margin-right: 1%;
     
 }
 .nav_link{
@@ -38,6 +38,12 @@ body {
 }
 
 @media (max-width: 768px) {
+    body {
+        background-color: rgb(230,234,238);
+        font-family:   "Roboto";
+        margin-right: 3%;
+        
+    }
     #menu-toggle {
         display: block;
         position: fixed;
@@ -68,21 +74,13 @@ body {
 
 
 
-body{
-display: flex;
-justify-content: center;
-flex-direction: column;
-margin-left: -250px;
-margin-top: 50px;
-}
-
-
-
-
-
-
-
-
+    body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: -250px;
+    margin-top: 50px;
+    }
 
 }
 

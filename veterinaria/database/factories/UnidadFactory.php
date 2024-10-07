@@ -17,7 +17,7 @@ class UnidadFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->word(),
+            'nombre' => $this->faker->word,
         ];
     }
 }

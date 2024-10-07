@@ -1,18 +1,11 @@
 <x-app-layout>
 
-
-
-
     <div>
-
         @include('components.alert')
-
-
         {{-- alerta que muestra cuando un producto se agrego con exito --}}
         @section('content')
         @include('components.alert')
-  
-    @endsection
+        @endsection
 
         <div id="contenedor">
             
@@ -41,7 +34,7 @@
                         {{-- Botón para buscar un producto --}}
                         <a class="buscar-botons" href="{{ route('listar.productos') }}"
                             onclick="event.preventDefault(); this.closest('form').submit();">
-                            <md-fab label="buscar">
+                            <md-fab label="Buscar">
                                 <md-icon slot="icon">search</md-icon>
                             </md-fab>
                         </a>
@@ -79,9 +72,6 @@
                             </md-assist-chip>
                         @endif
                     </md-chip-set>
-
-
-
                 </div>
             @endif
 
@@ -92,7 +82,7 @@
                 <h6>Listado de productos</h6>
                 {{-- Botón para agregar un nuevo producto --}}
                 <a href="{{ route('inventario.crear') }}">
-                    <md-fab label="agregar">
+                    <md-fab label="Agregar">
                         <md-icon slot="icon">add</md-icon>
                     </md-fab>
                 </a>
@@ -104,10 +94,10 @@
                     <tr>
                         <th scope="col">Producto</th>
                         <th scope="col">Código</th>
-                        <th scope="col">Precio de compra</th>
                         <th scope="col">Precio de venta</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Categoría</th>
+                        <th scope="col">Presentación</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -116,18 +106,22 @@
                     @forelse($productos as $producto)
                         <tr>
                             <th scope="row">
-                            <a href="{{ route('detalle.producto', ['id' => $producto->id]) }}">
-                             {{ $producto->nombre }}
-                            </a></th>
+                                
+                                {{ $producto->nombre }}
+                                
+                            </th>
                             <td>{{ $producto->codigo }}</td>
-                            <td><strong>$</strong>{{ $producto->precio_de_compra }}</td>
                             <td><strong>$</strong>{{ $producto->precio_de_venta }}</td>
-                            <td>{{ $producto->stock }}</td>
+                            <td>{{ $producto->stock_unidades }}</td>
                             <td>{{ $producto->categoria->nombre ?? 'Sin categoría' }}</td>
+                            <td>{{ $producto->presentacion->nombre ?? 'Sin presentación' }}</td>
+                            
+
+
                             <td>
-                                <a href="{{ route('editar.producto', ['producto' => $producto->id]) }}">
-                                    <md-fab size="small" aria-label="Edit">
-                                        <md-icon slot="icon">edit</md-icon>
+                                <a href="{{ route('detalle2.producto', ['id' => $producto->id]) }}">
+                                    <md-fab size="small" aria-label="View">
+                                        <md-icon slot="icon">visibility</md-icon>
                                     </md-fab>
                                 </a>
             

@@ -1,0 +1,135 @@
+.custom-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.top-container {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.bottom-container {
+    display: flex;
+    width: 100%;
+}
+
+.left-container{
+    flex: 1;
+    padding-right: 10px;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+}
+
+.right-container {
+    flex: 1;
+    padding-left: 10px;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+
+}
+
+
+
+
+
+.product-details-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.header2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product-name h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #000000; /* Color del nombre del producto */
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-button {
+    background-color: #e8def8;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-button:hover {
+    background-color: #d9c8f5;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #444;
+    margin: 10px 0;
+}
+
+.pricing-stock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pricing-stock div {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.pricing-stock h3 {
+    margin: 5px 0 0;
+    font-size: 20px;
+}
+
+.information-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.pharmacy-data, .other-info {
+    width: 48%;
+}
+
+.info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card {
+    background-color: #e8def8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.card p {
+    margin: 0;
+    color: #A0A0A0;
+}
+
+.card h5 {
+    margin: 5px 0 0;
+    font-size: 16px;
+}
+
+h4 {
+    color: #000000; /* Color del título de sección */
+    margin-bottom: 10px;
+}

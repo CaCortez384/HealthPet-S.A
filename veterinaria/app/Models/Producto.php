@@ -33,7 +33,7 @@ class Producto extends Model
     protected function precioDeCompra(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => number_format(str_replace([',', '.'], '', $value), 2, '.', ''),
+            set: fn($value) => str_replace([',', '.'], '', $value),
             get: fn($value) => number_format($value, 0, '', '.')
         );
     }
@@ -41,8 +41,17 @@ class Producto extends Model
     protected function precioDeVenta(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => number_format(str_replace([',', '.'], '', $value), 2, '.', ''),
+            set: fn($value) => str_replace([',', '.'], '', $value),
             get: fn($value) => number_format($value, 0, '', '.')
+        );
+    }
+
+    // Función para formatear el campo vende_a_granel
+    protected function vendeAGranel(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => $value ? 1 : 0,
+            get: fn($value) => (bool) $value
         );
     }
 
@@ -51,4 +60,18 @@ class Producto extends Model
     {
         return $this->belongsTo(Categoria::class, 'id_categoria');
     }
+
+    // Relación con la tabla unidad
+    public function unidad()
+    {
+        return $this->belongsTo(Unidad::class, 'id_unidad');
+    }
+
+    // Relación con la tabla presentacion
+    public function presentacion()
+    {
+        return $this->belongsTo(Presentacion::class, 'id_presentacion');
+    }
+
+    
 }

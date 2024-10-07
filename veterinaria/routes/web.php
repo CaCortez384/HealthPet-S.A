@@ -8,7 +8,7 @@ use App\Models\Producto;
 
 #rutas uri para acceder mediante el navegador
 
-Route::get('/', [HomeController::class, 'inicio'] )->middleware('auth')->name('inicio');
+Route::get('/', [HomeController::class, 'inicio'] )->name('inicio');
 
 Route::get('/nose', [HomeController::class, 'nose'] );
 
@@ -35,9 +35,11 @@ Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCod
 
 Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->name('inventario.validarCodigoEdit');
 
-//BELEN EDITO AQUI//
-Route::get('/inventario/detalle/{id}', [InventarioController::class, 'detalle'])->name('detalle.producto');
-///
+Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'])->name('detalle2.producto');
+
+// //BELEN EDITO AQUI//
+// Route::get('/inventario/detalle/{id}', [InventarioController::class, 'detalle'])->name('detalle.producto');
+// ///
 
 
 // rutas para el login
@@ -88,4 +90,6 @@ Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
 
 
 //});
+
+
 
