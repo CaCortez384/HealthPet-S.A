@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\LoginController;
-use App\Models\Producto;
+use App\Http\Controllers\VentaController;
+
 
 #rutas uri para acceder mediante el navegador
 
@@ -50,6 +51,24 @@ Route::view('/registro',"login.register")->name('registro');
 Route::post('/validar-registro', [LoginController::class, 'register'])-> name('validar-regitro');
 Route::post('/iniciar-sesion', [LoginController::class, 'login'])-> name('iniciar-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
+
+
+
+// Rutas para ventas
+Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index'); // Mostrar todas las ventas
+Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create'); // Formulario para crear una nueva venta
+Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store'); // Guardar una nueva venta
+Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('ventas.show'); // Ver el detalle de una venta específica
+Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit'); // Formulario para editar una venta
+Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update'); // Actualizar una venta existente
+Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('ventas.destroy'); // Eliminar una venta
+
+// routes/api.php
+
+Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->name('buscar-productos');
+
+
+
 
 //Route::get('/prueba', function () {
     #crear producto

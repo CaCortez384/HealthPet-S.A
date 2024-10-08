@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class Producto extends Model
 {
     use HasFactory;
+    
 
     protected $table = 'producto';
 
@@ -73,5 +74,10 @@ class Producto extends Model
         return $this->belongsTo(Presentacion::class, 'id_presentacion');
     }
 
+
+    public function detalleVentas()
+    {
+        return $this->hasMany(DetalleVenta::class, 'id_producto');
+    }
     
 }

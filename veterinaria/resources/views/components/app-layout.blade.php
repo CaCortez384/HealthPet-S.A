@@ -169,10 +169,10 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="ventasDropdown"
                         style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
-                        <li><a class="dropdown-item" href="#"
+                        <li><a class="dropdown-item" href="{{ route('ventas.create') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
                                 venta</a></li>
-                        <li><a class="dropdown-item" href="#"
+                        <li><a class="dropdown-item" href="{{ route('ventas.index') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Historial
                                 de ventas</a></li>
                         <li><a class="dropdown-item" href="#"
