@@ -11,16 +11,11 @@ class HomeController extends Controller
     public function inicio()
     {
         // Obtener productos con stock por debajo del mínimo requerido
-        $productosBajoStock = Producto::whereColumn('stock', '<', 'cantidad_minima_requerida')->get();
+        $productosBajoStock = Producto::whereColumn('stock_unidades', '<', 'cantidad_minima_requerida')->get();
 
         // Pasar los productos a la vista
         return view('home', [
             'productosBajoStock' => $productosBajoStock,
         ]);
-    }
-
-    public function nose()
-    {
-        return "hola perros asd";
     }
 }

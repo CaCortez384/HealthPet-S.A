@@ -15,7 +15,7 @@
                 <ul class="list-group mt-3">
                     @foreach ($productosBajoStock as $producto)
                         <li class="list-group-item">
-                            {{ $producto->nombre }} - Stock: {{ $producto->stock }} (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
+                            {{ $producto->nombre }} - Stock: {{ $producto->stock_unidades }} (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
                         </li>
                     @endforeach
                 </ul>
