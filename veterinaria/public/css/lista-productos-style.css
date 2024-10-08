@@ -1,3 +1,9 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 #contenedor {
   background: white;
   margin-top: 10px;
@@ -7,7 +13,6 @@
 
 .buscar-botons {
   margin: 10px 10px 10px 10px;
-
 }
 
 select {
@@ -17,7 +22,7 @@ select {
 #menu-busqueda {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
 }
 
 .input-busqueda {
@@ -27,21 +32,59 @@ select {
 #lista-productos {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
+  padding: 10px;
 }
 
 .boton-tabla {
   margin: 5px;
 }
 
-@media (max-width: 768px) {
+/* Estilos para dispositivos móviles */
+@media (max-width: 600px) {
+
+  #contenedor {
+    padding: 10px;
+    border-radius: 10px;
+  }
 
   #menu-busqueda {
-    display: flex;
     flex-direction: column;
+    align-items: flex-start;
+  }
 
+  .input-busqueda {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .buscar-botons {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  #lista-productos {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  table {
+    width: 100%;
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+
+  .boton-tabla {
+    width: 100%;
+    margin: 10px 0;
   }
 }
-
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
