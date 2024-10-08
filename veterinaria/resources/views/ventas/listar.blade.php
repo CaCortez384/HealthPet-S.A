@@ -12,6 +12,7 @@
                     <th>Vendedor</th>
                     <th>Cliente</th>
                     <th>Total</th>
+                    <th>Posee deuda</th>
                 </tr>
             </thead>
             <tbody>
