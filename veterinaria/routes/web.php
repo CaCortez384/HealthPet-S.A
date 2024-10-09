@@ -47,8 +47,13 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 Route::view('/login',"login.login")->name('login');
 Route::view('/registro',"login.register")->name('registro');
+Route::view('/registro-admin',"login.registerAdmin")->name('registro-admin');
+
+Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->name('listar.usuarios');
+Route::delete('/usuarios/{id}', [LoginController::class, 'destroy'])->name('usuarios.destroy');
 
 Route::post('/validar-registro', [LoginController::class, 'register'])-> name('validar-regitro');
+Route::post('/admin-registro', [LoginController::class, 'registerAdmin'])-> name('validar-regitro-admin');
 Route::post('/iniciar-sesion', [LoginController::class, 'login'])-> name('iniciar-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
 

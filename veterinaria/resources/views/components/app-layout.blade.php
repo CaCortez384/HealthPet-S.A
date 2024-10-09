@@ -45,6 +45,7 @@
 
     <!-- Custom CSS for product list styling -->
     <link href="{{ asset('css\lista-productos-style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css\lista-usuario-style.css') }}" rel="stylesheet">
     <title>Vet</title>
 
 </head>
@@ -91,18 +92,18 @@
                     </ul>
 
                     <div id="usuario">
-
-                        <div id="user-data">
-
-                        <h4>Hola @auth {{Auth::user()->name}}    @endauth</h4>
-                        <a href="{{route('logout')}}">salir</a>
-                        
-                      </div>
-
-                        <img id="avatar"
-                            src="https://media.istockphoto.com/id/1005374612/vector/dog-paw-icon-logo.jpg?s=612x612&w=0&k=20&c=Rtyzn4JwMla0IMrbO-6s2GohBpYO9g-N8_B2CDI118E="
-                            alt="">
-
+                        @auth
+                            <div id="user-data">
+                                <h6>Hola {{ ucwords(strtolower(Auth::user()->name)) }}</h6> <!-- Primera letra mayúscula y demás en minúscula -->
+                                <a href="{{ route('logout') }}">
+                                    Cerrar Sesi&oacute;n
+                                    <md-icon slot="icon" style="  --md-icon-size: 13px;">power_settings_new</md-icon></a>
+                            </div>
+                    
+                            <img id="avatar"
+                                src="https://media.istockphoto.com/id/1005374612/vector/dog-paw-icon-logo.jpg?s=612x612&w=0&k=20&c=Rtyzn4JwMla0IMrbO-6s2GohBpYO9g-N8_B2CDI118E="
+                                alt="">
+                        @endauth
                     </div>
 
                 </div>
@@ -139,10 +140,6 @@
                     <span class="nav_name">Dashboard</span>
                 </a>
 
-                <a href="#" class="nav_link">
-                    <i class='bx bx-user'></i>
-                    <span class="nav_name">Users</span>
-                </a>
 
                 <div class="nav_link dropdown">
                     <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
@@ -187,10 +184,22 @@
                     <span class="nav_name">Messages</span>
                 </a>
 
-                <a href="#" class="nav_link">
-                    <i class='bx bx-message'></i>
-                    <span class="nav_name">Messages</span>
-                </a>
+                <div class="nav_link dropdown">
+                    <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class='bx bx-user'></i>
+                        <span class="nav_name">Usuarios</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
+                        style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+                        <li><a class="dropdown-item" href="{{ route('registro-admin') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
+                                Administrador</a></li>
+                        <li><a class="dropdown-item" href="{{ route('listar.usuarios') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Lista
+                                de Usuarios</a></li>
+                    </ul>
+                </div>
 
             </div>
 

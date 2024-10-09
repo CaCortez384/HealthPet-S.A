@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(10)->create();
         
         Producto::factory()->count(40)->create();
         // Categoria::factory()->create();
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => '123456',
-            'role' => 'admin,'
+            'role' => 'admin'
         ]);
 
         Categoria::factory()->createMany([
