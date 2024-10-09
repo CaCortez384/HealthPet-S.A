@@ -22,7 +22,7 @@
                         <td>{{ $venta->fecha_venta }}</td>
                         <td>{{ $venta->nombre_vendedor }}</td>
                         <td>{{ $venta->nombre_cliente }}</td>
-                        <td>${{ number_format($venta->total, 2) }}</td>
+                        <td>${{ number_format($venta->total) }}</td>
                         <td>
                             <div><button>ver detalle</button></div>
                             <div><button>eliminar</button></div>

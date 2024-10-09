@@ -52,6 +52,16 @@
             </div>
 
             <div class="mb-3">
+                <label for="descuento" class="form-label">monto pagado por el cliente</label>
+                <input type="number" class="form-control" id="descuento" name="monto_pagado" value="0" >
+            </div>
+
+            <div class="mb-3">
+                <label for="descuento" class="form-label">Nota de Venta</label>
+                <input type="text" class="form-control" id="descuento" name="nota" >
+            </div>
+
+            <div class="mb-3">
                 <label for="total" class="form-label">Total</label>
                 <input type="text" class="form-control" id="total" name="total" readonly>
             </div>

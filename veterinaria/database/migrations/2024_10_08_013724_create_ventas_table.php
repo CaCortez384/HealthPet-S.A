@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('nombre_cliente')->nullable();
             $table->integer('rut_cliente')->nullable();
             $table->integer('subtotal');
+           //$table->string('tipo_pago');
             $table->integer('descuento')->nullable();
+            $table->string('nota')->nullable();
+            $table->integer('monto_pagado')->nullable();
+            $table->boolean('estado_pago')->nullable();
             $table->integer('total');
             $table->timestamps();
         });
