@@ -1,16 +1,16 @@
 <x-app-layout>
 
 
-    <div >
+    <div>
         @include('components.alert')
         {{-- alerta que muestra cuando un usuario se agregó con éxito --}}
         @section('content')
-        @include('components.alert')
+            @include('components.alert')
         @endsection
 
 
         <div id="contenedor">
-            
+
             <div>
                 <h6>Buscar usuario</h6>
             </div>
@@ -25,14 +25,14 @@
                         </md-filled-text-field>
                         <md-filled-select class="input-busqueda" label="Rol" name="role">
                             <md-select-option value="" selected>Selecciona una opción</md-select-option>
-                     
-                                <md-select-option value="user">
-                                    Usuario
-                                </md-select-option>
-                                <md-select-option value="admin">
-                                    Administrador
-                                </md-select-option>
-                                
+
+                            <md-select-option value="user">
+                                Usuario
+                            </md-select-option>
+                            <md-select-option value="admin">
+                                Administrador
+                            </md-select-option>
+
                         </md-filled-select>
 
                         {{-- Botón para buscar un usuario --}}
@@ -49,7 +49,7 @@
                                 <md-icon slot="icon">delete</md-icon>
                             </md-fab>
                         </a>
-                        
+
                     </div>
                 </form>
             </div>
@@ -65,7 +65,7 @@
                             </md-assist-chip>
                         @endif
                         @if ($filtros['role'])
-                            <md-assist-chip>Rol: "{{ $filtros['role']}}"
+                            <md-assist-chip>Rol: "{{ $filtros['role'] }}"
                                 <md-icon slot="icon">badge</md-icon>
                             </md-assist-chip>
                         @endif
@@ -86,13 +86,13 @@
                 <h6>Listado de usuarios</h6>
                 {{-- Botón para agregar un nuevo usuario --}}
 
-                    <a href="{{ route('registro-admin') }}">
-                        <md-fab label="Registrar Nuevo Administrador">
-                            <md-icon slot="icon">add</md-icon>
-                        </md-fab>
-                    </a>
+                <a href="{{ route('registro-admin') }}">
+                    <md-fab label="Registrar Nuevo Administrador">
+                        <md-icon slot="icon">add</md-icon>
+                    </md-fab>
+                </a>
 
-      
+
 
             </div>
 
@@ -115,7 +115,7 @@
                                 {{ $usuario->name }}
                             </th>
                             <td>{{ $usuario->email }}</td>
-                            <td>{{ $usuario->role}}</td>
+                            <td>{{ $usuario->role }}</td>
                             <td>{{ $usuario->created_at->format('d/m/Y') }}</td>
 
                             <td>
@@ -136,15 +136,15 @@
                                     <div slot="headline">
                                         Eliminar Usuario "{{ $usuario->name }}"
                                     </div>
-                                    <form slot="content" action="{{ route('usuarios.destroy', $usuario->id) }}" id="form-id-{{ $usuario->id }}" method="POST"
-                                       >
+                                    <form slot="content" action="{{ route('usuarios.destroy', $usuario->id) }}"
+                                        id="form-id-{{ $usuario->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         ¿Está seguro que desea eliminar el usuario?
                                     </form>
                                     <div slot="actions">
                                         <md-text-button id="closeButton_{{ $usuario->id }}">Cancelar</md-text-button>
-            
+
                                         {{-- Botón para confirmar la eliminación del usuario --}}
                                         <md-text-button type="submit"
                                             form="form-id-{{ $usuario->id }}">Eliminar</md-text-button>
@@ -160,12 +160,12 @@
                     @endforelse
                 </tbody>
             </table>
-            
+
             {{-- Enlaces de paginación --}}
-            <div class="pagination" >
+            <div class="pagination">
                 {{ $usuarios->links() }} <!-- Agrega enlaces de paginación aquí -->
             </div>
-            
+
         </div>
 
         <script>
@@ -189,9 +189,6 @@
                     });
                 @endforeach
             });
-
-
-         
         </script>
 
     </div>

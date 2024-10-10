@@ -63,7 +63,7 @@ Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
 
 
 // Rutas para ventas
-Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index'); // Mostrar todas las ventas
+Route::get('/ventas', [VentaController::class, 'listarVentas'])->name('ventas.index'); // Mostrar todas las ventas
 Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create'); // Formulario para crear una nueva venta
 Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store'); // Guardar una nueva venta
 Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('ventas.show'); // Ver el detalle de una venta específica

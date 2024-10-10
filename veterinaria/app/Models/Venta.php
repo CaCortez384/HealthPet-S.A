@@ -21,4 +21,26 @@ class Venta extends Model
         return $this->hasMany(DetalleVenta::class);
     }
 
+    protected function casts(): array
+    {
+        return [
+            'fecha_venta' => 'datetime:Y-m-d',
+            'estado_pago' => 'boolean' // 0 = pendiente, 1 = pagado
+        ];
+    }
+
+    public function getTotalAttribute($value)
+    {
+        return '$' . number_format($value, 0, ',', '.');
+    }
+
+    public function setRutClienteAttribute($value)
+    {
+        $this->attributes['rut_cliente'] = str_replace('-', '', $value);
+    }
+
+    public function scopeByRutCliente($query, $rut)
+    {
+        return $query->where('rut_cliente', str_replace('-', '', $rut));
+    }
 }

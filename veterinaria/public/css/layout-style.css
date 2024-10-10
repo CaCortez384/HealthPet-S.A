@@ -36,6 +36,13 @@ body {
     display: none;
 }
 
+#headerDropdown::after {
+    display: none;
+}
+
+
+
+
 @media (max-width: 768px) {
     body {
         background-color: rgb(230, 234, 238);

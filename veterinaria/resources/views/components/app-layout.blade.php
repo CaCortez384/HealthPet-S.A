@@ -65,9 +65,23 @@
         <nav class="navbar navbar-expand-lg " id="navbar">
             <div class="container-fluid">
 
-                <md-fab variant="secondary" aria-label="add">
-                    <md-icon slot="icon">add</md-icon>
-                </md-fab>
+                <div class="dropdown">
+                    <md-fab variant="secondary" aria-label="add" class="dropdown-toggle" id="headerDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="--md-fab-after-display: none;">
+                        <md-icon slot="icon">add</md-icon>
+                    </md-fab>
+                    <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
+                        style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+                        <li><a class="dropdown-item" href="{{ route('inventario.crear') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
+                                producto</a></li>
+                        <li><a class="dropdown-item" href="{{ route('listar.productos') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Lista
+                                de productos</a></li>
+                    </ul>
+                </div>
+
+                
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
