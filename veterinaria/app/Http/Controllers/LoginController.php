@@ -176,4 +176,39 @@ class LoginController extends Controller
 
 
     }
+
+    public function update(Request $request, $id)
+{
+    // Validar los datos del formulario
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,'.$id,
+        'password' => 'nullable|min:4|confirmed',
+        'role' => 'required|in:admin,user', // Define los roles que aceptas
+    ]);
+
+    // Obtener el usuario
+    $user = User::findOrFail($id);
+
+    // Actualizar los datos del usuario
+    $user->name = ucwords(strtolower($request->name)); // Capitalizar nombre
+    $user->email = $request->email;
+    if ($request->filled('password')) {
+        $user->password = bcrypt($request->password); // Encriptar la contraseña
+    }
+    $user->role = $request->role;
+
+    // Guardar los cambios
+    $user->save();
+
+    // Redirigir con un mensaje de éxito
+    return redirect()->route('listar.usuarios', $user->id)->with('success', 'Usuario actualizado correctamente');
+}
+
+public function edit($id)
+{
+    $user = User::findOrFail($id);
+    return view('login.edit', compact('user'));
+}
+
 }

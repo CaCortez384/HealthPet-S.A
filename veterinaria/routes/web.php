@@ -52,6 +52,9 @@ Route::view('/registro-admin',"login.registerAdmin")->name('registro-admin');
 Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->name('listar.usuarios');
 Route::delete('/usuarios/{id}', [LoginController::class, 'destroy'])->name('usuarios.destroy');
 
+Route::get('/usuarios/{id}/edit', [LoginController::class, 'edit'])->name('usuarios.edit');
+Route::put('/usuarios/{id}', [LoginController::class, 'update'])->name('usuarios.update');
+
 Route::post('/validar-registro', [LoginController::class, 'register'])-> name('validar-regitro');
 Route::post('/admin-registro', [LoginController::class, 'registerAdmin'])-> name('validar-regitro-admin');
 Route::post('/iniciar-sesion', [LoginController::class, 'login'])-> name('iniciar-sesion');

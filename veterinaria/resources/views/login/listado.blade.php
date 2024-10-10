@@ -119,9 +119,9 @@
                             <td>{{ $usuario->created_at->format('d/m/Y') }}</td>
 
                             <td>
-                                <a href="#">
+                                <a href="{{ route('usuarios.edit', ['id' => $usuario->id]) }}">
                                     <md-fab size="small" aria-label="View">
-                                        <md-icon slot="icon">visibility</md-icon>
+                                        <md-icon slot="icon">edit</md-icon>
                                     </md-fab>
                                 </a>
 
