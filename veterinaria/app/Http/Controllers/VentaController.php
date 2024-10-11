@@ -62,39 +62,42 @@ class VentaController extends Controller
             'productos.*.precio_unitario' => 'required|string', // Validación del precio unitario
             'monto_pagado' => 'required|string', // Nuevo campo para registrar el monto pagado
         ]);
+    
         // Limpiar los valores de subtotal y total eliminando puntos y comas
         $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
         $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
         $montoPagado = (float)str_replace(['.', ','], ['', ''], $request->monto_pagado);
-
+    
         // Convertir a valores numéricos
         $subtotal = (float) $subtotalLimpiado;
         $total = (float) $totalLimpiado;
-        $nombreUsuario = Auth::user()->name;
+    
+        // Asignar un valor por defecto para el RUT si está vacío
+        $rut_cliente = $request->rut_cliente ?: '11111111-1'; // Si el RUT es vacío o nulo, usar 11111111-1
+    
         // Crear la venta
         $venta = new Venta();
-        //$venta->nombre_vendedor = $request->nombre_vendedor;
         $venta->nombre_cliente = $request->nombre_cliente;
-        $venta->rut_cliente = $request->rut_cliente;
+        $venta->rut_cliente = $rut_cliente; // Usar el RUT validado
         $venta->subtotal = $subtotal; // Usar el valor limpiado
         $venta->descuento = $request->descuento;
         $venta->nota = $request->nota;
         $venta->total = $total; // Usar el valor limpiado
         $venta->monto_pagado = $montoPagado;
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
-        $venta->nombre_vendedor = $nombreUsuario;
-
-
+        $venta->nombre_vendedor = "nombre vendedor";
+        
+        //dessoemtar al momento de estar en nprodccion
+        //$venta->nombre_vendedor = $nombreUsuario;
+    
         if ($montoPagado < $total) {
             $venta->estado_pago = 0; // No pagado completamente
         } else {
             $venta->estado_pago = 1; // Pagado completamente
         }
-
-
+    
         $venta->save(); // Guardar la venta
-
-
+    
 
         // Guardar los productos asociados
         foreach ($request->productos as $productoData) {
