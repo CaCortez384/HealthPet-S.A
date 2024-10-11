@@ -96,7 +96,7 @@
                         <th scope="col">Vendedor</th>
                         <th scope="col">Cliente</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Tipo</th>
+                        <th scope="col">Tipo de pago</th>
                         <th scope="col">¿Posee deuda?</th>
                         <th scope="col">Acciones</th>
                     </tr>

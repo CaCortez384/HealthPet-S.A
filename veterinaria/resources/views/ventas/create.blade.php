@@ -28,51 +28,60 @@
                     <div id="formulario-crear">
                         <label for="informacion_cliente">Información del cliente</label>
                         <br>
-                        <md-filled-text-field class="input-uniforme" id="nombre_cliente" name="nombre_cliente"
-                            placeholder="Juanito Perez" required></md-filled-text-field>
+                        <md-filled-text-field type="text" label="Nombre del producto" class="input-uniforme"
+                            id="nombre_cliente" name="nombre_cliente"
+                            placeholder="Juanito perez"></md-filled-text-field>
 
                         <div>
-                            <md-filled-text-field class="input-uniforme" label="Rut del cliente" id="rut_cliente"
-                                name="rut_cliente" placeholder="1234567-0" required></md-filled-text-field>
+                            <md-filled-text-field type="text" label="Rut del cliente" class="input-uniforme"
+                                id="rut_cliente" name="rut_cliente" placeholder="1234567-0"
+                                required></md-filled-text-field>
                             <div id="msgerror" class="text-danger"></div>
                         </div>
 
                         <md-divider inset>Información de venta</md-divider>
                         <br>
 
-                        <md-filled-select class="input-uniforme" label="Producto/Servicio" id="productos" name="producto[][id_producto]">
+                        <md-filled-select class="input-uniforme" id="productos" name="producto[][id_producto]">
                             <md-select-option value="" selected>Buscar en el inventario</md-select-option>
                             @foreach ($productos as $producto)
-                                <md-select-option value="{{ $producto->id }}" data-precio="{{ $producto->precio_de_venta }}">
+                                <md-select-option value="{{ $producto->id }}"
+                                    data-precio="{{ $producto->precio_de_venta }}">
                                     {{ $producto->nombre }} - ${{ $producto->precio_de_venta }}
                                 </md-select-option>
                             @endforeach
                         </md-filled-select>
 
-                        <md-filled-text-field class="input-uniforme" id="cantidad" name="producto[][cantidad]"
-                            value="1" min="1" required></md-filled-text-field>
+                        <md-filled-text-field type="number" label="Cantidad" class="input-uniforme" id="cantidad"
+                            name="producto[][cantidad]" value="1" min="1" required></md-filled-text-field>
 
-                        <button type="button" class="btn btn-secondary" id="agregarProducto">Agregar otro producto</button>
+                        <button type="button" class="btn btn-secondary" id="agregarProducto">Agregar otro
+                            producto</button>
                         <br>
                         <div id="listaProductos"></div>
                         <br>
-                        <md-filled-text-field id="subtotal" class="input-uniforme" label="Subtotal" type="number"
+                        <md-filled-text-field type="text" label="Subtotal" class="input-uniforme" id="subtotal"
                             name="subtotal" readonly></md-filled-text-field>
 
-                        <md-filled-text-field id="descuento" class="input-uniforme" label="Descuento" type="number"
-                            name="descuento" min="0" max="100" required></md-filled-text-field>
+                        <md-filled-text-field type="number" label="Descuento %" class="input-uniforme" id="descuento"
+                            name="descuento" value="0" min="0" max="100"></md-filled-text-field>
 
-                        <md-filled-text-field id="total" class="input-uniforme" label="Total" type="number"
+                        <md-filled-text-field type="text" label="Total" class="input-uniforme" id="total"
                             name="total" readonly></md-filled-text-field>
 
-                        <md-filled-text-field id="notas" class="input-uniforme" label="Notas" type="text"
-                            name="notas"></md-filled-text-field>
+
+                        <md-filled-text-field type="number" label="Monto pagado por el cliente" class="input-uniforme"
+                            id="descuento" name="monto_pagado" value="0"></md-filled-text-field>
+
+                        <md-filled-text-field type="text" label="Notas" class="input-uniforme" id="descuento"
+                            name="nota"></md-filled-text-field>
                     </div>
                     <div id="boton-enviar">
-                        <md-fab onclick="submitForm(event)" size="large" label="Generar venta">
-                            <md-icon slot="icon">save</md-icon>
-                        </md-fab>
-                    </div>
+                        <button type="submit" style="all:unset; cursor:pointer;">
+                            <md-fab size="large" label="Generar venta">
+                                <md-icon slot="icon">save</md-icon>
+                            </md-fab>
+                        </button>
                 </form>
             </div>
         </div>
