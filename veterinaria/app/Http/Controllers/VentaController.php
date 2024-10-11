@@ -28,20 +28,20 @@ class VentaController extends Controller
             'rut' => $request->input('rut', ''),
             'deuda' => $request->input('deuda', null),
         ];
-    
+
         // Filtrar ventas según los valores de los filtros
         $ventas = venta::query();
-    
+
         if (!empty($filtros['rut'])) {
             $ventas->where('rut_cliente', 'like', '%' . $filtros['rut'] . '%');
         }
-    
+
         if (!is_null($filtros['deuda'])) {
             $ventas->where('estado_pago', $filtros['deuda']);
         }
-    
+
         $ventas = $ventas->paginate(10);
-    
+
         return view('ventas.listar', compact('ventas', 'filtros'));
     }
 
@@ -62,19 +62,19 @@ class VentaController extends Controller
             'productos.*.precio_unitario' => 'required|string', // Validación del precio unitario
             'monto_pagado' => 'required|string', // Nuevo campo para registrar el monto pagado
         ]);
-    
+
         // Limpiar los valores de subtotal y total eliminando puntos y comas
         $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
         $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
         $montoPagado = (float)str_replace(['.', ','], ['', ''], $request->monto_pagado);
-    
+
         // Convertir a valores numéricos
         $subtotal = (float) $subtotalLimpiado;
         $total = (float) $totalLimpiado;
-    
+
         // Asignar un valor por defecto para el RUT si está vacío
         $rut_cliente = $request->rut_cliente ?: '11111111-1'; // Si el RUT es vacío o nulo, usar 11111111-1
-    
+
         // Crear la venta
         $venta = new Venta();
         $venta->nombre_cliente = $request->nombre_cliente;
@@ -86,18 +86,18 @@ class VentaController extends Controller
         $venta->monto_pagado = $montoPagado;
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
         $venta->nombre_vendedor = "nombre vendedor";
-        
-        //dessoemtar al momento de estar en nprodccion
+
+        //Descomentar al momento de poner el proyecto en producción
         //$venta->nombre_vendedor = $nombreUsuario;
-    
+
         if ($montoPagado < $total) {
             $venta->estado_pago = 0; // No pagado completamente
         } else {
             $venta->estado_pago = 1; // Pagado completamente
         }
-    
+
         $venta->save(); // Guardar la venta
-    
+
 
         // Guardar los productos asociados
         foreach ($request->productos as $productoData) {
@@ -124,18 +124,44 @@ class VentaController extends Controller
             $deuda->save();
         }
 
+        // Descontar el stock de los productos vendidos
+        foreach ($request->productos as $productoData) {
+            $producto = Producto::find($productoData['id_producto']);
+            if ($producto) {
+                $producto->stock_unidades -= $productoData['cantidad'];
+                $producto->save();
+            }
+        }
+
         // Redireccionar o retornar respuesta
         return redirect()->route('ventas.index')->with('success', 'Venta generada exitosamente.');
     }
 
-    public function destroy($venta){
-        $venta = venta::find($venta);
+    public function destroy($venta)
+    {
+        $venta = Venta::find($venta);
         if ($venta === null) {
-            return redirect()->route('listar.productos')->with('error', 'venta no encontrada.');
+            return redirect()->route('listar.productos')->with('error', 'Venta no encontrada.');
         }
+
+        // Obtener los detalles de la venta
+        $detallesVenta = DetalleVenta::where('venta_id', $venta->id)->get();
+
+        // Devolver el stock de los productos
+        foreach ($detallesVenta as $detalle) {
+            $producto = Producto::find($detalle->id_producto);
+            if ($producto) {
+            $producto->stock_unidades += $detalle->cantidad;
+            $producto->save();
+            }
+        }
+
+        // Eliminar los detalles de la venta
+        DetalleVenta::where('venta_id', $venta->id)->delete();
+
+        // Eliminar la venta
         $venta->delete();
-        return redirect()->route('ventas.index')->with('success', 'venta eliminada correctamente');
+
+        return redirect()->route('ventas.index')->with('success', 'Venta eliminada correctamente.');
     }
 }
-
-
