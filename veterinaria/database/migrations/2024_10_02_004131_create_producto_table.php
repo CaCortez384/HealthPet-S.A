@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('codigo')->unique();
             $table->integer('precio_de_compra');
             $table->integer('precio_de_venta');
+            $table->integer('precio_fraccionado')->nullable();
             $table->string('id_unidad');
             $table->integer('id_presentacion')->nullable();  // 1 = Comprimidos, 2 = Inyectables, 3 = Otros (unidades sueltas o envases)
             $table->integer('id_categoria')->nullable();
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->boolean('vende_a_granel')->default(false);  // Indica si el producto se puede vender a granel
             $table->integer('unidades_por_envase')->nullable(); // Cantidad de unidades por envase (para productos como churu)
             $table->integer('unidades_granel_total')->nullable();     // Cantidad de unidades en stock para productos a granel se calcula con unidades_granel_total x stock_unidades
-        
+            
             // Manejo de stock
             $table->timestamp('fecha_de_vencimiento')->nullable();
             $table->integer('cantidad_minima_requerida')->nullable();

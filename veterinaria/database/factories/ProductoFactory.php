@@ -23,18 +23,23 @@ class ProductoFactory extends Factory
             $stockData = [
                 'stock_unidades' => $this->faker->randomNumber(1, 20),
                 'comprimidos_por_caja' => $this->faker->randomNumber(2, 30),
+                'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
             ];
             $stockData['stock_total_comprimidos'] = $stockData['stock_unidades'] * $stockData['comprimidos_por_caja'];
         } elseif ($stockType === 'granel') {
             $stockData = [
                 'stock_unidades' => $this->faker->randomNumber(1, 20),
                 'unidades_por_envase' => $this->faker->randomNumber(2, 30),
+                'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
+
             ];
             $stockData['unidades_granel_total'] = $stockData['stock_unidades'] * $stockData['unidades_por_envase'];
         } elseif ($stockType === 'inyectable') {
             $stockData = [
                 'stock_unidades' => $this->faker->randomNumber(1, 20),
                 'ml_por_unidad' => $this->faker->randomNumber(1, 0.5, 30),
+                'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
+
             ];
             $stockData['stock_total_ml'] = $stockData['stock_unidades'] * $stockData['ml_por_unidad'];
         }

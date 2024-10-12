@@ -62,6 +62,8 @@
                             </md-filled-text-field>
                             <md-filled-text-field class="input-uniforme" label="Cantidad de unidades por envase" value="" type="number" name="unidades_por_envase" min="0" max="999999999" id="cantidad_unidades" style="display: none;">
                             </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Valor fraccionado" value="" type="number" name="precio_fraccionado" min="0" max="999999999" id="precio_fraccionado" prefix-text="$" style="display: none;">
+                            </md-filled-text-field>
                         </div>
 
                         <script>
@@ -70,6 +72,7 @@
                                 const cantidadComprimidos = document.getElementById('cantidad_comprimidos');
                                 const cantidadMl = document.getElementById('cantidad_ml');
                                 const cantidadUnidades = document.getElementById('cantidad_unidades');
+                                const valorFraccionado = document.getElementById('precio_fraccionado');
                                 const vendeAGranelField = document.createElement('input');
                                 vendeAGranelField.type = 'hidden';
                                 vendeAGranelField.name = 'vende_a_granel';
@@ -80,16 +83,20 @@
                                 cantidadComprimidos.style.display = 'none';
                                 cantidadMl.style.display = 'none';
                                 cantidadUnidades.style.display = 'none';
+                                valorFraccionado.style.display = 'none';
 
                                 // Mostrar el campo correspondiente según la selección
                                 if (presentacion == '1') {
                                     cantidadComprimidos.style.display = 'block';
+                                    valorFraccionado.style.display = 'block';
                                     vendeAGranelField.value = 0;
                                 } else if (presentacion == '2') {
                                     cantidadMl.style.display = 'block';
+                                    valorFraccionado.style.display = 'block';
                                     vendeAGranelField.value = 0;
                                 } else if (presentacion == '3') {
                                     cantidadUnidades.style.display = 'block';
+                                    valorFraccionado.style.display = 'block';
                                     vendeAGranelField.value = 1;
                                 } else if (presentacion == '') {
                                     cantidadComprimidos.style.display = 'none';

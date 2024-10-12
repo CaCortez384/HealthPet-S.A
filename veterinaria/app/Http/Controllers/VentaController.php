@@ -112,6 +112,8 @@ class VentaController extends Controller
             $detalleVenta->venta_id = $venta->id; // Asegúrate de que este es el campo correcto
             $detalleVenta->id_producto = $productoData['id_producto'];
             $detalleVenta->cantidad = $productoData['cantidad'];
+            $detalleVenta->tipo_venta = $productoData['tipo_venta']; // Asumiendo que el tipo de venta se envía en el request
+            $detalleVenta->id_presentacion = $productoData['id_presentacion']; // Asumiendo que el tipo de presentación se envía en el request
             $detalleVenta->precio_unitario = $precioUnitario;
             $detalleVenta->save(); // Guardar el detalle
         }
@@ -127,8 +129,21 @@ class VentaController extends Controller
         // Descontar el stock de los productos vendidos
         foreach ($request->productos as $productoData) {
             $producto = Producto::find($productoData['id_producto']);
+            $tipoVenta = $productoData['tipo_venta'];
+            $presentacion = $productoData['id_presentacion']; // Asumiendo que el tipo de presentación se envía en el request
+
             if ($producto) {
-                $producto->stock_unidades -= $productoData['cantidad'];
+                if ($tipoVenta == 'completo') {
+                    $producto->stock_unidades -= $productoData['cantidad'];
+                } elseif ($tipoVenta == 'fraccionado') {
+                    if ($presentacion == '1') {
+                        $producto->stock_total_comprimidos -= $productoData['cantidad'];
+                    } elseif ($presentacion == '2') {
+                        $producto->stock_total_ml -= $productoData['cantidad'];
+                    } elseif ($presentacion == '3') {
+                        $producto->unidades_granel_total -= $productoData['cantidad'];
+                    }
+                }
                 $producto->save();
             }
         }
@@ -140,33 +155,45 @@ class VentaController extends Controller
     public function destroy($venta)
     {
         $venta = Venta::find($venta);
-        
+
         if ($venta === null) {
             return redirect()->route('ventas.index')->with('success', 'Venta no encontrada.');
         }
-    
+
         // Verificar si la venta ya está anulada
         if ($venta->estado_pago == 2) {
             return redirect()->route('ventas.index')->with('success', 'La venta ya está anulada.');
         }
-    
+
         // Obtener los detalles de la venta
         $detallesVenta = DetalleVenta::where('venta_id', $venta->id)->get();
-    
+
         // Devolver el stock de los productos
         foreach ($detallesVenta as $detalle) {
             $producto = Producto::find($detalle->id_producto);
+            $tipoVenta = $detalle->tipo_venta; // Asumiendo que el tipo de venta se guarda en el detalle venta
+            $presentacion = $detalle->id_presentacion; // Asumiendo que el tipo de presentación se guarda en el detalle de la venta
+
             if ($producto) {
-                $producto->stock_unidades += $detalle->cantidad; // Devolver stock
+                if ($tipoVenta == 'completo') {
+                    $producto->stock_unidades += $detalle->cantidad;
+                } elseif ($tipoVenta == 'fraccionado') {
+                    if ($presentacion == '1') {
+                        $producto->stock_total_comprimidos += $detalle->cantidad;
+                    } elseif ($presentacion == '2') {
+                        $producto->stock_total_ml += $detalle->cantidad;
+                    } elseif ($presentacion == '3') {
+                        $producto->unidades_granel_total += $detalle->cantidad;
+                    }
+                }
                 $producto->save();
             }
         }
-    
+
         // Cambiar el estado de la venta a 'anulada' (2)
         $venta->estado_pago = 2;
         $venta->save(); // Guardar los cambios en la venta
-    
+
         return redirect()->route('ventas.index')->with('success', 'Venta anulada correctamente y el stock ha sido devuelto.');
     }
-    
 }
