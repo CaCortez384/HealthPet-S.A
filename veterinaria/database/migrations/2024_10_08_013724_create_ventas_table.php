@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('descuento')->nullable();
             $table->string('nota')->nullable();
             $table->integer('monto_pagado')->nullable();
-            $table->boolean('estado_pago')->nullable();
+            $table->integer('estado_pago')->nullable();
             $table->integer('total');
             $table->timestamps();
         });

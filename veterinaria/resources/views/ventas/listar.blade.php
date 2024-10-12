@@ -21,14 +21,17 @@
                         <md-filled-text-field class="input-busqueda" label="Rut del cliente" name="rut">
                         </md-filled-text-field>
 
-                        <md-filled-select class="input-busqueda" label="Posee deuda" name="deuda">
+                        <md-filled-select class="input-busqueda" label="Estado de Venta" name="deuda">
                             <md-select-option value="" selected>Selecciona una opción</md-select-option>
 
                             <md-select-option value=0>
-                                Si
+                                Registra deuda
                             </md-select-option>
                             <md-select-option value=1>
-                                No
+                                Completa
+                            </md-select-option>
+                            <md-select-option value=2>
+                                Anulada
                             </md-select-option>
 
                         </md-filled-select>
@@ -97,7 +100,7 @@
                         <th scope="col">Cliente</th>
                         <th scope="col">Total</th>
                         <th scope="col">Tipo de pago</th>
-                        <th scope="col">¿Posee deuda?</th>
+                        <th scope="col">Estado de Venta</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -111,7 +114,21 @@
                             <td>{{ $venta->nombre_cliente }}</td>
                             <td>{{ $venta->total }}</td>
                             <td></td>
-                            <td>{{ $venta->estado_pago ? 'No' : 'Si' }}</td>
+                            <td>
+                                @switch($venta->estado_pago)
+                                    @case(0)
+                                        Registra deuda
+                                        @break
+                                    @case(1)
+                                        Completa
+                                        @break
+                                    @case(2)
+                                        Anulada
+                                        @break
+                                    @default
+                                        Desconocido
+                                @endswitch
+                            </td>
                             <td>
                                 <a href="{{ route('ventas.show', ['id' => $venta->id]) }}">
                                     <md-fab size="small" aria-label="View">

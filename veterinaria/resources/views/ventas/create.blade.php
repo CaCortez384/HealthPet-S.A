@@ -1,5 +1,6 @@
 <x-app-layout>
     <link href="{{ asset('css/ventas/crear-venta-style.css') }}" rel="stylesheet">
+    @include('components.alert')
 
     <div id="contenedor">
         <div>

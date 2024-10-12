@@ -140,28 +140,33 @@ class VentaController extends Controller
     public function destroy($venta)
     {
         $venta = Venta::find($venta);
+        
         if ($venta === null) {
-            return redirect()->route('listar.productos')->with('error', 'Venta no encontrada.');
+            return redirect()->route('ventas.index')->with('success', 'Venta no encontrada.');
         }
-
+    
+        // Verificar si la venta ya está anulada
+        if ($venta->estado_pago == 2) {
+            return redirect()->route('ventas.index')->with('success', 'La venta ya está anulada.');
+        }
+    
         // Obtener los detalles de la venta
         $detallesVenta = DetalleVenta::where('venta_id', $venta->id)->get();
-
+    
         // Devolver el stock de los productos
         foreach ($detallesVenta as $detalle) {
             $producto = Producto::find($detalle->id_producto);
             if ($producto) {
-            $producto->stock_unidades += $detalle->cantidad;
-            $producto->save();
+                $producto->stock_unidades += $detalle->cantidad; // Devolver stock
+                $producto->save();
             }
         }
-
-        // Eliminar los detalles de la venta
-        DetalleVenta::where('venta_id', $venta->id)->delete();
-
-        // Eliminar la venta
-        $venta->delete();
-
-        return redirect()->route('ventas.index')->with('success', 'Venta eliminada correctamente.');
+    
+        // Cambiar el estado de la venta a 'anulada' (2)
+        $venta->estado_pago = 2;
+        $venta->save(); // Guardar los cambios en la venta
+    
+        return redirect()->route('ventas.index')->with('success', 'Venta anulada correctamente y el stock ha sido devuelto.');
     }
+    
 }

@@ -25,7 +25,7 @@ class Venta extends Model
     {
         return [
             'fecha_venta' => 'datetime:Y-m-d',
-            'estado_pago' => 'boolean' // 0 = pendiente, 1 = pagado
+          
         ];
     }
 
