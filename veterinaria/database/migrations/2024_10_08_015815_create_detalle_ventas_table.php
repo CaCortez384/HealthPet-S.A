@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('venta_id');
             $table->unsignedBigInteger('id_producto');
+            $table->string('tipo_venta');
+            $table->integer('id_presentacion');
             $table->integer('cantidad');
             $table->integer('precio_unitario');
    

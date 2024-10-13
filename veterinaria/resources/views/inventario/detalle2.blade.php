@@ -59,6 +59,10 @@
                                 <h3>{{ $producto->stock_total_comprimidos }}</h3>
                             </div>
                             <div class="stock-info">
+                                <p>Valor fraccionado</p>
+                                <h3>{{ $producto->precio_fraccionado }} c/u</h3>
+                            </div>
+                            <div class="stock-info">
                                 <p>Comprimidos por caja</p>
                                 <h3>{{ $producto->comprimidos_por_caja }} c/u</h3>
                             </div>
@@ -68,6 +72,10 @@
                                 <h3>{{ $producto->stock_total_ml }} mL</h3>
                             </div>
                             <div class="stock-info">
+                                <p>Valor fraccionado</p>
+                                <h3>{{ $producto->precio_fraccionado }} c/u</h3>
+                            </div>
+                            <div class="stock-info">
                                 <p>ML por unidad</p>
                                 <h3>{{ $producto->ml_por_unidad }} mL</h3>
                             </div>
@@ -75,6 +83,10 @@
                             <div class="stock-info">
                                 <p>Stock unidades granel</p>
                                 <h3>{{ $producto->unidades_granel_total }}</h3>
+                            </div>
+                            <div class="stock-info">
+                                <p>Valor fraccionado</p>
+                                <h3>{{ $producto->precio_fraccionado }} c/u</h3>
                             </div>
                             <div class="stock-info">
                                 <p>contenido por unidad</p>

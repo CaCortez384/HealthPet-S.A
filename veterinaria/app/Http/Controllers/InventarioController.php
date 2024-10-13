@@ -77,6 +77,7 @@ class InventarioController extends Controller
         $producto->codigo = $request->codigo;
         $producto->precio_de_compra = $request->precio_de_compra;
         $producto->precio_de_venta = $request->precio_de_venta;
+        $producto->precio_fraccionado = $request->precio_fraccionado;
         $producto->id_unidad = $request->unidad;
         $producto->id_presentacion = $request->presentacion;
         $producto->id_categoria = $request->categoria;
@@ -156,6 +157,7 @@ class InventarioController extends Controller
             case 1:
             $producto->comprimidos_por_caja = $request->comprimidos_por_caja;
             $producto->stock_total_comprimidos = $request->comprimidos_por_caja * $request->stock_unidades;
+            $producto->precio_fraccionado = $request->precio_fraccionado;
             $producto->ml_por_unidad = null;
             $producto->stock_total_ml = null;
             $producto->unidades_por_envase = null;
@@ -164,6 +166,7 @@ class InventarioController extends Controller
             case 2:
             $producto->ml_por_unidad = $request->ml_por_unidad;
             $producto->stock_total_ml = $request->ml_por_unidad * $request->stock_unidades;
+            $producto->precio_fraccionado = $request->precio_fraccionado;
             $producto->comprimidos_por_caja = null;
             $producto->stock_total_comprimidos = null;
             $producto->unidades_por_envase = null;
@@ -173,6 +176,7 @@ class InventarioController extends Controller
             $producto->vende_a_granel = $request->vende_a_granel;
             $producto->unidades_por_envase = $request->unidades_por_envase;
             $producto->unidades_granel_total = $request->unidades_por_envase * $request->stock_unidades;
+            $producto->precio_fraccionado = $request->precio_fraccionado;
             $producto->comprimidos_por_caja = null;
             $producto->stock_total_comprimidos = null;
             $producto->ml_por_unidad = null;
@@ -185,6 +189,7 @@ class InventarioController extends Controller
             $producto->stock_total_ml = null;
             $producto->unidades_por_envase = null;
             $producto->unidades_granel_total = null;
+            $producto->precio_fraccionado = null;
             break;
         }
         $producto->save();

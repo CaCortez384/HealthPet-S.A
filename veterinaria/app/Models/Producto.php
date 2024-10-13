@@ -47,6 +47,14 @@ class Producto extends Model
         );
     }
 
+    protected function precioFraccionado(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => str_replace([',', '.'], '', $value),
+            get: fn($value) => number_format($value, 0, '', '.')
+        );
+    }
+
     // Función para formatear el campo vende_a_granel
     protected function vendeAGranel(): Attribute
     {
