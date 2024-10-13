@@ -145,20 +145,20 @@
                                 <!-- Diálogo alerta para eliminar venta -->
                                 <md-dialog id="dialog_{{ $venta->id }}">
                                     <div slot="headline">
-                                        Eliminar Venta "{{ $venta->id }}"
+                                        Anular Venta "{{ $venta->id }}"
                                     </div>
                                     <form slot="content" action="{{ route('ventas.destroy', $venta->id) }}"
                                         id="form-id-{{ $venta->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        ¿Está seguro que desea eliminar la venta?
+                                        ¿Está seguro que desea anular la venta?
                                     </form>
                                     <div slot="actions">
                                         <md-text-button id="closeButton_{{ $venta->id }}">Cancelar</md-text-button>
 
                                         {{-- Botón para confirmar la eliminación de la venta --}}
                                         <md-text-button type="submit"
-                                            form="form-id-{{ $venta->id }}">Eliminar</md-text-button>
+                                            form="form-id-{{ $venta->id }}">Anular</md-text-button>
                                     </div>
                                 </md-dialog>
                             </td>

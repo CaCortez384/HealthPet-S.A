@@ -168,5 +168,27 @@ class VentaController extends Controller
     
         return redirect()->route('ventas.index')->with('success', 'Venta anulada correctamente y el stock ha sido devuelto.');
     }
+
+
+
+
+public function show($id)
+{
+    $venta = Venta::find($id);
+
+    if (!$venta) {
+        return redirect()->route('ventas.index')->with('error', 'Venta no encontrada.');
+    }
+
+        // Obtener los detalles de la venta
+        $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
+
+    // Formatear los valores numéricos
+
+    $venta->subtotal = number_format( $venta->subtotal, 0, ',', '.');
+    $venta->monto_pagado = number_format( $venta->monto_pagado, 0, ',', '.');
+
+    return view('ventas.detalle', compact('venta', 'detallesVenta'));
+}
     
 }

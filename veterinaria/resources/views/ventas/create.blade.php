@@ -114,8 +114,8 @@
                                 pagado</md-checkbox>
                         </div>
 
-                        <md-filled-text-field type="number" label="Monto pagado por el cliente" class="input-uniforme"
-                            id="monto_pagado" name="monto_pagado" value="0" min="0"
+                        <md-filled-text-field type="text" label="Monto pagado por el cliente" class="input-uniforme"
+                            id="monto_pagado" name="monto_pagado" 
                             oninput="updateMontoPagado()"></md-filled-text-field>
                     </div>
 
