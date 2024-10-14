@@ -7,6 +7,7 @@ use App\Models\DetalleVenta;
 use App\Models\Producto;
 use App\Models\Deuda;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -218,5 +219,31 @@ public function show($id)
 
     return view('ventas.detalle', compact('venta', 'detallesVenta'));
 }
+
+
+
+ // Función para exportar a PDF
+ public function exportPdf($id)
+ {
+     $venta = Venta::findOrFail($id);
+
+     // Datos que pasarás a la vista para generar el PDF
+     $data = [
+         'venta' => $venta,
+     ];
+
+     $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
+
+
+     $data2 = [
+         'detalle' => $detallesVenta,
+     ];
+     // Generar el PDF usando la vista del producto
+     $pdf = Pdf::loadView('ventas.venta_recibo', $data, $data2);
+
+     // Descargar el PDF con el nombre "producto.pdf"
+     return $pdf->stream('venta.pdf');
+ }
+
     
 }

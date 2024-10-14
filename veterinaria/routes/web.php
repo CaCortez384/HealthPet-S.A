@@ -71,6 +71,9 @@ Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.
 Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update'); // Actualizar una venta existente
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('ventas.destroy'); // Eliminar una venta
 
+
+Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->name('venta.recibo');
+
 // routes/api.php
 
 Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->name('buscar-productos');
