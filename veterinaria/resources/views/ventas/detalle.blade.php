@@ -2,6 +2,29 @@
 
     <link href="{{ asset('css\ventas\detalle-venta-style.css') }}" rel="stylesheet">
 
+    {{-- funcion para formatear rut solo en esta vista --}}
+    @php
+    function formatearRut($rut)
+    {
+        // Eliminar cualquier carácter que no sea dígito
+        $rut = preg_replace('/\D/', '', $rut);
+    
+        // Si el RUT tiene menos de 9 dígitos, agregar un 0 al principio
+        if (strlen($rut) < 9) {
+            $rut = str_pad($rut, 9, '0', STR_PAD_LEFT);
+        }
+    
+        // Separar el cuerpo y el dígito verificador
+        $cuerpo = substr($rut, 0, -1);
+        $dv = substr($rut, -1);
+    
+        // Formatear el cuerpo del RUT con puntos
+        $cuerpo_formateado = number_format($cuerpo, 0, '', '.');
+    
+        // Retornar el RUT formateado con el dígito verificador
+        return $cuerpo_formateado . '-' . $dv;
+    }
+    @endphp
 
     <div class="contenedor">
         <div class="top-container">
@@ -69,9 +92,13 @@
                     </div>
                     <div class="sale-price">
                         <p>RUT Cliente:</p>
-                        <h3>{{ $venta->rut_cliente ?? 'No especificado' }}</h3>
+                        <h3>{{ isset($venta->rut_cliente) ? formatearRut($venta->rut_cliente) : 'No especificado' }}</h3>
+
+
                     </div>
                 </div>
+
+                <br>
  
 
                 <div class="pricing-stock">
@@ -80,7 +107,8 @@
                   
                     <div class="stock-info">
                         <p>Fecha de Venta:</p>
-                        <h3> {{ $venta->fecha_venta }}</h3>
+                        {{-- formato de fecha en dia- mes - año --}}
+                        <h3>{{ \Carbon\Carbon::parse($venta->fecha_venta)->format('d-m-Y') }}</h3>
                     </div>
                     <div class="purchase-price">
                         <p>Subtotal:</p>
@@ -136,8 +164,8 @@
                 @foreach($detallesVenta as $detalle)
                     <tr>
                         <td>{{ $detalle->producto->nombre }}</td>
-                        <td>{{ $detalle->cantidad }}</td>
-                        <td>{{ number_format($detalle->precio_unitario, 0, ',', '.') }} CLP</td>
+                        <td>{{ $detalle->cantidad }} ({{ ucwords($detalle->tipo_venta) }})</td>
+                        <td>{{ number_format($detalle->precio_unitario, 0, ',', '.') }} CLP  ({{ ucwords($detalle->tipo_venta) }})</td>
                         <td>{{ number_format($detalle->precio_unitario * $detalle->cantidad, 0, ',', '.') }} CLP</td>
                     </tr>
                 @endforeach
