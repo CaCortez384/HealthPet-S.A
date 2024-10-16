@@ -43,4 +43,10 @@ class Venta extends Model
     {
         return $query->where('rut_cliente', str_replace('-', '', $rut));
     }
+
+    public function tipoPago()
+    {
+
+        return $this->belongsTo(TipoPago::class, 'tipo_pago_id');
+    }
 }

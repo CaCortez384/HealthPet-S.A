@@ -9,6 +9,7 @@ use App\Models\Unidad;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,6 +50,14 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'kilogramos'],
             ['nombre' => 'mililitros'],
             ['nombre' => 'litros'],
+        ]);
+
+
+        DB::table('tipo_pago')->insert([
+            ['nombre' => 'Efectivo', 'descripcion' => 'Pago en efectivo'],
+            ['nombre' => 'Tarjeta de Crédito', 'descripcion' => 'Pago con tarjeta de crédito'],
+            ['nombre' => 'Tarjeta de Débito', 'descripcion' => 'Pago con tarjeta de débito'],
+            ['nombre' => 'Transferencia Bancaria', 'descripcion' => 'Pago mediante transferencia bancaria'],
         ]);
     }
 }

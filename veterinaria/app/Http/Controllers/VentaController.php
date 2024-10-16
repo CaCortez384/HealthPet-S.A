@@ -6,6 +6,7 @@ use App\Models\Venta;
 use App\Models\DetalleVenta;
 use App\Models\Producto;
 use App\Models\Deuda;
+use App\Models\TipoPago;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +19,10 @@ class VentaController extends Controller
     {
         // Obtener todos los productos desde la base de datos
         $productos = Producto::all();
+        $tipoPago = TipoPago::all();
 
         // Retornar la vista del formulario con la lista de productos
-        return view('ventas.create', compact('productos'));
+        return view('ventas.create', compact('productos', 'tipoPago'));
     }
 
     public function listarVentas(Request $request)
@@ -62,6 +64,7 @@ class VentaController extends Controller
             'total' => 'required|string', // Para permitir el formato con comas/puntos
             'productos.*.precio_unitario' => 'required|string', // Validación del precio unitario
             'monto_pagado' => 'required|string', // Nuevo campo para registrar el monto pagado
+            'tipo_pago_id' => 'required',  // Validar que el tipo de pago exista
         ]);
 
         // Limpiar los valores de subtotal y total eliminando puntos y comas
@@ -87,6 +90,7 @@ class VentaController extends Controller
         $venta->monto_pagado = $montoPagado;
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
         $venta->nombre_vendedor = "nombre vendedor";
+        $venta->tipo_pago_id = $request->tipo_pago_id;
 
         //Descomentar al momento de poner el proyecto en producción
         //$venta->nombre_vendedor = $nombreUsuario;

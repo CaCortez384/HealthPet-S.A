@@ -151,7 +151,14 @@
                         <md-filled-text-field type="text" label="Total" class="input-uniforme" id="total"
                             name="total" readonly></md-filled-text-field>
 
-                        <h1></h1>
+                            <md-filled-select class="input-uniforme" name="tipo_pago_id" id="tipo_pago" required>
+                            <md-select-option value="" selected>Seleccione el Tipo de Pago</md-select-option>
+                            @foreach($tipoPago as $tipo)
+                                <md-select-option  value="{{ $tipo->id }}">
+                                    {{ $tipo->nombre }}
+                                </md-select-option>
+                            @endforeach
+                        </md-filled-select>
 
                         <div>
                             <h6>pago total venta</h6>
@@ -161,11 +168,9 @@
                         </div>
 
                         <md-filled-text-field type="number" label="Monto pagado por el cliente"
-                            class="input-uniforme" id="monto_pagado" name="monto_pagado" value="0"
-                            min="0" oninput="updateMontoPagado()"></md-filled-text-field>
-                        <md-filled-text-field type="text" label="Monto pagado por el cliente" class="input-uniforme"
-                            id="monto_pagado" name="monto_pagado" 
-                            oninput="updateMontoPagado()"></md-filled-text-field>
+                            class="input-uniforme" id="monto_pagado" name="monto_pagado" value=""
+                            min="0" oninput="updateMontoPagado()" required></md-filled-text-field>
+
                     </div>
 
                     <md-filled-text-field type="text" label="Notas" class="input-uniforme" id="descuento"

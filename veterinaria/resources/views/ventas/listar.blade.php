@@ -113,7 +113,7 @@
                             <td>{{ $venta->nombre_vendedor }}</td>
                             <td>{{ $venta->nombre_cliente }}</td>
                             <td>{{ $venta->total }}</td>
-                            <td></td>
+                            <td>{{ $venta->tipoPago->nombre }}</td>
                             <td>
                                 @switch($venta->estado_pago)
                                     @case(0)

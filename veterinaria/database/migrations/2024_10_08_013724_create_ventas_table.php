@@ -18,13 +18,20 @@ return new class extends Migration
             $table->string('nombre_cliente')->nullable();
             $table->integer('rut_cliente')->nullable();
             $table->integer('subtotal');
-           //$table->string('tipo_pago');
+
+            $table->unsignedBigInteger('tipo_pago_id');
             $table->integer('descuento')->nullable();
             $table->string('nota')->nullable();
             $table->integer('monto_pagado')->nullable();
             $table->integer('estado_pago')->nullable();
             $table->integer('total');
             $table->timestamps();
+
+    
+
+        
+
+            $table->foreign('tipo_pago_id')->references('id')->on('tipo_pago')->onDelete('cascade');
         });
     }
 
