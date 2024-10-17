@@ -26,13 +26,15 @@
             <div>
                 <form action="{{ route('ventas.store') }}" method="POST" id="formulario-productos">
                     @csrf
+<br>
+                    <h6>Información del cliente</h6>
 
-                    <div class="formulario-crear">
+                    <div class="formulario-crear-user">
 
 
 
-                        <h6>Información del cliente</h6>
-                        <br>
+                       
+                      
                         <md-filled-text-field type="text" label="Nombre del Cliente (opcional)"
                             class="input-uniforme" id="nombre_cliente" name="nombre_cliente" placeholder="Juanito perez"
                             supporting-text="Ej: Juanito perez">></md-filled-text-field>
@@ -41,7 +43,23 @@
                             <md-filled-text-field type="text" label="Rut del cliente (opcional)"
                                 class="input-uniforme" id="rut_cliente" name="rut_cliente" placeholder="1234567-0"
                                 supporting-text="Formato: 11111111-1">
-                                ></md-filled-text-field>
+                                </md-filled-text-field>
+                            <div id="msgerror" class="text-danger"></div>
+                        </div>
+
+                        <div>
+                            <md-filled-text-field type="text" label="Telefono del cliente (opcional)"
+                                class="input-uniforme" id="numero_cliente" name="numero_cliente" placeholder="12345678"
+                                supporting-text="Formato: 12345678" minlength="8" maxlength="8"     prefix-text="+569">
+                                </md-filled-text-field>
+                            <div id="msgerror" class="text-danger"></div>
+                        </div>
+
+                        <div>
+                            <md-filled-text-field type="email" label="E-mail del cliente (opcional)"
+                                class="input-uniforme" id="email_cliente" name="email_cliente" placeholder="juan@mail.com"
+                                supporting-text="Formato: juan@mail.com" >
+                                </md-filled-text-field>
                             <div id="msgerror" class="text-danger"></div>
                         </div>
                     </div>
@@ -167,9 +185,9 @@
                                 pagado</md-checkbox>
                         </div>
 
-                        <md-filled-text-field type="number" label="Monto pagado por el cliente"
+                        <md-filled-text-field type="text" label="Monto pagado por el cliente"
                             class="input-uniforme" id="monto_pagado" name="monto_pagado" value=""
-                            min="0" oninput="updateMontoPagado()" required></md-filled-text-field>
+                             oninput="updateMontoPagado()" required></md-filled-text-field>
 
                     </div>
 

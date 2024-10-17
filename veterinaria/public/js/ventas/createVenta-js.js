@@ -229,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
 function toggleMontoPagado() {
     const permitirModificar = document.getElementById('permitir_modificar').checked;
     const montoPagadoInput = document.getElementById('monto_pagado');
@@ -253,3 +252,45 @@ function updateMontoPagado() {
         document.getElementById('monto_pagado').value = total; // Reinicia al total
     }
 }
+
+document.getElementById('formulario-productos').addEventListener('submit', function(event) {
+    const total = parseFloat(document.getElementById('total').value) || 0;
+    const montoPagado = parseFloat(document.getElementById('monto_pagado').value) || 0;
+
+    const nombreCliente = document.getElementById('nombre_cliente');
+    const rutCliente = document.getElementById('rut_cliente');
+    const numeroCliente = document.getElementById('numero_cliente');
+    const emailCliente = document.getElementById('email_cliente');
+
+    if (montoPagado < total) {
+        // Si no está totalmente pagado, hacer los campos de cliente obligatorios
+        if (!nombreCliente.value.trim() || !rutCliente.value.trim() || !numeroCliente.value.trim() || !emailCliente.value.trim()) {
+            event.preventDefault(); // Prevenir el envío del formulario
+
+            alert('El cliente presenta una deuda, por lo tanto es necesario proporcionar los datos personales.');
+            
+            // Añadir el atributo required a los campos de cliente
+            nombreCliente.setAttribute('required', true);
+            rutCliente.setAttribute('required', true);
+            numeroCliente.setAttribute('required', true);
+            emailCliente.setAttribute('required', true);
+        }
+    } else {
+        // Si está totalmente pagado, remover el atributo required
+        nombreCliente.removeAttribute('required');
+        rutCliente.removeAttribute('required');
+        numeroCliente.removeAttribute('required');
+        emailCliente.removeAttribute('required');
+    }
+});
+
+
+document.getElementById('formulario').addEventListener('submit', function(e) {
+    const montoPagado = document.getElementById('monto_pagado').value;
+    const regex = /^\d+(\.\d{1,2})?$/;
+
+    if (!regex.test(montoPagado)) {
+        alert('El monto pagado por el cliente debe ser un número válido y no contener letras.');
+        e.preventDefault();  // Evita que el formulario se envíe si no pasa la validación
+    }
+});

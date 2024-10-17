@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('nombre_vendedor')->nullable();
             $table->string('nombre_cliente')->nullable();
             $table->integer('rut_cliente')->nullable();
+            $table->integer('numero_cliente')->nullable();
+            $table->string('email_cliente')->nullable();
             $table->integer('subtotal');
 
             $table->unsignedBigInteger('tipo_pago_id');

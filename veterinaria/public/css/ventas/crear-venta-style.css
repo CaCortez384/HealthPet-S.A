@@ -19,6 +19,14 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.formulario-crear-user{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dtres columnas en pantallas grandes */
+    grid-gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 .formulario-crear-agregar{
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Dos columnas en pantallas grandes */

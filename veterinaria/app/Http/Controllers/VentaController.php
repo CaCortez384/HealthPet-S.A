@@ -63,14 +63,22 @@ class VentaController extends Controller
             'subtotal' => 'required|string', // Para permitir el formato con comas/puntos
             'total' => 'required|string', // Para permitir el formato con comas/puntos
             'productos.*.precio_unitario' => 'required|string', // Validación del precio unitario
-            'monto_pagado' => 'required|string', // Nuevo campo para registrar el monto pagado
             'tipo_pago_id' => 'required',  // Validar que el tipo de pago exista
+
+            'monto_pagado' => [
+                'required',
+                'regex:/^[\d,\.]+$/',  // Acepta dígitos, comas y puntos
+            ],
+        ], [
+            'monto_pagado.regex' => 'El campo monto pagado debe ser un número válido y no contener letras.',
+
+           
         ]);
 
         // Limpiar los valores de subtotal y total eliminando puntos y comas
         $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
         $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
-        $montoPagado = (float)str_replace(['.', ','], ['', ''], $request->monto_pagado);
+
 
         // Convertir a valores numéricos
         $subtotal = (float) $subtotalLimpiado;
@@ -78,7 +86,7 @@ class VentaController extends Controller
 
         // Asignar un valor por defecto para el RUT si está vacío
         $rut_cliente = $request->rut_cliente ?: '11111111-1'; // Si el RUT es vacío o nulo, usar 11111111-1
-
+        $montoPagado = str_replace([',', '.'], '', $request->input('monto_pagado'));
         // Crear la venta
         $venta = new Venta();
         $venta->nombre_cliente = $request->nombre_cliente;
@@ -91,6 +99,8 @@ class VentaController extends Controller
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
         $venta->nombre_vendedor = "nombre vendedor";
         $venta->tipo_pago_id = $request->tipo_pago_id;
+        $venta->numero_cliente = $request->numero_cliente;//celular del cliente
+        $venta->email_cliente = $request->email_cliente;//celular del cliente
 
         //Descomentar al momento de poner el proyecto en producción
         //$venta->nombre_vendedor = $nombreUsuario;
