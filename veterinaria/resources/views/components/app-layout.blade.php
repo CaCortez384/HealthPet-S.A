@@ -46,6 +46,7 @@
     <!-- Custom CSS for product list styling -->
     <link href="{{ asset('css\lista-productos-style.css') }}" rel="stylesheet">
     <link href="{{ asset('css\lista-usuario-style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css\ventas\lista-ventas-style.css') }}" rel="stylesheet">
     <title>Vet</title>
 
 </head>

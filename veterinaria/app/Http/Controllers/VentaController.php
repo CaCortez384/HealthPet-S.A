@@ -9,6 +9,7 @@ use App\Models\Deuda;
 use App\Models\TipoPago;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -25,26 +26,38 @@ class VentaController extends Controller
         return view('ventas.create', compact('productos', 'tipoPago'));
     }
 
+
+
     public function listarVentas(Request $request)
     {
         $filtros = [
-            'rut' => $request->input('rut', ''),
-            'deuda' => $request->input('deuda', null),
+            'rut' => request('rut'),
+            'deuda' => request('deuda'), // Esto debería ser el valor actual de la deuda, que puede ser 0 o cualquier otro número
+            'fecha_inicio' => request('fecha_inicio'),
+            'fecha_fin' => request('fecha_fin'),
         ];
-
-        // Filtrar ventas según los valores de los filtros
+    
         $ventas = venta::query();
-
+    
         if (!empty($filtros['rut'])) {
             $ventas->where('rut_cliente', 'like', '%' . $filtros['rut'] . '%');
         }
-
+    
         if (!is_null($filtros['deuda'])) {
             $ventas->where('estado_pago', $filtros['deuda']);
         }
-
+    
+        // Filtrado por rango de fechas
+        if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin'])) {
+            // Convertir las fechas al formato Y-m-d
+            $fechaInicio = Carbon::createFromFormat('Y-m-d', $filtros['fecha_inicio'])->startOfDay();
+            $fechaFin = Carbon::createFromFormat('Y-m-d', $filtros['fecha_fin'])->endOfDay();
+    
+            $ventas->whereBetween('fecha_venta', [$fechaInicio, $fechaFin]);
+        }
+    
         $ventas = $ventas->paginate(10);
-
+    
         return view('ventas.listar', compact('ventas', 'filtros'));
     }
 

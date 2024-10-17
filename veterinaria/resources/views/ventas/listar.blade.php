@@ -1,6 +1,6 @@
 <x-app-layout>
 
-
+    
     <div>
         @include('components.alert')
         {{-- alerta que muestra cuando una venta se creo con éxito --}}
@@ -9,7 +9,7 @@
         @endsection
 
 
-        <div id="contenedor">
+        <div id="contenedor_buscar">
 
             <div>
                 <h6>Buscar ventas</h6>
@@ -17,65 +17,85 @@
             {{-- Formulario para búsqueda de ventas mediante rut de cliente o si posee deuda --}}
             <div id="menu-busqueda">
                 <form action="{{ route('ventas.index') }}" method="GET">
-                    <div id="inputs-busqueda">
-                        <md-filled-text-field class="input-busqueda" label="Rut del cliente" name="rut">
+                    <div class="todo_input-busqueda">
+
+                        <div>
+                            <md-filled-text-field class="input-busqueda" label="Rut del cliente" name="rut">
+                            </md-filled-text-field>
+                        </div>
+                        
+                <div>
+                    <md-filled-select class="input-busqueda" label="Estado de Venta" name="deuda">
+                        <md-select-option value="" selected>Selecciona una opción</md-select-option>
+                        <md-select-option value="0">Registra deuda</md-select-option>
+                        <md-select-option value="1">Completa</md-select-option>
+                        <md-select-option value="2">Anulada</md-select-option>
+                        
+                    </md-filled-select>
+                </div>
+                
+
+                <div id="rango_fechas">
+                    <h6>Seleccione un rango de fechas</h6>
+                        <!-- Campo de fecha inicio -->
+                        <md-filled-text-field class="input-busqueda" label="Fecha Inicio (dd-mm-yyyy)" name="fecha_inicio" type="date">
                         </md-filled-text-field>
+                
+                        <!-- Campo de fecha fin -->
+                        <md-filled-text-field class="input-busqueda" label="Fecha Fin (dd-mm-yyyy)" name="fecha_fin" type="date">
+                        </md-filled-text-field>
+                    </div>
+                </div>
 
-                        <md-filled-select class="input-busqueda" label="Estado de Venta" name="deuda">
-                            <md-select-option value="" selected>Selecciona una opción</md-select-option>
-
-                            <md-select-option value=0>
-                                Registra deuda
-                            </md-select-option>
-                            <md-select-option value=1>
-                                Completa
-                            </md-select-option>
-                            <md-select-option value=2>
-                                Anulada
-                            </md-select-option>
-
-                        </md-filled-select>
-
-                        {{-- Botón para buscar una venta --}}
-                        <a class="buscar-botons" href="{{ route('ventas.index') }}"
-                            onclick="event.preventDefault(); this.closest('form').submit();">
+<div id="botones_busqueda">
+                        <!-- Botón para buscar -->
+                        <a class="buscar-botons" href="{{ route('ventas.index') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                             <md-fab label="Buscar">
                                 <md-icon slot="icon">search</md-icon>
                             </md-fab>
                         </a>
 
-                        {{-- Botón para limpiar el filtro aplicado --}}
-                        <a class="buscar-botons" href="{{ route('ventas.index') }}">
-                            <md-fab label="Eliminar filtro">
-                                <md-icon slot="icon">delete</md-icon>
-                            </md-fab>
-                        </a>
+
+                
+                    {{-- Botón para limpiar el filtro de fecha y RUT --}}
+                    <a class="buscar-botons" href="{{ route('ventas.index', array_filter(request()->except(['rut','deuda', 'fecha_inicio', 'fecha_fin']))) }}">
+                        <md-fab label="Eliminar filtro">
+                            <md-icon slot="icon">delete</md-icon>
+                        </md-fab>
+                    </a>
 
                     </div>
+
+
+                
                 </form>
             </div>
 
 
 
-            {{-- en esta sección se muestran los filtros aplicados anteriormente --}}
-            @if ($filtros['rut'] || $filtros['deuda'])
-                <div class="filtros-activos">
-                    <h5>Filtros Aplicados:</h5>
-                    <md-chip-set>
-                        @if ($filtros['rut'])
-                            <md-assist-chip>Rut: "{{ $filtros['rut'] }}"
-                                <md-icon slot="icon">person</md-icon>
-                            </md-assist-chip>
-                        @endif
-                        @if ($filtros['deuda'])
-                            <md-assist-chip>Deuda: "{{ $filtros['deuda'] }}"
-                                <md-icon slot="icon">badge</md-icon>
-                            </md-assist-chip>
-                        @endif
-                    </md-chip-set>
-                </div>
-            @endif
-
+            @if ($filtros['rut'] || isset($filtros['deuda']) || ($filtros['fecha_inicio'] && $filtros['fecha_fin']))
+            <div class="filtros-activos">
+                <h5>Filtros Aplicados:</h5>
+                <md-chip-set>
+                    @if (!empty($filtros['rut']))
+                        <md-assist-chip>Rut: "{{ $filtros['rut'] }}"
+                            <md-icon slot="icon">person</md-icon>
+                        </md-assist-chip>
+                    @endif
+                    @if (isset($filtros['deuda']))  {{-- Cambiado a isset --}}
+                        <md-assist-chip>Deuda: "{{ $filtros['deuda'] }}"
+                            <md-icon slot="icon">badge</md-icon>
+                        </md-assist-chip>
+                    @endif
+                    @if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin']))
+                        <md-assist-chip>
+                            Fecha: Desde "{{ $filtros['fecha_inicio'] }}" Hasta "{{ $filtros['fecha_fin'] }}"
+                            <md-icon slot="icon">calendar_today</md-icon>
+                        </md-assist-chip>
+                    @endif
+                </md-chip-set>
+            </div>
+        @endif
         </div>
 
         <div id="contenedor">
