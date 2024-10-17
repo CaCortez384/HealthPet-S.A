@@ -171,7 +171,8 @@
                                         id="form-id-{{ $venta->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        ¿Está seguro que desea anular la venta?
+                                        Una vez que la venta haya sido anulada, no será posible revertir los cambios realizados.
+                                        ¿Está seguro que desea Anular la venta?
                                     </form>
                                     <div slot="actions">
                                         <md-text-button id="closeButton_{{ $venta->id }}">Cancelar</md-text-button>

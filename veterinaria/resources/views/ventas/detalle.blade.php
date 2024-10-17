@@ -93,8 +93,14 @@
                     <div class="sale-price">
                         <p>RUT Cliente:</p>
                         <h3>{{ isset($venta->rut_cliente) ? formatearRut($venta->rut_cliente) : 'No especificado' }}</h3>
-
-
+                    </div>
+                    <div class="purchase-price">
+                        <p>E-mail Cliente:</p>
+                        <h3>{{ $venta->email_cliente ?? 'No especificado'  }}</h3>
+                    </div>
+                    <div class="purchase-price">
+                        <p>Celular Cliente:</p>
+                        <h3>+569 {{ $venta->numero_cliente ?? 'No especificado'  }}</h3>
                     </div>
                 </div>
 
@@ -180,6 +186,7 @@
                 action="{{ route('ventas.destroy',  $venta->id ) }}">
                 @csrf
                 @method('DELETE')
+                Una vez que la venta haya sido anulada, no será posible revertir los cambios realizados.
                 ¿Está seguro que desea Anular la venta?
             </form>
             <div slot="actions">
