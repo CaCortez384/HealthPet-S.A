@@ -107,6 +107,76 @@
                         </li>
                     </ul>
 
+                    <div style="margin-right: 50px">
+                        <a href="#" id="inventarioDropdown1" role="button" 
+                            aria-expanded="false">
+                            <md-fab class="boton-tabla" size="small" aria-label="Imprimir">
+                                <md-icon slot="icon">notifications</md-icon>
+                            </md-fab>
+                        </a>
+
+
+                        <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
+                        style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; 
+                        box-shadow: var(--md-sys-elevation-3); display: none; max-height: 300px; overflow-y: auto;">
+                    
+                        @if ($productosBajoStock->count() > 0)
+                            @foreach ($productosBajoStock as $producto)
+                        
+                                <li style="padding: 10px; background-color: white; border-radius: 20px; margin: 5px" >
+                                    {{ $producto->nombre }} - Stock: {{ $producto->stock_unidades }} (Mínimo requerido:
+                                    {{ $producto->cantidad_minima_requerida }})
+                                </li>
+                           
+                            @endforeach
+                        @endif
+                    </ul>
+
+                    </div>
+
+
+                    <script>
+                        // Control del evento click en el botón del dropdown
+document.getElementById('inventarioDropdown1').addEventListener('click', function (event) {
+    event.preventDefault(); // Evita el comportamiento por defecto del enlace
+
+    // Selecciona el menú dropdown actual
+    const dropdownMenu = this.nextElementSibling;
+
+    // Cierra otros dropdowns abiertos
+    document.querySelectorAll('.dropdown-menu-a').forEach(function (menu) {
+        if (menu !== dropdownMenu) {
+            menu.style.display = 'none'; // Cierra otros dropdowns
+        }
+    });
+
+    // Alterna la visibilidad del menú dropdown actual
+    if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+        dropdownMenu.style.display = 'block';
+    } else {
+        dropdownMenu.style.display = 'none';
+    }
+});
+
+// Evita que el menú se cierre al hacer clic en un ítem
+document.querySelectorAll('.dropdown-menu-a').forEach(function (item) {
+    item.addEventListener('click', function (event) {
+        event.stopPropagation(); // Detiene la propagación del clic para que no cierre el menú
+    });
+});
+
+// Cierra el dropdown si se hace clic fuera
+document.addEventListener('click', function (event) {
+    const dropdown = document.getElementById('inventarioDropdown1');
+    const dropdownMenu = dropdown.nextElementSibling;
+    
+    // Cierra el menú solo si el clic ocurre fuera del dropdown
+    if (!dropdown.contains(event.target)) {
+        dropdownMenu.style.display = 'none';
+    }
+});
+                    </script>
+
                                            
 
                     <div id="usuario">

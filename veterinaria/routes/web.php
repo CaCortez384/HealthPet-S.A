@@ -10,7 +10,7 @@ use App\Http\Controllers\VentaController;
 
 #rutas uri para acceder mediante el navegador
 
-Route::get('/', [HomeController::class, 'inicio'] )->name('inicio');
+Route::get('/', [HomeController::class, 'index'] )->name('inicio');
 
 Route::get('/nose', [HomeController::class, 'nose'] );
 

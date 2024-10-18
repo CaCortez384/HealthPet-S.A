@@ -14,6 +14,17 @@ class HomeController extends Controller
         $productosBajoStock = Producto::whereColumn('stock_unidades', '<', 'cantidad_minima_requerida')->get();
 
         // Pasar los productos a la vista
+        return view('components.app-layout', [
+            'productosBajoStock' => $productosBajoStock,
+        ]);
+    }
+
+    public function index()
+    {
+        // Obtener productos con stock por debajo del mínimo requerido
+        $productosBajoStock = Producto::whereColumn('stock_unidades', '<', 'cantidad_minima_requerida')->get();
+
+        // Pasar los productos a la vista
         return view('home', [
             'productosBajoStock' => $productosBajoStock,
         ]);
