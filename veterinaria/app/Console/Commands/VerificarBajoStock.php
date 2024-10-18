@@ -20,7 +20,7 @@ class VerificarBajoStock extends Command
     {
         // Obtener productos con stock por debajo del mínimo requerido
         // Cambiar 'stock_unidades' a 'stock' para reflejar el nombre correcto de la columna
-        $productosBajoStock = Producto::whereColumn('stock', '<', 'cantidad_minima_requerida')->get();
+        $productosBajoStock = Producto::whereColumn('stock_unidades', '<', 'cantidad_minima_requerida')->get();
 
         // Verifica si hay productos con bajo stock
         if ($productosBajoStock->isEmpty()) {
@@ -30,7 +30,7 @@ class VerificarBajoStock extends Command
             $this->info('Productos con bajo stock:');
             foreach ($productosBajoStock as $producto) {
                 // Cambiar 'stock_unidades' a 'stock' y asegurarse de que los campos sean correctos
-                $this->info("- {$producto->nombre} (Stock: {$producto->stock}, Mínimo requerido: {$producto->cantidad_minima_requerida})");
+                $this->info("- {$producto->nombre} (Stock: {$producto->stock_unidades}, Mínimo requerido: {$producto->cantidad_minima_requerida})");
             }
 
             // Especifica el correo electrónico al que deseas enviar las notificaciones
