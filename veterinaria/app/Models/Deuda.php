@@ -20,4 +20,20 @@ class Deuda extends Model
     {
         return $this->belongsTo(Venta::class, 'venta_id');
     }
+
+    // Relación con la tabla pagos
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'deuda_id');
+    }
+
+    // Relación con la tabla tipo_pago
+    public function tipoPago()
+    {
+        return $this->belongsTo(TipoPago::class, 'tipo_pago_id');
+    }
+
+    
+
+    
 }

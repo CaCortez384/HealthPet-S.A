@@ -187,7 +187,7 @@
                         <li><a class="dropdown-item" href="{{ route('ventas.index') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Historial
                                 de ventas</a></li>
-                        <li><a class="dropdown-item" href="#"
+                        <li><a class="dropdown-item" href="{{ route('deudas.index') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Deudores</a>
                         </li>
                     </ul>

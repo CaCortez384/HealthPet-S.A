@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeudaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
@@ -18,24 +19,15 @@ Route::get('/nose', [HomeController::class, 'nose'] );
 // esta ruta tiene restriccion de acceso, solo admin puede ingresar. 
 //Route::get('/inventario', [InventarioController::class, 'listar'])->middleware('role:admin')->name('listar.productos');
 Route::get('/inventario', [InventarioController::class, 'listar'])->name('listar.productos');
-
-
 Route::get('/inventario/crear', [InventarioController::class, 'crear'])->name('inventario.crear');
 Route::post('/inventario', [InventarioController::class, 'store'])->name('inventario.store');
-
-
 Route::get('/inventario/{producto}/editar', [InventarioController::class, 'editar'] )->name('editar.producto');
 ROUTE::put('/inventario/{producto}', [InventarioController::class, 'update'] )->name('actualizar.producto');
 Route::delete('/inventario/{producto}', [InventarioController::class, 'eliminar'] )->name('eliminar.producto');
-
 // validar id del producto antes de agregar
-
 Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCodigo'])->name('inventario.validarCodigo');
-
 // validar id del producto antes de aditar producto
-
 Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->name('inventario.validarCodigoEdit');
-
 Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'])->name('detalle2.producto');
 
 // //BELEN EDITO AQUI//
@@ -44,23 +36,17 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 
 // rutas para el login
-
 Route::view('/login',"login.login")->name('login');
 Route::view('/registro',"login.register")->name('registro');
 Route::view('/registro-admin',"login.registerAdmin")->name('registro-admin');
-
 Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->name('listar.usuarios');
 Route::delete('/usuarios/{id}', [LoginController::class, 'destroy'])->name('usuarios.destroy');
-
 Route::get('/usuarios/{id}/edit', [LoginController::class, 'edit'])->name('usuarios.edit');
 Route::put('/usuarios/{id}', [LoginController::class, 'update'])->name('usuarios.update');
-
 Route::post('/validar-registro', [LoginController::class, 'register'])-> name('validar-regitro');
 Route::post('/admin-registro', [LoginController::class, 'registerAdmin'])-> name('validar-regitro-admin');
 Route::post('/iniciar-sesion', [LoginController::class, 'login'])-> name('iniciar-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
-
-
 
 // Rutas para ventas
 Route::get('/ventas', [VentaController::class, 'listarVentas'])->name('ventas.index'); // Mostrar todas las ventas
@@ -70,16 +56,15 @@ Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('ventas.show'
 Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit'); // Formulario para editar una venta
 Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update'); // Actualizar una venta existente
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('ventas.destroy'); // Eliminar una venta
-
-
-Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->name('venta.recibo');
-
+Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->name('venta.recibo'); // Exportar recibo de venta en PDF
 // routes/api.php
-
 Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->name('buscar-productos');
 
-
-
+//rutas para deudas
+Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->name('deudas.index');
+Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->name('deuda.detalle');
+Route::get('/deudas/pagar', [DeudaController::class, 'create'])->name('pago.create'); // Formulario para pagar una deuda
+Route::post('/pago/store', [DeudaController::class, 'storePago'])->name('pago.store'); // Guardar un pago
 
 //Route::get('/prueba', function () {
     #crear producto

@@ -7,6 +7,7 @@ use App\Models\DetalleVenta;
 use App\Models\Producto;
 use App\Models\Deuda;
 use App\Models\TipoPago;
+use App\Models\Pago;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -115,6 +116,8 @@ class VentaController extends Controller
         $venta->numero_cliente = $request->numero_cliente;//celular del cliente
         $venta->email_cliente = $request->email_cliente;//celular del cliente
 
+        
+
         //Descomentar al momento de poner el proyecto en producción
         //$venta->nombre_vendedor = $nombreUsuario;
 
@@ -152,6 +155,13 @@ class VentaController extends Controller
             $deuda->venta_id = $venta->id;
             $deuda->monto_adeudado = $total - $montoPagado;
             $deuda->save();
+
+            $pago = new Pago();
+            $pago->deuda_id = $deuda->id;
+            $pago->monto_pagado = $montoPagado;
+            $pago->monto_restante = $deuda->monto_adeudado;
+            $pago->tipo_pago_id = $request->tipo_pago_id;
+            $pago->save();
         }
 
         // Descontar el stock de los productos vendidos
