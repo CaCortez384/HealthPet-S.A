@@ -67,8 +67,9 @@
             <div class="container-fluid">
 
                 <div class="dropdown">
-                    <md-fab variant="secondary" aria-label="add" class="dropdown-toggle" id="headerDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false" style="--md-fab-after-display: none;">
+                    <md-fab variant="secondary" aria-label="add" class="dropdown-toggle" id="headerDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        style="--md-fab-after-display: none;">
                         <md-icon slot="icon">add</md-icon>
                     </md-fab>
                     <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
@@ -76,19 +77,23 @@
                         <li><a class="dropdown-item" href="{{ route('inventario.crear') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
                                 producto</a></li>
-                        <li><a class="dropdown-item" href="{{ route('listar.productos') }}"
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Lista
-                                de productos</a></li>
+                        <li><a class="dropdown-item" href="{{ route('ventas.create') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva venta</a></li>
+                        <li><a class="dropdown-item" href="{{ route('deudas.index') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Deudores</a></li>
+                        <li><a class="dropdown-item" href="{{ route('registro-admin') }}"
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo administrador</a></li>
                     </ul>
                 </div>
 
-                
+
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -100,21 +105,20 @@
                                     </md-icon></button>
                             </form>
                         </li>
-
-
-
-
                     </ul>
+
+                                           
 
                     <div id="usuario">
                         @auth
                             <div id="user-data">
-                                <h6>Hola {{ ucwords(strtolower(Auth::user()->name)) }}</h6> <!-- Primera letra mayúscula y demás en minúscula -->
+                                <h6>Hola {{ ucwords(strtolower(Auth::user()->name)) }}</h6>
+                                <!-- Primera letra mayúscula y demás en minúscula -->
                                 <a href="{{ route('logout') }}">
                                     Cerrar Sesi&oacute;n
                                     <md-icon slot="icon" style="  --md-icon-size: 13px;">power_settings_new</md-icon></a>
                             </div>
-                    
+
                             <img id="avatar"
                                 src="https://media.istockphoto.com/id/1005374612/vector/dog-paw-icon-logo.jpg?s=612x612&w=0&k=20&c=Rtyzn4JwMla0IMrbO-6s2GohBpYO9g-N8_B2CDI118E="
                                 alt="">
@@ -131,8 +135,8 @@
         <div class="nav" id="nav">
 
             <div id="logo">
-                <svg width="65" height="62" viewBox="0 0 65 62" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg width="65" height="62" viewBox="0 0 65 62" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect width="65" height="62" fill="url(#pattern0_38_5301)" />
                     <defs>
                         <pattern id="pattern0_38_5301" patternContentUnits="objectBoundingBox" width="1"
@@ -152,7 +156,7 @@
 
                 <a href="/" class="nav_link active">
                     <i class='bx bx-grid-alt'></i>
-                    <span class="nav_name">Dashboard</span>
+                    <span class="nav_name">Inicio</span>
                 </a>
 
 
@@ -182,7 +186,7 @@
                     <ul class="dropdown-menu" aria-labelledby="ventasDropdown"
                         style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
                         <li><a class="dropdown-item" href="{{ route('ventas.create') }}"
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva
                                 venta</a></li>
                         <li><a class="dropdown-item" href="{{ route('ventas.index') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Historial
@@ -192,12 +196,6 @@
                         </li>
                     </ul>
                 </div>
-
-
-                <a href="#" class="nav_link">
-                    <i class='bx bx-message'></i>
-                    <span class="nav_name">Messages</span>
-                </a>
 
                 <div class="nav_link dropdown">
                     <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
@@ -222,10 +220,9 @@
     </div>
 
     <div id="contenido">
-
         {{ $slot }}
-
     </div>
+    
     <script src="{{ asset('js\layout-js.js') }}"></script>
 </body>
 
