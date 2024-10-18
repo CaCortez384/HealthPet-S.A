@@ -154,7 +154,7 @@
 
             <div class="nav_list">
 
-                <a href="/" class="nav_link active">
+                <a href="{{ route('inicio') }}" class="nav_link active">
                     <i class='bx bx-grid-alt'></i>
                     <span class="nav_name">Inicio</span>
                 </a>
