@@ -200,6 +200,21 @@
                 <div class="nav_link dropdown">
                     <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class='bx bx-time'></i>
+                        <span class="nav_name">Citas</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
+                        style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+                        <li><a class="dropdown-item" href=""
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva cita</a></li>
+                        <li><a class="dropdown-item" href=""
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Proximas citas</a></li>
+                    </ul>
+                </div
+
+                <div class="nav_link dropdown">
+                    <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class='bx bx-user'></i>
                         <span class="nav_name">Usuarios</span>
                     </a>
