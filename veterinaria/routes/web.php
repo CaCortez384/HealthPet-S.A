@@ -67,9 +67,19 @@ Route::get('/ventas', [VentaController::class, 'listarVentas'])->name('ventas.in
 Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create'); // Formulario para crear una nueva venta
 Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store'); // Guardar una nueva venta
 Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('ventas.show'); // Ver el detalle de una venta específica
-Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit'); // Formulario para editar una venta
+// Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit'); // Formulario para editar una venta
 Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update'); // Actualizar una venta existente
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('ventas.destroy'); // Eliminar una venta
+
+ // Mostrar el formulario para editar una venta
+ Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
+
+ // Actualizar una venta (manteniendo el ID)
+ Route::put('/ventas/{id}', [VentaController::class, 'actualizarVenta'])->name('ventas.update');
+
+ // Devolver el stock de una venta y mantenerla
+ Route::post('/ventas/{id}/devolver-stock', [VentaController::class, 'devolverStock'])->name('ventas.devolverStock');
+
 
 
 Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->name('venta.recibo');

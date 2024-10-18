@@ -43,7 +43,7 @@
                         <h2>Detalle de la Venta #{{ $venta->id }}</h2>
                     </div>
                     <div class="buttons">
-                        <a href="ruta para editar la venta">
+                        <a  href="{{ route('ventas.edit', $venta->id) }}">
                             <md-fab size="small" aria-label="Edit">
                                 <md-icon slot="icon">edit</md-icon>
                             </md-fab>
