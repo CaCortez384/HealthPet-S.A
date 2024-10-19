@@ -116,21 +116,41 @@
                         </a>
 
 
-                        <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
-                        style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; 
-                        box-shadow: var(--md-sys-elevation-3); display: none; max-height: 300px; overflow-y: auto;">
-                    
-                        @if ($productosBajoStock->count() > 0)
-                            @foreach ($productosBajoStock as $producto)
+                                <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
+            style="background-color: #f5f5f5; color: #333; border-radius: 20px; 
+                box-shadow: var(--md-sys-elevation-3); display: none; 
+                max-height: 300px; overflow-y: auto; padding: 10px; 
+                margin-left: -188px; /* Sin margen izquierdo para acercarlo a la izquierda */
+                width: 300px;"> 
+
+            <li style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">
+                Notificaciones de Stock Bajo
+            </li>
+
+            @if ($productosBajoStock->count() > 0)
+                @foreach ($productosBajoStock as $producto)
+                    <li style="padding: 10px; background-color: #fff; 
+                                border-radius: 10px; margin: 5px 0; 
+                                display: flex; align-items: center; 
+                                border: 1px solid #ddd;">
                         
-                                <li style="padding: 10px; background-color: white; border-radius: 20px; margin: 5px" >
-                                    {{ $producto->nombre }} - Stock: {{ $producto->stock_unidades }} (Mínimo requerido:
-                                    {{ $producto->cantidad_minima_requerida }})
-                                </li>
-                           
-                            @endforeach
-                        @endif
-                    </ul>
+                        <i class="fas fa-exclamation-triangle" style="color: orange; margin-right: 10px;"></i>
+                        
+                        <div>
+                            <strong>{{ $producto->nombre }}</strong> - 
+                            <span style="color: red;">Stock: {{ $producto->stock_unidades }}</span> 
+                            (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
+                        </div>
+                    </li>
+                @endforeach
+            @else
+                <li style="padding: 10px; background-color: #fff; border-radius: 10px; margin: 5px 0;">
+                    No hay productos con stock bajo.
+                </li>
+            @endif
+        </ul>
+
+
 
                     </div>
 
