@@ -8,7 +8,7 @@
                 <md-icon-button id="openDialogButton">
                     <md-icon>arrow_back</md-icon>
                 </md-icon-button>
-                <h6>Nueva venta</h6>
+                <h6>Editar venta</h6>
                 <md-dialog id="deleteDialog" type="alert">
                     <div slot="headline">¿Desea volver a la p&aacute;gina anterior?</div>
                     <form slot="content" id="form-id" method="dialog">
