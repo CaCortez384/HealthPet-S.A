@@ -89,35 +89,44 @@ class LoginController extends Controller
         return redirect(route('listar.usuarios'))->with('success', 'Registro exitoso. Nuevo administrador registrado.');
     }
 
-    public function login(Request $request)
-    {
-        // Validaciones
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:1',
-        ]);
+public function login(Request $request)
+{
+    // Validaciones
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:1',
+    ]);
 
-        // Define las credenciales de autenticación
-        $credentials = [
-            "email" => $request->email,
-            "password" => $request->password,
-        ];
+    // Define las credenciales de autenticación
+    $credentials = [
+        "email" => $request->email,
+        "password" => $request->password,
+    ];
 
-        // Verifica si el checkbox 'remember' está marcado
-        $remember = $request->has('remember') ? true : false;
+    // Verifica si el checkbox 'remember' está marcado
+    $remember = $request->has('remember') ? true : false;
 
-        // Intentar autenticar al usuario con las credenciales y el valor de 'remember'
-        if (Auth::attempt($credentials, $remember)) {
-            // Regenera la sesión para proteger contra ataques de fijación de sesión
-            $request->session()->regenerate();
+    // Intentar autenticar al usuario con las credenciales y el valor de 'remember'
+    if (Auth::attempt($credentials, $remember)) {
+        // Regenera la sesión para proteger contra ataques de fijación de sesión
+        $request->session()->regenerate();
 
-            // Redirige al usuario a la página de inicio o a la página que intentaba acceder
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        // Verificar el rol del usuario y redirigir según el rol
+        if ($user->role === 'admin' || $user->role === 'editor') {
+            // Redirigir a la página establecida
             return redirect()->intended(route('inicio'));
-        } else {
-            // Redirige de nuevo al login en caso de fallo, puedes agregar un mensaje de error
-            return redirect('login')->with('success', 'Usuario o Contraseña incorrecto.');
+        } elseif ($user->role === 'user') {
+            // Redirigir al index de la web para usuarios tipo 'user'
+            return redirect()->route('welcome');
         }
+    } else {
+        // Redirige de nuevo al login en caso de fallo, puedes agregar un mensaje de error
+        return redirect('login')->with('error', 'Usuario o Contraseña incorrecto.');
     }
+}
 
     public function logout(Request $request)
     {

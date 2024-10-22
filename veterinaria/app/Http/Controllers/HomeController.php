@@ -29,4 +29,14 @@ class HomeController extends Controller
             'productosBajoStock' => $productosBajoStock,
         ]);
     }
+
+
+    
+    public function nose()
+    {
+
+
+        // Pasar los productos a la vista
+        return view('welcome');
+    }
 }
