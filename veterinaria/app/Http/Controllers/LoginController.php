@@ -124,7 +124,7 @@ public function login(Request $request)
         }
     } else {
         // Redirige de nuevo al login en caso de fallo, puedes agregar un mensaje de error
-        return redirect('login')->with('error', 'Usuario o Contraseña incorrecto.');
+        return redirect(route('login'))->with('success', 'Usuario o Contraseña incorrecto.');
     }
 }
 

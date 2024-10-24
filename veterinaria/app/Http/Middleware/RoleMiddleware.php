@@ -15,12 +15,12 @@ class RoleMiddleware
     {
         // Verificar si el usuario está autenticado
         if (!Auth::check()) {
-            return redirect(route('login')); // Redirige al login si no está autenticado
+            return redirect()->route('login');
         }
 
         // Verificar si el usuario tiene el rol especificado
         if (Auth::user()->role !== $role) {
-            return redirect(route('inicio'))->with('error', 'No tienes permiso para acceder a esta sección.');
+            return redirect()->route('login')->with('error', 'No tienes permiso para acceder a esta sección.');
         }
 
         return $next($request);

@@ -44,7 +44,7 @@ Route::get('/usuarios/{id}/edit', [LoginController::class, 'edit'])->middleware(
 Route::put('/usuarios/{id}', [LoginController::class, 'update'])->middleware('role:admin')->name('usuarios.update');
 Route::post('/validar-registro', [LoginController::class, 'register'])->name('validar-regitro');
 Route::post('/admin-registro', [LoginController::class, 'registerAdmin'])->middleware('role:admin')-> name('validar-regitro-admin');
-Route::post('/iniciar-sesion', [LoginController::class, 'login'])-> name('iniciar-sesion');
+Route::post('/iniciar-sesion', [LoginController::class, 'login'])->name('iniciar-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
 
 // Rutas para ventas
