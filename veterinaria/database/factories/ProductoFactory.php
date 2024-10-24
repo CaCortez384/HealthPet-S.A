@@ -16,17 +16,18 @@ class ProductoFactory extends Factory
      */
     public function definition(): array
     {
-        $stockType = $this->faker->randomElement(['inyectable', 'comprimidos', 'granel']);
+        $idCategoria = $this->faker->numberBetween(1, 3);
+        $stockType1 = $this->faker->randomElement(['inyectable', 'comprimidos', 'granel']);
 
         $stockData = [];
-        if ($stockType === 'comprimidos') {
+        if ($stockType1 === 'comprimidos') {
             $stockData = [
                 'stock_unidades' => $this->faker->randomNumber(1, 20),
                 'comprimidos_por_caja' => $this->faker->randomNumber(2, 30),
                 'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
             ];
             $stockData['stock_total_comprimidos'] = $stockData['stock_unidades'] * $stockData['comprimidos_por_caja'];
-        } elseif ($stockType === 'granel') {
+        } elseif ($stockType1 === 'granel') {
             $stockData = [
                 'stock_unidades' => $this->faker->randomNumber(1, 20),
                 'unidades_por_envase' => $this->faker->randomNumber(2, 30),
@@ -34,7 +35,7 @@ class ProductoFactory extends Factory
 
             ];
             $stockData['unidades_granel_total'] = $stockData['stock_unidades'] * $stockData['unidades_por_envase'];
-        } elseif ($stockType === 'inyectable') {
+        } elseif ($stockType1 === 'inyectable') {
             $stockData = [
                 'stock_unidades' => $this->faker->randomNumber(1, 20),
                 'ml_por_unidad' => $this->faker->randomNumber(1, 0.5, 30),
@@ -44,14 +45,25 @@ class ProductoFactory extends Factory
             $stockData['stock_total_ml'] = $stockData['stock_unidades'] * $stockData['ml_por_unidad'];
         }
 
+        $idPresentacion = match ($idCategoria) {
+            1 => match ($stockType1) {
+                'inyectable' => 1,
+                'comprimidos' => 2,
+                'granel' => 3,
+            },
+            2 => $this->faker->numberBetween(4, 6),
+            3 => $this->faker->numberBetween(7, 10),
+        };
+
         return array_merge([
             'nombre' => $this->faker->name(),
             'codigo' => $this->faker->unique()->randomNumber(9, true),
             'precio_de_compra' => $this->faker->numberBetween(1, 20000),
-            'precio_de_venta' => $this->faker->numberBetween(1, 20000), 
+            'precio_de_venta' => $this->faker->numberBetween(1, 20000),
             'id_unidad' => $this->faker->numberBetween(1, 4),
-            'id_presentacion' => $this->faker->numberBetween(0, 3),
-            'id_categoria' => $this->faker->numberBetween(1, 2),
+            'id_presentacion' => $idPresentacion,
+            'id_categoria' => $idCategoria,
+            'id_especie' => $this->faker->numberBetween(1, 3), // Asegúrate de que este rango sea correcto
             'fecha_de_vencimiento' => $this->faker->dateTimeBetween('now', '+1 years'),
             'cantidad_minima_requerida' => $this->faker->numberBetween(11, 99),
         ], $stockData);

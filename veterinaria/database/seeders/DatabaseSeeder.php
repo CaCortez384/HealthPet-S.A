@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
         
-        Producto::factory()->count(40)->create();
+        
         // Categoria::factory()->create();
         // Presentacion::factory()->create();
         // Unidad::factory()->create();
@@ -76,5 +76,7 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'Tarjeta de Débito', 'descripcion' => 'Pago con tarjeta de débito'],
             ['nombre' => 'Transferencia Bancaria', 'descripcion' => 'Pago mediante transferencia bancaria'],
         ]);
+
+        Producto::factory()->count(40)->create();
     }
 }
