@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Unidad;
 use App\Models\Presentacion;
+use App\Models\Especie;
 
 class InventarioController extends Controller
 {
@@ -59,7 +60,8 @@ class InventarioController extends Controller
         $categorias = Categoria::all();
         $unidades = Unidad::all();
         $presentaciones = Presentacion::all();
-        return view('inventario/crear', ['categorias' => $categorias, 'unidades' => $unidades, 'presentaciones' => $presentaciones]);
+        $especies = Especie::all();
+        return view('inventario/crear', ['categorias' => $categorias, 'unidades' => $unidades, 'presentaciones' => $presentaciones, 'especies' => $especies]);
     }
 
 
@@ -75,6 +77,8 @@ class InventarioController extends Controller
         $producto = new Producto();
         $producto->nombre = $request->nombre;
         $producto->codigo = $request->codigo;
+        $producto->id_especie = $request->especie;
+        $producto->descripcion = $request->descripcion;
         $producto->precio_de_compra = $request->precio_de_compra;
         $producto->precio_de_venta = $request->precio_de_venta;
         $producto->precio_fraccionado = $request->precio_fraccionado;
@@ -95,6 +99,7 @@ class InventarioController extends Controller
 
         $producto->fecha_de_vencimiento = $request->fecha_de_vencimiento;
         $producto->cantidad_minima_requerida = $request->cantidad_minima_requerida;
+        $producto->mostrar_web = $request->input('mostrar_web');
         $producto->save();
         //redirecciona a la lista de productos atraves de la ruta listar.productos (al retornar una vista return view('inventario/listar') no funciona;)
         return redirect()->route('listar.productos')->with('success', 'Producto agregado correctamente.');
@@ -124,9 +129,11 @@ class InventarioController extends Controller
         $categorias = Categoria::all();
         $unidades = Unidad::all();
         $presentaciones = Presentacion::all();
+        $especies = Especie::all();
+        
         $producto = Producto::find($producto);
         //formatea la fecha de vencimiento
-        return view('inventario/editar',compact('producto'), ['categorias' => $categorias, 'unidades' => $unidades, 'presentaciones' => $presentaciones]);
+        return view('inventario/editar',compact('producto'), ['categorias' => $categorias, 'unidades' => $unidades, 'presentaciones' => $presentaciones, 'especies' => $especies]);
     }
 
     public function update(Request $request, $producto){
@@ -134,66 +141,85 @@ class InventarioController extends Controller
         if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
         }
-    
-        // Guardar el valor actual de id_presentacion antes de actualizarlo
-        
-    
+
+        // Validar los datos del request
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'especie' => 'required|integer',
+            'codigo' => 'required|string|max:255',
+            'precio_de_compra' => 'required|numeric',
+            'precio_de_venta' => 'required|numeric',
+            'unidad' => 'nullable|integer',
+            'categoria' => 'required|integer',
+            'stock_unidades' => 'required|integer',
+            'descripcion' => 'nullable|string',
+            'fecha_de_vencimiento' => 'nullable|date',
+            'cantidad_minima_requerida' => 'nullable|integer',
+            'mostrar_web' => 'nullable|boolean',
+            'presentacion' => 'required|integer',
+            'comprimidos_por_caja' => 'nullable|integer',
+            'ml_por_unidad' => 'nullable|numeric',
+            'unidades_por_envase' => 'nullable|integer',
+            'precio_fraccionado' => 'nullable|numeric',
+            'vende_a_granel' => 'nullable|boolean',
+        ]);
+
         // Actualizar los valores del producto
         $producto->nombre = $request->nombre;
+        $producto->id_especie = $request->especie;
         $producto->codigo = $request->codigo;
         $producto->precio_de_compra = $request->precio_de_compra;
         $producto->precio_de_venta = $request->precio_de_venta;
-        $producto->id_unidad = $request->unidad;
+        $producto->id_unidad = $request->unidad === "" ? null : $request->unidad;
         $producto->id_categoria = $request->categoria;
         $producto->stock_unidades = $request->stock_unidades;
-            
-        // Insertar nuevos valores
-        
-        
-        // Guardar el producto actualizado en la base de datos
+        $producto->descripcion = $request->descripcion;
+        $producto->fecha_de_vencimiento = $request->fecha_de_vencimiento;
+        $producto->cantidad_minima_requerida = $request->cantidad_minima_requerida;
+        $producto->mostrar_web = $request->input('mostrar_web');
         $producto->id_presentacion = $request->presentacion;
 
         switch ($request->presentacion) {
             case 1:
-            $producto->comprimidos_por_caja = $request->comprimidos_por_caja;
-            $producto->stock_total_comprimidos = $request->comprimidos_por_caja * $request->stock_unidades;
-            $producto->precio_fraccionado = $request->precio_fraccionado;
-            $producto->ml_por_unidad = null;
-            $producto->stock_total_ml = null;
-            $producto->unidades_por_envase = null;
-            $producto->unidades_granel_total = null;
-            break;
+                $producto->comprimidos_por_caja = $request->comprimidos_por_caja;
+                $producto->stock_total_comprimidos = $request->comprimidos_por_caja * $request->stock_unidades;
+                $producto->precio_fraccionado = $request->precio_fraccionado;
+                $producto->ml_por_unidad = null;
+                $producto->stock_total_ml = null;
+                $producto->unidades_por_envase = null;
+                $producto->unidades_granel_total = null;
+                break;
             case 2:
-            $producto->ml_por_unidad = $request->ml_por_unidad;
-            $producto->stock_total_ml = $request->ml_por_unidad * $request->stock_unidades;
-            $producto->precio_fraccionado = $request->precio_fraccionado;
-            $producto->comprimidos_por_caja = null;
-            $producto->stock_total_comprimidos = null;
-            $producto->unidades_por_envase = null;
-            $producto->unidades_granel_total = null;
-            break;
+                $producto->ml_por_unidad = $request->ml_por_unidad;
+                $producto->stock_total_ml = $request->ml_por_unidad * $request->stock_unidades;
+                $producto->precio_fraccionado = $request->precio_fraccionado;
+                $producto->comprimidos_por_caja = null;
+                $producto->stock_total_comprimidos = null;
+                $producto->unidades_por_envase = null;
+                $producto->unidades_granel_total = null;
+                break;
             case 3:
-            $producto->vende_a_granel = $request->vende_a_granel;
-            $producto->unidades_por_envase = $request->unidades_por_envase;
-            $producto->unidades_granel_total = $request->unidades_por_envase * $request->stock_unidades;
-            $producto->precio_fraccionado = $request->precio_fraccionado;
-            $producto->comprimidos_por_caja = null;
-            $producto->stock_total_comprimidos = null;
-            $producto->ml_por_unidad = null;
-            $producto->stock_total_ml = null;
-            break;
+                $producto->vende_a_granel = $request->vende_a_granel;
+                $producto->unidades_por_envase = $request->unidades_por_envase;
+                $producto->unidades_granel_total = $request->unidades_por_envase * $request->stock_unidades;
+                $producto->precio_fraccionado = $request->precio_fraccionado;
+                $producto->comprimidos_por_caja = null;
+                $producto->stock_total_comprimidos = null;
+                $producto->ml_por_unidad = null;
+                $producto->stock_total_ml = null;
+                break;
             default:
-            $producto->comprimidos_por_caja = null;
-            $producto->stock_total_comprimidos = null;
-            $producto->ml_por_unidad = null;
-            $producto->stock_total_ml = null;
-            $producto->unidades_por_envase = null;
-            $producto->unidades_granel_total = null;
-            $producto->precio_fraccionado = null;
-            break;
+                $producto->comprimidos_por_caja = null;
+                $producto->stock_total_comprimidos = null;
+                $producto->ml_por_unidad = null;
+                $producto->stock_total_ml = null;
+                $producto->unidades_por_envase = null;
+                $producto->unidades_granel_total = null;
+                $producto->precio_fraccionado = 0;
+                break;
         }
         $producto->save();
-    
+
         return redirect()->route('listar.productos')->with('success', 'Producto actualizado correctamente');
     }
 

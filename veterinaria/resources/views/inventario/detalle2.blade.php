@@ -105,8 +105,12 @@
                 <div class="information-section">
                     <!-- Datos de farmacia -->
                     <div class="pharmacy-data">
-                        <h4>Datos de Farmacia</h4>
+                        <h4>Datos de producto</h4>
                         <div class="info-cards">
+                            <div class="card">
+                                <p>Categoria</p>
+                                <h5>{{ $producto->categoria->nombre ?? 'No especificado' }}</h5>
+                            </div>
                             <div class="card">
                                 <p>Presentación</p>
                                 <h5>{{ $producto->presentacion->nombre ?? 'No especificado' }}</h5>
@@ -114,6 +118,10 @@
                             <div class="card">
                                 <p>Unidades de medida</p>
                                 <h5>{{ $producto->unidad->nombre ?? 'No especificado' }}</h5>
+                            </div>
+                            <div class="card">
+                                <p>¿Disponible para venta web?</p>
+                                <h5>{{ $producto->mostrar_web == 1 ? 'Sí' : ($producto->mostrar_web == 0 ? 'No' : 'No especificado') }}</h5>
                             </div>
                         </div>
                     </div>
@@ -130,12 +138,8 @@
                             <h5>{{ $producto->codigo }}</h5>
                         </div>
                         <div class="card">
-                            <p>Categoria</p>
-                            <h5>{{ $producto->categoria->nombre ?? 'No especificado' }}</h5>
-                        </div>
-                        <div class="card">
                             <p>Vencimiento</p>
-                            <h5>{{ $producto->fecha_de_vencimiento->format('d/m/Y') }}</h5>
+                            <h5>{{ $producto->fecha_de_vencimiento ? $producto->fecha_de_vencimiento->format('d/m/Y') : 'No especificado' }}</h5>
                         </div>
                         <div class="card">
                             <p>Fecha de Creación</p>
@@ -144,6 +148,10 @@
                         <div class="card">
                             <p>Fecha de ultima actualizacion</p>
                             <h5>{{ $producto->updated_at->format('d/m/Y') }}</h5>
+                        </div>
+                        <div class="card">
+                            <p>Descripción</p>
+                            <h5>{{ $producto->descripcion }}</h5>
                         </div>
                     </div>
                 </div>

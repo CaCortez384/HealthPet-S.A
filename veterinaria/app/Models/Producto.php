@@ -64,6 +64,14 @@ class Producto extends Model
         );
     }
 
+    protected function mostrarWeb(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => $value ? 1 : 0,
+            get: fn($value) => (bool) $value
+        );
+    }
+
     // Relación con la tabla categoria
     public function categoria()
     {
@@ -82,6 +90,11 @@ class Producto extends Model
         return $this->belongsTo(Presentacion::class, 'id_presentacion');
     }
 
+    // Relación con la tabla especie
+    public function especie()
+    {
+        return $this->belongsTo(Especie::class, 'id_especie');
+    }
 
     public function detalleVentas()
     {

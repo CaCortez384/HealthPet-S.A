@@ -27,5 +27,10 @@ class Presentacion extends Model
         return $this->hasOne(Producto::class, 'id_presentacion')->select('nombre');
     }
 
+    // Relación con la tabla categoria
+    public function categoria()
+    {
+        return $this->hasOne(Categoria::class, 'id_categoria')->select('nombre');
+    }
 
 }

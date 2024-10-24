@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('producto', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->integer('codigo')->unique();
-            $table->integer('precio_de_compra');
-            $table->integer('precio_de_venta');
-            $table->integer('precio_fraccionado')->nullable();
-            $table->string('id_unidad');
-            $table->integer('id_presentacion')->nullable();  // 1 = Comprimidos, 2 = Inyectables, 3 = Otros (unidades sueltas o envases)
-            $table->integer('id_categoria')->nullable();
+            $table->string('nombre'); // Nombre del producto
+            $table->string('descripcion')->nullable(); // Descripción del producto
+            $table->string('imagen')->nullable(); // Imagen del producto
+            $table->integer('codigo')->unique(); // Código de barras
+            $table->integer('precio_de_compra');    // Precio de compra para productos en unidades
+            $table->integer('precio_de_venta'); // Precio de venta para productos en unidades
+            $table->integer('precio_fraccionado')->nullable(); // Precio de venta para productos
+            $table->foreignId('id_especie')->nullable()->constrained('especie'); // Relación con la tabla especie
+            $table->foreignId('id_unidad')->nullable()->constrained('unidad'); 
+            $table->foreignId('id_presentacion')->nullable()->constrained('presentacion');  // dependiendo del tipo de producto, puede ser inyectable, comprimido, seco, humedo, jueguete, etc
+            $table->foreignId('id_categoria')->nullable()->constrained('categoria'); // Relación con la tabla categoria 
             
             // Campos de stock general
             $table->integer('stock_unidades')->nullable();  // Stock general para todos los productos en unidades.
@@ -39,7 +42,8 @@ return new class extends Migration
             $table->integer('unidades_granel_total')->nullable();     // Cantidad de unidades en stock para productos a granel se calcula con unidades_granel_total x stock_unidades
             
             // Manejo de stock
-            $table->timestamp('fecha_de_vencimiento')->nullable();
+            $table->boolean('mostrar_web')->default(false);  // Indica si el producto se muestra en la web
+            $table->timestamp('fecha_de_vencimiento')->nullable(); // Fecha de vencimiento del producto
             $table->integer('cantidad_minima_requerida')->nullable();
             
             $table->timestamps();

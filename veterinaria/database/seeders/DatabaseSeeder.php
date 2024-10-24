@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\Especie;
 use App\Models\Presentacion;
 use App\Models\Unidad;
 use App\Models\User;
@@ -33,15 +34,31 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Categoria::factory()->createMany([
-            ['nombre' => 'web'],
-            ['nombre' => 'local'],
+            ['nombre' => 'Medicamento'],
+            ['nombre' => 'Alimento'],
+            ['nombre' => 'Accesorio'],
+            
+        ]);
+
+        Especie::factory()->createMany([
+            ['nombre' => 'Perro'],
+            ['nombre' => 'Gato'],
+            ['nombre' => 'Otro'],
         ]);
 
         Presentacion::factory()->createMany([
-            ['nombre' => 'comprimidos'],
-            ['nombre' => 'inyectable'],
-            ['nombre' => 'granel'],
+            ['nombre' => 'comprimidos', 'id_categoria' => 1],
+            ['nombre' => 'inyectable', 'id_categoria' => 1],
+            ['nombre' => 'granel', 'id_categoria' => 1],
 
+            ['nombre' => 'Seco', 'id_categoria' => 2],
+            ['nombre' => 'Humedo', 'id_categoria' => 2],
+            ['nombre' => 'Snack', 'id_categoria' => 2],
+
+            ['nombre' => 'juguete', 'id_categoria' => 3],
+            ['nombre' => 'estetica e higiene', 'id_categoria' => 3],
+            ['nombre' => 'ropa', 'id_categoria' => 3],
+            ['nombre' => 'otro', 'id_categoria' => 3],
         ]);
 
         Unidad::factory()->createMany([

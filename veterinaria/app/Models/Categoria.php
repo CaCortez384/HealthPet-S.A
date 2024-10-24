@@ -26,4 +26,10 @@ class Categoria extends Model
             get: fn($value) => ucfirst($value)
         );
     }
+
+    // Relación con la tabla presentacion
+    public function presentacion()
+    {
+        return $this->belongsTo(Presentacion::class, 'id_presentacion');
+    }
 }
