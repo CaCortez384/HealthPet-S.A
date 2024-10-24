@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VentaController;
-
+use App\Http\Controllers\WebController;
 
 #rutas uri para acceder mediante el navegador
 
@@ -77,6 +77,19 @@ Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('rol
 Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin')->name('deuda.detalle');
 Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin')->name('pago.create'); // Formulario para pagar una deuda
 Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin')->name('pago.store'); // Guardar un pago
+
+
+
+// Rutas para la web aqui abajo
+
+Route::get('/home', [WebController::class, 'inicio'])->name('home');
+Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
+
+
+
+
+
+
 
 //Route::get('/prueba', function () {
     #crear producto

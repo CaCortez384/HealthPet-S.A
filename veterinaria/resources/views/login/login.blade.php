@@ -46,7 +46,12 @@
     }
  
 </style>
-
+@auth
+    {{-- Si el usuario está autenticado, redirigir a la página principal --}}
+    <script type="text/javascript">
+        window.location = "{{ route('welcome') }}";
+    </script>
+@endauth
 </head>
 <body id="fondo">
 
