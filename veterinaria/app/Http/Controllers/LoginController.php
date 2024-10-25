@@ -120,7 +120,7 @@ public function login(Request $request)
             return redirect()->intended(route('inicio'));
         } elseif ($user->role === 'user') {
             // Redirigir al index de la web para usuarios tipo 'user'
-            return redirect()->route('welcome');
+            return redirect()->route('home');
         }
     } else {
         // Redirige de nuevo al login en caso de fallo, puedes agregar un mensaje de error
