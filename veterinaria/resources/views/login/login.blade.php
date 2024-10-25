@@ -1,38 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-home>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
-    <script src="https://esm.run/@material/web/all.js" type="module"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link href="{{ asset('css\login-style.css') }}" rel="stylesheet">
-    
-<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-
-</head>
 
 <style>
     #fondo {
-        background-image: url('{{ asset('img/listo_fondo.jpeg') }}');
+        background-image: url('{{ asset('img/listo_fondo.png') }}');
         /* O usando la ruta directa */
         height: 80vh;
         /* Ajusta la altura al 100% de la ventana */
         background-size: cover;
         /* La imagen cubrirá todo el contenedor */
-        background-position: center;
-        /* Centra la imagen */
+
         background-repeat: no-repeat;
         /* Evita que la imagen se repita */
     }
     @media (max-width: 1000px) {
 
         #fondo {
-        background-image: url('{{ asset('img/listo_fondo.jpeg') }}');
+        background-image: url('{{ asset('img/listo_fondo.png') }}');
         /* O usando la ruta directa */
         height: 100vh;
         /* Ajusta la altura al 100% de la ventana */
@@ -52,8 +36,16 @@
         window.location = "{{ route('welcome') }}";
     </script>
 @endauth
-</head>
-<body id="fondo">
+
+<div id="fondo">
+    <script src="https://esm.run/@material/web/all.js" type="module"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="{{ asset('css\login-style.css') }}" rel="stylesheet">
+    
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+
 
 <div id="modal">
 
@@ -142,5 +134,5 @@
 
 
 
-</body>
-</html>
+</div>
+</x-home>

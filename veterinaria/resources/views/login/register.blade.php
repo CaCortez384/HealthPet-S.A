@@ -1,11 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-home>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>registrate</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+
+
+<style>
+    #fondo {
+        background-image: url('{{ asset('img/fondo-reg.png') }}');
+        /* O usando la ruta directa */
+        height: 80vh;
+        /* Ajusta la altura al 100% de la ventana */
+        
+        background-size: 100% 100%;
+        /* La imagen cubrirá todo el contenedor */
+
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
+    }
+    @media (max-width: 1300px) {
+
+        #fondo {
+        background-image: url('{{ asset('img/fondo-reg.png') }}');
+        /* O usando la ruta directa */
+        height: 100vh;
+        /* Ajusta la altura al 100% de la ventana */
+        background-size: 100% 100%;
+        /* La imagen cubrirá todo el contenedor */
+        background-position: center;
+        /* Centra la imagen */
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
+    }
+    }
+ 
+</style>
+
+<div id="fondo">
     <script src="https://esm.run/@material/web/all.js" type="module"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -14,43 +42,10 @@
 <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
 
-</head>
-
-<style>
-    #fondo {
-        background-image: url('{{ asset('img/listo_fondo.jpeg') }}');
-        /* O usando la ruta directa */
-        height: 80vh;
-        /* Ajusta la altura al 100% de la ventana */
-        background-size: cover;
-        /* La imagen cubrirá todo el contenedor */
-        background-position: center;
-        /* Centra la imagen */
-        background-repeat: no-repeat;
-        /* Evita que la imagen se repita */
-    }
-    @media (max-width: 1300px) {
-
-        #fondo {
-        background-image: url('{{ asset('img/listo_fondo.jpeg') }}');
-        /* O usando la ruta directa */
-        height: 100vh;
-        /* Ajusta la altura al 100% de la ventana */
-        background-size: cover;
-        /* La imagen cubrirá todo el contenedor */
-        background-position: center;
-        /* Centra la imagen */
-        background-repeat: repeat;
-        /* Evita que la imagen se repita */
-    }
-    }
- 
-</style>
-
-</head>
-<body id="fondo">
 
 <div id="modal">
+
+    
 
     @include('components.alert')
 
@@ -63,10 +58,19 @@
 @endsection
 <div id="logo">
 
+
     <img src="img\logo-vet.png" alt="logo" width="100px">
     <h5>Regístrate</h5>
 
+    <div id="volver-titulo" >
+        <md-icon-button id="openDialogButton" href="javascript:history.back()">
+            <md-icon>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
 </div>
+
+
 
 <form action="{{ route('validar-regitro') }}" method="POST" id="form">
     @csrf
@@ -166,5 +170,5 @@
 
 
 
-</body>
-</html>
+</div>
+</x-home>

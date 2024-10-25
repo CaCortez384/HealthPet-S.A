@@ -15,6 +15,19 @@
 <!-- Bootstrap 4 JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <!-- Google Material Symbols Sharp font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
+
+    <!-- Google Material Symbols Outlined font -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Material Web Components -->
+    <script src="https://esm.run/@material/web/all.js" type="module"></script>
+    
+    <!-- Boxicons CSS for icons -->
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+
 </head>
 
 <style>
@@ -42,6 +55,7 @@ i {
 #navbarSupportedContent{
 	overflow: hidden;
 	position: relative;
+  margin-top: 10px;
 }
 #navbarSupportedContent ul{
 	padding: 0px;
@@ -137,6 +151,7 @@ i {
 	    flex-flow: row nowrap;
 	    -ms-flex-pack: start;
 	    justify-content: right;
+
         
 	}
 	.navbar-expand-custom .navbar-nav {
@@ -284,12 +299,12 @@ jQuery(document).ready(function($){
 <header style="background-color: rgb(73, 97, 194)">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Jumbotron -->
-    <div class="p-3 text-center  " >
+    <div class="p-3 text-center border-bottom " >
       <div class="container">
         <div class="row">
           <!-- Left elements -->
           <div class="col-md-4 d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">
-            <a href="#!" class="ms-md-2">
+            <a href="{{ route('home') }}" class="ms-md-2">
                 <img src="{{ asset('img/logo-vet.png') }}" height="80" alt="Logo">
             </a>
           </div>
@@ -307,30 +322,50 @@ jQuery(document).ready(function($){
           <!-- Right elements -->
           <div class="col-md-4 d-flex justify-content-center justify-content-md-end align-items-center">
             <div class="d-flex">
-              <!-- Cart -->
-              <div>
-
-                <button type="button" class="btn btn-warning">carrito</button>
-
-              </div>
-
-              
-
-     
-  
             
               <!-- User -->
 
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Mi Cuenta
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">My profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
-                  </div>
+              <div class="nav_link dropdown" style="margin-right: 40px;">
+                <a href="#" id="inventarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <md-icon>account_circle</md-icon>
+                    <span class="nav_name">Mi Cuenta</span>
+                </a>
+                
+                <ul class="dropdown-menu" aria-labelledby="inventarioDropdown" style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+                    
+                    {{-- Menú para usuarios no autenticados --}}
+                    @guest
+                        <li><a class="dropdown-item" href="{{ route('login') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Inicia Sesión</a></li>
+                        <li><a class="dropdown-item" href="{{ route('registro') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Registrarse</a></li>
+                        <li><a class="dropdown-item" href="" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a></li>
+                    @endguest
+            
+                    {{-- Menú para usuarios autenticados --}}
+                    @auth
+                        <li><a class="dropdown-item" href="#" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi Perfil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}"  style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Cerrar Sesión</a></li>
+                        
+                        {{-- Formulario para cerrar sesión --}}
+
+                    @endauth
+            
+                </ul>
+            </div>
+              
+
+                            <!-- Cart -->
+                            <div class="nav_link dropdown" >
+                              <a href="#"  id="inventarioDropdown" role="button"
+                                  data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: white;display: flex; align-items: center; justify-content: center;  flex-direction: column;">
+                                  <md-icon>shopping_cart</md-icon>
+                                  <span class="nav_name">Carrito</span>
+                              </a>
+                              <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
+                                  style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+                                  <li><a class="dropdown-item" href=""
+                                          style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Ver Carrito</a></li>
+                              </ul>
+                            </div>
 
               </div>
             </div>
@@ -342,7 +377,8 @@ jQuery(document).ready(function($){
     <!-- Jumbotron -->
   
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-custom navbar-mainbg" >
+    <nav class="navbar navbar-expand-custom navbar-mainbg " >
+
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display: flex;justify-content: center; align-items: center; ">
             <ul class="navbar-nav ml-auto">
@@ -376,27 +412,10 @@ jQuery(document).ready(function($){
   </header>
   <!--Main Navigation-->
 
-
-
-
-
-
-
-  <h1>hola mundo</h1>
-  
-
-<div id="contenido">
+<div id="contenido-home">
     {{ $slot }}
 </div>
     
-
-
-
-
-
-
-
-
 
 
 <!-- Remove the container if you want to extend the Footer to full width. -->
