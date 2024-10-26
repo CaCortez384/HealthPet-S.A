@@ -123,8 +123,46 @@
 
                         <label>
                             Mostrar en la web
-                            <md-switch name="mostrar_web" id="mostrar_web" value="1"></md-switch>
+                            <md-switch id="mostrar_web" name="mostrar_web" value = 1 onchange="toggleCamposPrueba()"></md-switch>
                         </label>
+                        
+                        <div id="camposPrueba" style="display: none;">
+                            <h6>Propiedades web</h6>
+                            <md-divider inset></md-divider>
+                            <md-filled-text-field class="input-uniforme" label="Foto del producto" value=""
+                                name="foto_web" type="file" id="foto_web">
+                            </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Marca" value=""
+                                name="marca_web" id="marca_web">
+                            </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Contenido neto" value=""
+                                name="contenido_neto_web" type="number" id="contenido_neto_web">
+                            </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Descripcion para web" value=""
+                                name="descripcion_web" type="textarea" id="descripcion_web">
+                            </md-filled-text-field>
+                        </div>
+                        
+                        <script>
+                            function toggleCamposPrueba() {
+                                const mostrarWebSwitch = document.getElementById('mostrar_web');
+                                const camposPrueba = document.getElementById('camposPrueba');
+                                const requiredFields = ['marca_web', 'contenido_neto_web', 'descripcion_web'];
+
+                                camposPrueba.style.display = mostrarWebSwitch.selected ? 'grid' : 'none';
+                                if (mostrarWebSwitch.selected) {
+                                    camposPrueba.style.gridGap = '20px';
+                                    requiredFields.forEach(fieldId => {
+                                        document.getElementById(fieldId).setAttribute('required', 'required');
+                                    });
+                                } else {
+                                    requiredFields.forEach(fieldId => {
+                                        document.getElementById(fieldId).removeAttribute('required');
+                                    });
+                                }
+                            }
+                        </script>
+                        
 
                     </div>
                     <div id="boton-enviar">
