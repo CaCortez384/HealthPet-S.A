@@ -35,7 +35,8 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 
 // rutas para el login
-Route::view('/login',"login.login")->name('login');
+
+Route::get('/login', [LoginController::class, 'loguearse'])-> name('login');
 Route::view('/registro',"login.register")->name('registro');
 Route::view('/registro-admin',"login.registerAdmin")->middleware('role:admin')->name('registro-admin');
 Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->middleware('role:admin')->name('listar.usuarios');

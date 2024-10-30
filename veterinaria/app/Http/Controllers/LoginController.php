@@ -10,7 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 
 class LoginController extends Controller
+
+
 {
+
+    public function loguearse(){
+        return view('login.login');
+    }
+
     public function register(Request $request)
     {
 
