@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <!-- Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
@@ -29,6 +31,8 @@
     <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
 
 </head>
+
+
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -412,10 +416,58 @@ jQuery(document).ready(function($){
   </header>
   <!--Main Navigation-->
 
-<div id="contenido-home">
-    {{ $slot }}
+  <!-- Contenido dinámico -->
+  <div id="content-area" class="container mt-4">
+    <!-- Aquí se cargará el contenido dinámico -->
 </div>
-    
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Función para cargar contenido con AJAX y actualizar menú
+    function loadPage(url) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(response) {
+                $('#content-area').html(response);
+                history.pushState(null, null, url);
+                updateActiveMenu(url);
+                test();  // Recalcular la posición de la animación
+            },
+            error: function() {
+                alert('Error al cargar la página');
+            }
+        });
+    }
+
+    function updateActiveMenu(url) {
+        $('#navbarSupportedContent ul li').removeClass('active');
+        $('#navbarSupportedContent ul li a').each(function() {
+            if ($(this).attr('href') === url) {
+                $(this).parent().addClass('active');
+            }
+        });
+    }
+
+    $('nav a').on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        loadPage(url);
+    });
+
+    $(window).on('popstate', function() {
+        loadPage(location.pathname);
+    });
+
+    // Animación inicial
+    setTimeout(function() {
+        test();
+    }, 500);
+});
+</script>
 
 
 <!-- Remove the container if you want to extend the Footer to full width. -->

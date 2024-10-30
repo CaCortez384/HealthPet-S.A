@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 class WebController extends Controller
 {
     public function inicio() {
-        return view('web.home');
+        return view('web.partials.home');
     }
 
     public function prueba1() {
-        return view('web.prueba1');
+        return view('web.partials.prueba1');
     }
+
+
 }
