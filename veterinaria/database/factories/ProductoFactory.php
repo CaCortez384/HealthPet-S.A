@@ -19,26 +19,36 @@ class ProductoFactory extends Factory
         $idCategoria = $this->faker->numberBetween(1, 3);
         $stockType1 = $this->faker->randomElement(['inyectable', 'comprimidos', 'granel']);
 
-        $stockData = [];
-        if ($stockType1 === 'comprimidos') {
+        $idPresentacion = match ($idCategoria) {
+            1 => match ($stockType1) {
+                'inyectable' => 1,
+                'comprimidos' => 2,
+                'granel' => 3,
+            },
+            2 => $this->faker->numberBetween(4, 6),
+            3 => $this->faker->numberBetween(7, 10),
+        };
+
+        $stockData = [];    
+        if ($idPresentacion == 1) {
             $stockData = [
-                'stock_unidades' => $this->faker->randomNumber(1, 20),
-                'comprimidos_por_caja' => $this->faker->randomNumber(2, 30),
+                'stock_unidades' => $this->faker->numberBetween(1, 20),
+                'comprimidos_por_caja' => $this->faker->numberBetween(2, 30),
                 'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
             ];
             $stockData['stock_total_comprimidos'] = $stockData['stock_unidades'] * $stockData['comprimidos_por_caja'];
-        } elseif ($stockType1 === 'granel') {
+        } elseif ($idPresentacion == 2) {
             $stockData = [
-                'stock_unidades' => $this->faker->randomNumber(1, 20),
-                'unidades_por_envase' => $this->faker->randomNumber(2, 30),
+                'stock_unidades' => $this->faker->numberBetween(1, 20),
+                'unidades_por_envase' => $this->faker->numberBetween(2, 30),
                 'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
 
             ];
             $stockData['unidades_granel_total'] = $stockData['stock_unidades'] * $stockData['unidades_por_envase'];
-        } elseif ($stockType1 === 'inyectable') {
+        } elseif ($idPresentacion == 3) {
             $stockData = [
-                'stock_unidades' => $this->faker->randomNumber(1, 20),
-                'ml_por_unidad' => $this->faker->randomNumber(1, 0.5, 30),
+                'stock_unidades' => $this->faker->numberBetween(1, 20),
+                'ml_por_unidad' => $this->faker->randomFloat(1, 0.5, 30),
                 'precio_fraccionado' => $this->faker->numberBetween(1, 20000),
 
             ];

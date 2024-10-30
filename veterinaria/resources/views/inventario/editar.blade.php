@@ -100,80 +100,7 @@
                             </md-filled-text-field>
                         </div>
 
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                filtrarPresentaciones(); // Asegurarse de que se llama al cargar la página
 
-                                // Mostrar campos si ya hay una presentación seleccionada
-                                if ({{ $producto->id_presentacion ?? 'null' }} !== null) {
-                                    mostrarCamposAdicionales();
-                                }
-                            });
-
-                            function filtrarPresentaciones() {
-                                const categoriaId = document.getElementById('categoria').value || '';
-                                const presentacionSelect = document.getElementById('presentacion');
-                                const opciones = presentacionSelect.querySelectorAll('md-select-option');
-
-                                opciones.forEach(opcion => {
-                                    const opcionCategoria = opcion.getAttribute('data-categoria');
-                                    if (opcionCategoria == categoriaId || opcion.value == '') {
-                                        opcion.style.display = 'block';
-                                    } else {
-                                        opcion.style.display = 'none';
-                                    }
-                                });
-
-                                // Resetear la selección de presentación
-                                mostrarCamposAdicionales();
-                            }
-
-                            function mostrarCamposAdicionales() {
-                                const presentacion = document.getElementById('presentacion').value;
-                                const cantidadComprimidos = document.getElementById('cantidad_comprimidos');
-                                const cantidadMl = document.getElementById('cantidad_ml');
-                                const cantidadUnidades = document.getElementById('cantidad_unidades');
-                                const valorFraccionado = document.getElementById('precio_fraccionado');
-                                const vendeAGranelField = document.getElementById('vende_a_granel') || document.createElement('input');
-
-                                vendeAGranelField.type = 'hidden';
-                                vendeAGranelField.name = 'vende_a_granel';
-                                vendeAGranelField.id = 'vende_a_granel';
-                                document.getElementById('formulario-productos').appendChild(vendeAGranelField);
-
-                                // Ocultar todos los campos inicialmente
-                                cantidadComprimidos.style.display = 'none';
-                                cantidadMl.style.display = 'none';
-                                cantidadUnidades.style.display = 'none';
-                                valorFraccionado.style.display = 'none';
-
-                                // Mostrar el campo correspondiente según la selección
-                                if (presentacion == '1') {
-                                    cantidadComprimidos.style.display = 'block';
-                                    valorFraccionado.style.display = 'block';
-                                    vendeAGranelField.value = 0;
-                                } else if (presentacion == '2') {
-                                    cantidadMl.style.display = 'block';
-                                    valorFraccionado.style.display = 'block';
-                                    vendeAGranelField.value = 0;
-                                } else if (presentacion == '3') {
-                                    cantidadUnidades.style.display = 'block';
-                                    valorFraccionado.style.display = 'block';
-                                    vendeAGranelField.value = 1;
-                                }
-                            }
-
-                            document.getElementById('formulario-productos').addEventListener('submit', function() {
-                                document.getElementById('cantidad_comprimidos').style.display = 'block';
-                                document.getElementById('cantidad_ml').style.display = 'block';
-                                document.getElementById('cantidad_unidades').style.display = 'block';
-                                document.getElementById('precio_fraccionado').style.display = 'block';
-                                const vendeAGranelField = document.getElementById('vende_a_granel');
-                                if (!vendeAGranelField.value) {
-                                    vendeAGranelField.value = 0;
-                                }
-                            });
-                        </script>
 
                         <md-filled-text-field class="input-uniforme" label="Stock"
                             value="{{ $producto->stock_unidades }}" name="stock_unidades" min="0"
@@ -216,25 +143,81 @@
                             value="{{ $producto->descripcion }}" name="descripcion">
                         </md-filled-text-field>
 
+
                         <label>
                             Mostrar en la web
-                            <md-switch name="mostrar_web" id="mostrar_web" value="1"></md-switch>
+                            <md-switch id="mostrar_web" name="mostrar_web" value = 1 onchange="toggleCamposPrueba()"></md-switch>
                         </label>
 
                         <script>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                // Obtener el valor de PHP (1 o 0)
-                                var mostrarWeb = {{ $producto->mostrar_web }};
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const mostrarWebSwitch = document.getElementById('mostrar_web');
+                                const camposPrueba = document.getElementById('camposPrueba');
+                                const requiredFields = ['marca_web', 'contenido_neto_web', 'descripcion_web'];
 
-                                // Seleccionar el switch y cambiar su estado
-                                const switchElement = document.getElementById('mostrar_web');
-
-                                if (mostrarWeb == 1) {
-                                    switchElement.setAttribute('selected', 'true'); // Activar el switch
-                                } else {
-                                    switchElement.removeAttribute('selected'); // Desactivar el switch
+                                if ({{ $producto->mostrar_web }}) {
+                                    camposPrueba.style.display = 'grid';
+                                    camposPrueba.style.gridGap = '20px';
+                                    requiredFields.forEach(fieldId => {
+                                        document.getElementById(fieldId).setAttribute('required', 'required');
+                                    });
                                 }
+
+                                mostrarWebSwitch.addEventListener('change', function() {
+                                    if (mostrarWebSwitch.selected) {
+                                        camposPrueba.style.display = 'grid';
+                                        camposPrueba.style.gridGap = '20px';
+                                        requiredFields.forEach(fieldId => {
+                                            document.getElementById(fieldId).setAttribute('required', 'required');
+                                        });
+                                    } else {
+                                        camposPrueba.style.display = 'none';
+                                        requiredFields.forEach(fieldId => {
+                                            document.getElementById(fieldId).removeAttribute('required');
+                                        });
+                                    }
+                                });
                             });
+                        </script>
+
+                        <div id="camposPrueba" style="display: none;">
+                            <h6>Propiedades web</h6>
+                            <md-divider inset></md-divider>
+                            <md-filled-text-field class="input-uniforme" label="Foto del producto" name="foto_web"
+                                type="file" id="foto_web">
+                            </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Marca"
+                                value="{{ $detalleWebs ? $detalleWebs->marca : '' }}" name="marca_web"
+                                id="marca_web">
+                            </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Contenido neto"
+                                value="{{ $detalleWebs ? $detalleWebs->contenido_neto : '' }}"
+                                name="contenido_neto_web" type="number" id="contenido_neto_web">
+                            </md-filled-text-field>
+                            <md-filled-text-field class="input-uniforme" label="Descripcion para web"
+                                value="{{ $detalleWebs ? $detalleWebs->descripcion : '' }}" name="descripcion_web"
+                                type="textarea" id="descripcion_web">
+                            </md-filled-text-field>
+                        </div>
+
+                        <script>
+                            function toggleCamposPrueba() {
+                                const mostrarWebSwitch = document.getElementById('mostrar_web');
+                                const camposPrueba = document.getElementById('camposPrueba');
+                                const requiredFields = ['marca_web', 'contenido_neto_web', 'descripcion_web'];
+
+                                camposPrueba.style.display = mostrarWebSwitch.selected ? 'grid' : 'none';
+                                if (mostrarWebSwitch.selected) {
+                                    camposPrueba.style.gridGap = '20px';
+                                    requiredFields.forEach(fieldId => {
+                                        document.getElementById(fieldId).setAttribute('required', 'required');
+                                    });
+                                } else {
+                                    requiredFields.forEach(fieldId => {
+                                        document.getElementById(fieldId).removeAttribute('required');
+                                    });
+                                }
+                            }
                         </script>
 
                     </div>
@@ -250,67 +233,164 @@
                         El código ingresado ya se encuentra registrado. Por favor, elija otro.
                     </div>
 
-                    <script>
-                        function submitForm(event) {
-                            event.preventDefault(); // Evita el envío del formulario temporalmente
-                            const form = document.getElementById('formulario-productos');
-                            const codigoField = document.getElementById('codigo');
-                            const codigo = codigoField.value;
 
-                            if (codigo) {
-                                // Generar la URL de la ruta utilizando la función de Blade
-                                const url =
-                                    `{{ route('inventario.validarCodigoEdit', ['codigo' => 'CODIGO_PLACEHOLDER', 'id' => $producto->id]) }}`
-                                    .replace('CODIGO_PLACEHOLDER', codigo);
-
-                                // Realizar la solicitud AJAX para verificar si el código ya existe, excepto para el propio producto
-                                fetch(url)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.existe && data.id !== {{ $producto->id }}) {
-                                            // Mostrar la alerta de error
-                                            mostrarAlerta();
-                                            // Marcar el campo como inválido
-                                            codigoField.setCustomValidity('El código ya existe');
-                                        } else {
-                                            // Restablecer la validez si el código es único
-                                            codigoField.setCustomValidity('');
-                                            // Si el formulario es válido, enviarlo
-                                            if (form.checkValidity()) {
-                                                form.submit();
-                                            }
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Error al verificar el código:', error);
-                                    });
-                            } else {
-                                // Si el campo está vacío, restablecer la validez
-                                codigoField.setCustomValidity('');
-                                // Verifica si el formulario es válido antes de enviarlo
-                                if (form.checkValidity()) {
-                                    form.submit();
-                                } else {
-                                    // Si el formulario no es válido, muestra los mensajes de error
-                                    form.reportValidity();
-                                }
-                            }
-                        }
-
-                        function mostrarAlerta() {
-                            const alerta = document.getElementById('alerta-error');
-                            alerta.style.display = 'block';
-
-                            // Ocultar la alerta después de 5 segundos
-                            setTimeout(() => {
-                                alerta.style.display = 'none';
-                            }, 5000);
-                        }
-                    </script>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            filtrarPresentaciones(); // Asegurarse de que se llama al cargar la página
+
+            // Mostrar campos si ya hay una presentación seleccionada
+            if ({{ $producto->id_presentacion ?? 'null' }} !== null) {
+                mostrarCamposAdicionales();
+            }
+        });
+
+        function filtrarPresentaciones() {
+            const categoriaId = document.getElementById('categoria').value || '';
+            const presentacionSelect = document.getElementById('presentacion');
+            const opciones = presentacionSelect.querySelectorAll('md-select-option');
+
+            opciones.forEach(opcion => {
+                const opcionCategoria = opcion.getAttribute('data-categoria');
+                if (opcionCategoria == categoriaId || opcion.value == '') {
+                    opcion.style.display = 'block';
+                } else {
+                    opcion.style.display = 'none';
+                }
+            });
+
+            // Resetear la selección de presentación
+            mostrarCamposAdicionales();
+        }
+
+        function mostrarCamposAdicionales() {
+            const presentacion = document.getElementById('presentacion').value;
+            const cantidadComprimidos = document.getElementById('cantidad_comprimidos');
+            const cantidadMl = document.getElementById('cantidad_ml');
+            const cantidadUnidades = document.getElementById('cantidad_unidades');
+            const valorFraccionado = document.getElementById('precio_fraccionado');
+            const vendeAGranelField = document.getElementById('vende_a_granel') || document.createElement('input');
+
+            vendeAGranelField.type = 'hidden';
+            vendeAGranelField.name = 'vende_a_granel';
+            vendeAGranelField.id = 'vende_a_granel';
+            document.getElementById('formulario-productos').appendChild(vendeAGranelField);
+
+            // Ocultar todos los campos inicialmente
+            cantidadComprimidos.style.display = 'none';
+            cantidadMl.style.display = 'none';
+            cantidadUnidades.style.display = 'none';
+            valorFraccionado.style.display = 'none';
+
+            // Mostrar el campo correspondiente según la selección
+            if (presentacion == '1') {
+                cantidadComprimidos.style.display = 'block';
+                valorFraccionado.style.display = 'block';
+                vendeAGranelField.value = 0;
+            } else if (presentacion == '2') {
+                cantidadMl.style.display = 'block';
+                valorFraccionado.style.display = 'block';
+                vendeAGranelField.value = 0;
+            } else if (presentacion == '3') {
+                cantidadUnidades.style.display = 'block';
+                valorFraccionado.style.display = 'block';
+                vendeAGranelField.value = 1;
+            }
+        }
+
+        document.getElementById('formulario-productos').addEventListener('submit', function() {
+            document.getElementById('cantidad_comprimidos').style.display = 'block';
+            document.getElementById('cantidad_ml').style.display = 'block';
+            document.getElementById('cantidad_unidades').style.display = 'block';
+            document.getElementById('precio_fraccionado').style.display = 'block';
+            const vendeAGranelField = document.getElementById('vende_a_granel');
+            if (!vendeAGranelField.value) {
+                vendeAGranelField.value = 0;
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtener el valor de PHP (1 o 0)
+            var mostrarWeb = {{ $producto->mostrar_web }};
+
+            // Seleccionar el switch y cambiar su estado
+            const switchElement = document.getElementById('mostrar_web');
+
+            if (mostrarWeb == 1) {
+                switchElement.setAttribute('selected', 'true'); // Activar el switch
+            } else {
+                switchElement.removeAttribute('selected'); // Desactivar el switch
+            }
+        });
+    </script>
+
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault(); // Evita el envío del formulario temporalmente
+            const form = document.getElementById('formulario-productos');
+            const codigoField = document.getElementById('codigo');
+            const codigo = codigoField.value;
+
+            if (codigo) {
+                // Generar la URL de la ruta utilizando la función de Blade
+                const url =
+                    `{{ route('inventario.validarCodigoEdit', ['codigo' => 'CODIGO_PLACEHOLDER', 'id' => $producto->id]) }}`
+                    .replace('CODIGO_PLACEHOLDER', codigo);
+
+                // Realizar la solicitud AJAX para verificar si el código ya existe, excepto para el propio producto
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.existe && data.id !== {{ $producto->id }}) {
+                            // Mostrar la alerta de error
+                            mostrarAlerta();
+                            // Marcar el campo como inválido
+                            codigoField.setCustomValidity('El código ya existe');
+                        } else {
+                            // Restablecer la validez si el código es único
+                            codigoField.setCustomValidity('');
+                            // Si el formulario es válido, enviarlo
+                            if (form.checkValidity()) {
+                                form.submit();
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al verificar el código:', error);
+                    });
+            } else {
+                // Si el campo está vacío, restablecer la validez
+                codigoField.setCustomValidity('');
+                // Verifica si el formulario es válido antes de enviarlo
+                if (form.checkValidity()) {
+                    form.submit();
+                } else {
+                    // Si el formulario no es válido, muestra los mensajes de error
+                    form.reportValidity();
+                }
+            }
+        }
+
+        function mostrarAlerta() {
+            const alerta = document.getElementById('alerta-error');
+            alerta.style.display = 'block';
+
+            // Ocultar la alerta después de 5 segundos
+            setTimeout(() => {
+                alerta.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+
+
 
     <script>
         // Obtener los elementos del DOM

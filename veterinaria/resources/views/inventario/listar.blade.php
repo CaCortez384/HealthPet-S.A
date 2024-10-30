@@ -31,6 +31,13 @@
                             @endforeach
                         </md-filled-select>
 
+                        <div class="input-busqueda">
+                            <label for="mostrar_web">Producto web</label>
+                            <md-switch id="mostrar_web" name="mostrar_web" value="1" 
+                                {{ request('mostrar_web') == '1' ? 'checked' : '' }}>
+                            </md-switch>
+                        </div>
+
                         {{-- Botón para buscar un producto --}}
                         <a class="buscar-botons" href="{{ route('listar.productos') }}"
                             onclick="event.preventDefault(); this.closest('form').submit();">
@@ -50,8 +57,8 @@
                 </form>
             </div>
 
-            {{-- en esta seccion se muestran los filtros aplixados anteriormente --}}
-            @if ($filtros['nombre'] || $filtros['categoria'] || $filtros['codigo'])
+            {{-- en esta seccion se muestran los filtros aplicados anteriormente --}}
+            @if ($filtros['nombre'] || $filtros['categoria'] || $filtros['codigo'] || $filtros['mostrar_web'] !== null)
                 <div class="filtros-activos">
                     <h5>Filtros Aplicados:</h5>
                     <md-chip-set>
@@ -69,6 +76,11 @@
                         @if ($filtros['codigo'])
                             <md-assist-chip>Código: "{{ $filtros['codigo'] }}"
                                 <md-icon slot="icon">barcode_scanner</md-icon>
+                            </md-assist-chip>
+                        @endif
+                        @if ($filtros['mostrar_web'] !== null)
+                            <md-assist-chip>Mostrar en Web: "{{ $filtros['mostrar_web'] == '1' ? 'Sí' : 'No' }}"
+                                <md-icon slot="icon">public</md-icon>
                             </md-assist-chip>
                         @endif
                     </md-chip-set>
@@ -106,9 +118,10 @@
                     @forelse($productos as $producto)
                         <tr>
                             <th scope="row">
-                                
                                 {{ $producto->nombre }}
-                                
+                                @if ($producto->mostrar_web)
+                                    <md-icon>public</md-icon>
+                                @endif
                             </th>
                             <td>{{ $producto->codigo }}</td>
                             <td><strong>$</strong>{{ $producto->precio_de_venta }}</td>

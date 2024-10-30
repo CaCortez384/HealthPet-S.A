@@ -9,36 +9,42 @@ use App\Models\Categoria;
 use App\Models\Unidad;
 use App\Models\Presentacion;
 use App\Models\Especie;
+use App\Models\DetalleWeb;
 
 class InventarioController extends Controller
 {
-    public function listar(Request $request) {
+    public function listar(Request $request)
+    {
         $query = Producto::query();
-    
+
         // Obtener los filtros de la solicitud desde el formulario de la vista
         $nombre = $request->input('nombre');
         $categoria = $request->input('categoria');
         $codigo = $request->input('codigo');
+        $mostrar_web = $request->input('mostrar_web');
 
-    
         // Aplicar filtros a la consulta
         if ($nombre) {
             $query->where('nombre', 'like', '%' . $nombre . '%');
         }
-    
+
         if ($categoria) {
             $query->where('id_categoria', $categoria);
         }
-    
+
         if ($codigo) {
             $query->where('codigo', 'like', '%' . $codigo . '%');
         }
-    
+
+        if ($mostrar_web !== null) {
+            $query->where('mostrar_web', $mostrar_web);
+        }
+
         // Usar paginate() para obtener productos en lugar de get()
         $productos = $query->paginate(20); // Paginación de 20 productos por página
         $categorias = Categoria::all(); // Obtener las categorías disponibles
         $presentaciones = Presentacion::all(); // Obtener las presentaciones disponibles
-    
+
         // Pasar los filtros aplicados a la vista además de los productos y categorías
         return view('inventario.listar', [
             'productos' => $productos,
@@ -48,14 +54,16 @@ class InventarioController extends Controller
                 'nombre' => $nombre,
                 'categoria' => $categoria,
                 'codigo' => $codigo,
+                'mostrar_web' => $mostrar_web,
             ],
         ]);
     }
 
-    
+
 
     //funcion para redirigir y crear nuevos productos
-    public function crear(){
+    public function crear()
+    {
         //obtiene las categorias y unidades de la base de datos para mostrar en los select
         $categorias = Categoria::all();
         $unidades = Unidad::all();
@@ -65,9 +73,10 @@ class InventarioController extends Controller
     }
 
 
-    
+
     //guarda los datos del formulario
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         // Validar el código antes de guardar
         $existe = Producto::where('codigo', $request->codigo)->exists();
         if ($existe) {
@@ -101,6 +110,18 @@ class InventarioController extends Controller
         $producto->cantidad_minima_requerida = $request->cantidad_minima_requerida;
         $producto->mostrar_web = $request->input('mostrar_web');
         $producto->save();
+
+        $mostrar_web = $request->input('mostrar_web');
+        if ($mostrar_web) {
+            $detalleWeb = new DetalleWeb();
+            $detalleWeb->id_producto = $producto->id;
+            $detalleWeb->marca = $request->marca_web;
+            $detalleWeb->descripcion = $request->descripcion_web;
+            $detalleWeb->imagen = $request->foto_web;
+            $detalleWeb->contenido_neto = $request->contenido_neto_web;
+            $detalleWeb->save();
+        }
+
         //redirecciona a la lista de productos atraves de la ruta listar.productos (al retornar una vista return view('inventario/listar') no funciona;)
         return redirect()->route('listar.productos')->with('success', 'Producto agregado correctamente.');
     }
@@ -125,19 +146,23 @@ class InventarioController extends Controller
 
 
 
-    public function editar($producto){
+    public function editar($producto)
+    {
         $categorias = Categoria::all();
         $unidades = Unidad::all();
         $presentaciones = Presentacion::all();
         $especies = Especie::all();
-        
+        $detalleWebs = DetalleWeb::where('id_producto', $producto)->first();
+
         $producto = Producto::find($producto);
         //formatea la fecha de vencimiento
-        return view('inventario/editar',compact('producto'), ['categorias' => $categorias, 'unidades' => $unidades, 'presentaciones' => $presentaciones, 'especies' => $especies]);
+        return view('inventario/editar', compact('producto'), ['categorias' => $categorias, 'unidades' => $unidades, 'presentaciones' => $presentaciones, 'especies' => $especies, 'detalleWebs' => $detalleWebs]);
     }
 
-    public function update(Request $request, $producto){
+    public function update(Request $request, $producto)
+    {
         $producto = Producto::find($producto);
+        $detalleWeb = DetalleWeb::where('id_producto', $producto->id)->first();
         if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
         }
@@ -162,6 +187,10 @@ class InventarioController extends Controller
             'unidades_por_envase' => 'nullable|integer',
             'precio_fraccionado' => 'nullable|numeric',
             'vende_a_granel' => 'nullable|boolean',
+            'marca_web' => 'nullable|string',
+            'descripcion_web' => 'nullable|string',
+            'foto_web' => 'nullable|string',
+            'contenido_neto_web' => 'nullable|string',
         ]);
 
         // Actualizar los valores del producto
@@ -220,14 +249,31 @@ class InventarioController extends Controller
         }
         $producto->save();
 
+        $mostrar_web = $request->input('mostrar_web');
+
+        if ($mostrar_web == 1) {
+            if ($detalleWeb === null) {
+            $detalleWeb = new DetalleWeb();
+            $detalleWeb->id_producto = $producto->id;
+            }
+            $detalleWeb->marca = $request->marca_web;
+            $detalleWeb->descripcion = $request->descripcion_web;
+            $detalleWeb->imagen = $request->foto_web;
+            $detalleWeb->contenido_neto = $request->contenido_neto_web;
+            $detalleWeb->save();
+        }
+
+
         return redirect()->route('listar.productos')->with('success', 'Producto actualizado correctamente');
     }
 
     /* BELEN EDITO AQUII */
-    public function detalle($id) {
+    public function detalle($id)
+    {
         // Busca el producto por ID
         $producto = Producto::find($id);
-        
+
+
         // Verifica si el producto existe
         if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
@@ -237,13 +283,15 @@ class InventarioController extends Controller
         return view('inventario.detalle', compact('producto'));
     }
 
-    public function detallee($id) {
+    public function detallee($id)
+    {
         // Busca el producto por ID
         $producto = Producto::find($id);
         $categorias = Categoria::all();
         $unidades = Unidad::all();
         $presentaciones = Presentacion::all();
-        
+        $detalleWeb = DetalleWeb::where('id_producto', $id)->first();
+
         // Verifica si el producto existe
         if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
@@ -254,13 +302,15 @@ class InventarioController extends Controller
             'producto' => $producto,
             'categorias' => $categorias,
             'unidades' => $unidades,
-            'presentaciones' => $presentaciones
+            'presentaciones' => $presentaciones,
+            'detalleWeb'  => $detalleWeb
         ]);
     }
 
-/* BELEN EDITO AQUII */
+    /* BELEN EDITO AQUII */
 
-    public function eliminar($producto){
+    public function eliminar($producto)
+    {
         $producto = Producto::find($producto);
         if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
@@ -269,8 +319,8 @@ class InventarioController extends Controller
         return redirect()->route('listar.productos');
     }
 
-    public function detalle2(){
+    public function detalle2()
+    {
         return view('inventario/detalle2');
     }
-
 }
