@@ -9,6 +9,7 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 
+
 #rutas uri para acceder mediante el navegador
 
 Route::get('/', [HomeController::class, 'index'] )->middleware('role:admin')->name('inicio');
@@ -88,7 +89,8 @@ Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('r
 Route::get('/home', [WebController::class, 'inicio'])->name('home');
 Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
 Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
- 
+Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
+
 // rutas para el webpay
 Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
 Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');

@@ -247,8 +247,9 @@
                             Book</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Components</a>
+                        <a class="nav-link" href="{{ route('petshop') }}"><i class="far fa-clone"></i>PetShop</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);"><i
                                 class="far fa-calendar-alt"></i>Calendar</a>

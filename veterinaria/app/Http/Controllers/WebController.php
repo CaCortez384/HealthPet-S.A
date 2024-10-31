@@ -1,8 +1,10 @@
 <?php
 
+// WebController.php
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Producto; // Asegúrate de importar tu modelo de Producto
 use Illuminate\Http\Request;
 
 class WebController extends Controller
@@ -15,10 +17,15 @@ class WebController extends Controller
         return view('web.prueba1');
     }
 
-
-
-    // Método agregado para PetShop
+    // Método para PetShop
     public function petShop() {
-        return view('web.petshop'); 
+        // Aquí puedes filtrar los productos que pertenecen a la categoría de alimentos
+        // Supongamos que '1' es el id de la categoría de alimentos en tu base de datos
+        $productos = Producto::where('id_categoria', 2)->get(); 
+
+        return view('web.petshop', compact('productos')); 
     }
 }
+
+    
+
