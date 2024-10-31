@@ -389,9 +389,10 @@ jQuery(document).ready(function($){
                 <li class="nav-item {{ Request::routeIs('home') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('home') }}"><i class="far fa-address-book"></i>Address Book</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Components</a>
+                <li class="nav-item {{ Request::routeIs('petshop') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('petshop') }}"><i class="far fa-clone"></i>PetShop</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Calendar</a>
                 </li>

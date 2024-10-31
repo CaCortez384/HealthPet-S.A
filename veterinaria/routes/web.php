@@ -85,7 +85,10 @@ Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('r
 Route::get('/home', [WebController::class, 'inicio'])->name('home');
 Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
 
+Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
 
+ 
+ 
 
 
 
