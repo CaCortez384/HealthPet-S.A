@@ -1,17 +1,4 @@
 <x-home>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
-    <h1>perro pendejo</h1>
+    <h1>Dashboard</h1>
+    <p>Bienvenido al panel de control.</p>
 </x-home>

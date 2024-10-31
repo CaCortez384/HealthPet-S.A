@@ -121,7 +121,8 @@
                             </div>
                             <div class="card">
                                 <p>¿Disponible para venta web?</p>
-                                <h5>{{ $producto->mostrar_web == 1 ? 'Sí' : ($producto->mostrar_web == 0 ? 'No' : 'No especificado') }}</h5>
+                                <h5>{{ $producto->mostrar_web == 1 ? 'Sí' : ($producto->mostrar_web == 0 ? 'No' : 'No especificado') }}
+                                </h5>
                             </div>
                         </div>
                     </div>
@@ -139,7 +140,8 @@
                         </div>
                         <div class="card">
                             <p>Vencimiento</p>
-                            <h5>{{ $producto->fecha_de_vencimiento ? $producto->fecha_de_vencimiento->format('d/m/Y') : 'No especificado' }}</h5>
+                            <h5>{{ $producto->fecha_de_vencimiento ? $producto->fecha_de_vencimiento->format('d/m/Y') : 'No especificado' }}
+                            </h5>
                         </div>
                         <div class="card">
                             <p>Fecha de Creación</p>
@@ -197,5 +199,34 @@
 
             });
         </script>
+    </div>
+
+    @if ($producto->mostrar_web == 1)
+        <div class="web-container">
+            <div id="contenedor">
+                <div class="web-info">
+                    <h4>Información web</h4>
+                    <div class="info-cards">
+                        <div class="card">
+                            <p>Imagen</p>
+                            <h5>{{ $detalleWeb ? $detalleWeb->imagen : '' }}</h5>
+                        </div>
+                        <div class="card">
+                            <p>Marca</p>
+                            <h5>{{ $detalleWeb ? $detalleWeb->marca : '' }}</h5>
+                        </div>
+                        <div class="card">
+                            <p>Fecha de Creación</p>
+                            <h5>{{ $detalleWeb ? $detalleWeb->contenido_neto : '' }}</h5>
+                        </div>
+                        <div class="card">
+                            <p>Descripción</p>
+                            <h5>{{ $detalleWeb ? $detalleWeb->descripcion : '' }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 </x-app-layout>

@@ -15,6 +15,8 @@ class WebController extends Controller
         return view('web.prueba1');
     }
 
+
+
     // Método agregado para PetShop
     public function petShop() {
         return view('web.petshop'); 

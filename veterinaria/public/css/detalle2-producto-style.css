@@ -10,29 +10,76 @@
     margin-bottom: 10px;
 }
 
+.web-container {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.web-container .info-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch; /* Alinea las tarjetas al mismo alto */
+    width: 100%;
+    padding: 0 10%;
+    gap: 20px; /* Espacio entre tarjetas */
+}
+
+.web-container .card {
+    background-color: #e8def8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1; /* Todas las tarjetas ocupan el mismo ancho */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.web-container .card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.web-container .card h5 {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Media Query para dispositivos móviles */
+@media (max-width: 768px) {
+    .web-container .info-cards {
+        flex-direction: column;
+        padding: 0 5%;
+    }
+    
+    .web-container .card {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}
+
+
 .bottom-container {
     display: flex;
     width: 100%;
+    gap: 20px; /* Añade un espacio entre los contenedores */
 }
 
-.left-container{
-    flex: 1;
-    padding-right: 10px;
-    box-sizing: border-box;
-    padding-bottom: 10px;
-}
-
+.left-container,
 .right-container {
-    flex: 1;
-    padding-left: 10px;
+    flex: 1; /* Ambos contenedores ocupan el mismo espacio */
+    padding: 10px;
     box-sizing: border-box;
-    padding-bottom: 10px;
-
+    background-color: white; /* Opcional: fondo para distinguir visualmente */
+    border: 1px solid #ddd;
+    border-radius: 20px;
 }
-
-
-
-
 
 .product-details-container {
     background-color: white;
@@ -41,7 +88,6 @@
     color: black;
     font-family: 'Roboto', sans-serif;
 }
-
 
 .header2 {
     display: flex;
@@ -103,7 +149,7 @@
 }
 
 .pharmacy-data, .other-info {
-    width: 48%;
+    width: 50%;
 }
 
 .info-cards {

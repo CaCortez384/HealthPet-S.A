@@ -7,6 +7,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\WebpayController;
 
 #rutas uri para acceder mediante el navegador
 
@@ -35,7 +36,8 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 
 // rutas para el login
-Route::view('/login',"login.login")->name('login');
+
+Route::get('/login', [LoginController::class, 'loguearse'])-> name('login');
 Route::view('/registro',"login.register")->name('registro');
 Route::view('/registro-admin',"login.registerAdmin")->middleware('role:admin')->name('registro-admin');
 Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->middleware('role:admin')->name('listar.usuarios');
@@ -73,10 +75,11 @@ Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->middlew
 Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->middleware('role:admin')->name('buscar-productos');
 
 //rutas para deudas
-Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('role:admin')->name('deudas.index');
-Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin')->name('deuda.detalle');
-Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin')->name('pago.create'); // Formulario para pagar una deuda
-Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin')->name('pago.store'); // Guardar un pago
+Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
+Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
+Route::post('/webpay/status', [WebpayController::class, 'getStatus'])->name('webpay.status');
+Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay.refund');
+
 
 
 
@@ -89,6 +92,12 @@ Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
 
  
  
+// rutas para el webpay
+
+Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
+Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
+Route::post('/webpay/status', [WebpayController::class, 'getStatus'])->name('webpay.status');
+Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay.refund');
 
 
 
