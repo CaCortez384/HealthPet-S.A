@@ -75,25 +75,21 @@ Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->middlew
 Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->middleware('role:admin')->name('buscar-productos');
 
 //rutas para deudas
-Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
-Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
-Route::post('/webpay/status', [WebpayController::class, 'getStatus'])->name('webpay.status');
-Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay.refund');
+//rutas para deudas
+Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('role:admin')->name('deudas.index');
+Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin')->name('deuda.detalle');
+Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin')->name('pago.create'); // Formulario para pagar una deuda
+Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin')->name('pago.store'); // Guardar un pago
 
 
 
 
 // Rutas para la web aqui abajo
-
 Route::get('/home', [WebController::class, 'inicio'])->name('home');
 Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
-
 Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
-
- 
  
 // rutas para el webpay
-
 Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
 Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
 Route::post('/webpay/status', [WebpayController::class, 'getStatus'])->name('webpay.status');

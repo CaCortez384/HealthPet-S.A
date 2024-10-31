@@ -77,6 +77,10 @@ class InventarioController extends Controller
     //guarda los datos del formulario
     public function store(Request $request)
     {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Asegúrate de validar la imagen
+        ]);
+
         // Validar el código antes de guardar
         $existe = Producto::where('codigo', $request->codigo)->exists();
         if ($existe) {
@@ -114,12 +118,20 @@ class InventarioController extends Controller
         $mostrar_web = $request->input('mostrar_web');
         if ($mostrar_web) {
             $detalleWeb = new DetalleWeb();
-            $detalleWeb->id_producto = $producto->id;
+
+            $file = $request->file('image');
+            $path = $file->store('productos', 'public'); // Guarda la imagen en el disco 'public'
+            $detalleWeb->imagen = $path; // Asigna la ruta de la imagen al modelo
+            $detalleWeb->id_producto = $producto->id; // Asegúrate de que el producto se haya guardado antes
             $detalleWeb->marca = $request->marca_web;
             $detalleWeb->descripcion = $request->descripcion_web;
-            $detalleWeb->imagen = $request->foto_web;
             $detalleWeb->contenido_neto = $request->contenido_neto_web;
             $detalleWeb->save();
+
+
+            // Crear el detalle web y guardar la imagen
+
+
         }
 
         //redirecciona a la lista de productos atraves de la ruta listar.productos (al retornar una vista return view('inventario/listar') no funciona;)
@@ -168,30 +180,7 @@ class InventarioController extends Controller
         }
 
         // Validar los datos del request
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'especie' => 'required|integer',
-            'codigo' => 'required|string|max:255',
-            'precio_de_compra' => 'required|numeric',
-            'precio_de_venta' => 'required|numeric',
-            'unidad' => 'nullable|integer',
-            'categoria' => 'required|integer',
-            'stock_unidades' => 'required|integer',
-            'descripcion' => 'nullable|string',
-            'fecha_de_vencimiento' => 'nullable|date',
-            'cantidad_minima_requerida' => 'nullable|integer',
-            'mostrar_web' => 'nullable|boolean',
-            'presentacion' => 'required|integer',
-            'comprimidos_por_caja' => 'nullable|integer',
-            'ml_por_unidad' => 'nullable|numeric',
-            'unidades_por_envase' => 'nullable|integer',
-            'precio_fraccionado' => 'nullable|numeric',
-            'vende_a_granel' => 'nullable|boolean',
-            'marca_web' => 'nullable|string',
-            'descripcion_web' => 'nullable|string',
-            'foto_web' => 'nullable|string',
-            'contenido_neto_web' => 'nullable|string',
-        ]);
+
 
         // Actualizar los valores del producto
         $producto->nombre = $request->nombre;
@@ -253,13 +242,20 @@ class InventarioController extends Controller
 
         if ($mostrar_web == 1) {
             if ($detalleWeb === null) {
-            $detalleWeb = new DetalleWeb();
-            $detalleWeb->id_producto = $producto->id;
+                $detalleWeb = new DetalleWeb();
+                $detalleWeb->id_producto = $producto->id;
             }
             $detalleWeb->marca = $request->marca_web;
             $detalleWeb->descripcion = $request->descripcion_web;
-            $detalleWeb->imagen = $request->foto_web;
             $detalleWeb->contenido_neto = $request->contenido_neto_web;
+            // Verificar si se subió una nueva imagen
+            if ($request->hasFile('imagen')) {
+                $file = $request->file('imagen');
+                $filename = $producto->id . '_' . time() . '.' . $file->getClientOriginalExtension(); // Nombre único basado en el ID del producto y timestamp
+                $path = $file->storeAs('productos', $filename, 'public'); // Almacena en storage/app/public/productos
+                $detalleWeb->imagen = $path; // Guarda la ruta de la imagen en el modelo
+            }
+
             $detalleWeb->save();
         }
 
