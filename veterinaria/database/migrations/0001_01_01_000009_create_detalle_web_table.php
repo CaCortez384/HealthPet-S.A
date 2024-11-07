@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('id_producto')->constrained('producto'); // Relación con la tabla producto
             $table->string('marca')->nullable(); // Marca del producto
             $table->string('descripcion')->nullable(); // Descripción del producto
-            $table->string('imagen')->nullable(); // Imagen del producto
             $table->decimal('contenido_neto', 8, 2)->nullable(); // Contenido neto del producto
             $table->timestamps();
         });

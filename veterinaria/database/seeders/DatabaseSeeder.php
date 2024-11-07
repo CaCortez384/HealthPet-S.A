@@ -77,6 +77,6 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'Transferencia Bancaria', 'descripcion' => 'Pago mediante transferencia bancaria'],
         ]);
 
-        Producto::factory()->count(40)->create();
+        // Producto::factory()->count(40)->create();
     }
 }

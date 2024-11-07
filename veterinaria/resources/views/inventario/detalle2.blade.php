@@ -209,7 +209,7 @@
                     <div class="info-cards">
                         <div class="card">
                             <p>Imagen</p>                            
-                            <img src="{{ asset('storage/' . $detalleWeb->imagen) }}" alt="Imagen del producto">
+                            <img src="{{ asset('storage/' . $producto->imagen) }}" alt="Imagen del producto">
 
                         </div>
                         <div class="card">

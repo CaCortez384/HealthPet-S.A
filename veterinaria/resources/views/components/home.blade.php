@@ -34,11 +34,9 @@
     <link href="{{ asset('css\layout-home-style\layout-home.css') }}" rel="stylesheet">
 </head>
 
-
-
+<x-carrito-slide class="carrito-slide" />
 
 <body>
-
     <script>
         // ---------Responsive-navbar-active-animation-----------
         function test() {
@@ -204,29 +202,24 @@
 
                             <!-- Cart -->
                             <div class="nav_link dropdown">
-                                <a href="#" id="inventarioDropdown" role="button" data-bs-toggle="dropdown"
+                                <a href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown" <a
+                                    href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                     style="text-decoration: none; color: white;display: flex; align-items: center; justify-content: center;  flex-direction: column;">
                                     <md-icon>shopping_cart</md-icon>
                                     <span class="nav_name">Carrito</span>
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
-                                    style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
-                                    <li><a class="dropdown-item" href=""
-                                            style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Ver
-                                            Carrito</a></li>
-                                </ul>
                             </div>
-
                         </div>
                     </div>
+                    <!-- Right elements -->
                 </div>
-                <!-- Right elements -->
             </div>
+            <!-- Right elements -->
+        </div>
         </div>
 
         <!-- Jumbotron -->
-
         <!-- Navbar -->
         <nav class="navbar navbar-expand-custom navbar-mainbg ">
 
@@ -246,7 +239,7 @@
                         <a class="nav-link" href="{{ route('home') }}"><i class="far fa-address-book"></i>Address
                             Book</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Request::routeIs('petshop') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('petshop') }}"><i class="far fa-clone"></i>PetShop</a>
                     </li>
 
@@ -264,7 +257,6 @@
             </div>
         </nav>
         <!-- Navbar -->
-
 
 
 

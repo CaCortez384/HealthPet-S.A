@@ -113,15 +113,14 @@ class InventarioController extends Controller
         $producto->fecha_de_vencimiento = $request->fecha_de_vencimiento;
         $producto->cantidad_minima_requerida = $request->cantidad_minima_requerida;
         $producto->mostrar_web = $request->input('mostrar_web');
+        $file = $request->file('image');
+        $path = $file->store('productos', 'public'); // Guarda la imagen en el disco 'public'
+        $producto->imagen = $path; // Asigna la ruta de la imagen al modelo
         $producto->save();
 
         $mostrar_web = $request->input('mostrar_web');
         if ($mostrar_web) {
             $detalleWeb = new DetalleWeb();
-
-            $file = $request->file('image');
-            $path = $file->store('productos', 'public'); // Guarda la imagen en el disco 'public'
-            $detalleWeb->imagen = $path; // Asigna la ruta de la imagen al modelo
             $detalleWeb->id_producto = $producto->id; // Asegúrate de que el producto se haya guardado antes
             $detalleWeb->marca = $request->marca_web;
             $detalleWeb->descripcion = $request->descripcion_web;

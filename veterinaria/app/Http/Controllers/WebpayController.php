@@ -13,7 +13,7 @@ class WebpayController extends Controller
         $response = $transaction->create(
             'order' . rand(),
             'session' . rand(),
-            15000,
+            150000000,
             route('webpay.result')
         );
 
