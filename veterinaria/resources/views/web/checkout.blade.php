@@ -1,15 +1,28 @@
 <x-home>
+
     <link href="{{ asset('css/home/checkout-style.css') }}" rel="stylesheet">
     <div class="checkout-container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <!-- Formulario de Pago -->
         <div class="payment-form">
             <h2>Detalles de Pago</h2>
-            <form action="{{ route('procesarPago') }}" method="POST">
+            <form action="{{ route('checkout.procesarPago') }}" method="POST">
                 @csrf
                 @if (Auth::check())
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre1" value="{{ Auth::user()->name }}" readonly disabled required>
+                        <input type="text" id="nombre1" value="{{ Auth::user()->name }}" readonly disabled
+                            required>
                         <input type="hidden" name="nombre" value="{{ Auth::user()->name }}">
                     </div>
                     <div class="form-group">
@@ -54,15 +67,20 @@
                     <input type="hidden" name="productos[{{ $id }}][cantidad]"
                         value="{{ $details['quantity'] }}">
                     <input type="hidden" name="productos[{{ $id }}][descuento]"
-                        value="{{ $descuentos[$id] }}">
+                        value="{{ isset($descuentos[$id]) ? $descuentos[$id] : 0 }}">
+                    <input type="hidden" name="productos[{{ $id }}][precio]"
+                        value="{{ $details['precio'] }}">
                 @endforeach
+                <div class="campos-ocultos">
+                    <!-- Campo oculto para el total -->
 
-                <!-- Campo oculto para el total -->
-                <input type="hidden" name="total" value="{{ $total_pedido }}">
-                <input type="hidden" name="total_pedido" value="{{ $subtotal2 }}">
+                    <input type="hidden" name="total_pedido" id="subtotal">
+                    <input type="hidden" name="total" id="total_pedido">
+                </div>
 
 
                 <button type="submit" class="checkout-button">Realizar Pago</button>
+
             </form>
         </div>
         <!-- Información del Carrito -->
@@ -153,11 +171,14 @@
                         $('.total span:last-child').text('$' + number_format(cartData.total_pedido, 0,
                             ',', '.'));
 
+
                         $.each(cartData.descuentos, function(id, descuento) {
                             $('.descuento[data-product-id="' + id + '"] span:last-child').text(
                                 '$' + number_format(descuento, 0, ',', '.'));
                         });
 
+                        $('#subtotal').val(cartData.subtotal);
+                        $('#total_pedido').val(cartData.total_pedido);
                         bindCartButtons();
                     },
                     error: function(error) {

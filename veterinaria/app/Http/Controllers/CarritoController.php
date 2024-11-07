@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
+use Transbank\Webpay\WebpayPlus\Transaction;
 
 
 class CarritoController extends Controller
 {
-
 
 
     public function addToCart($id)
@@ -26,9 +26,7 @@ class CarritoController extends Controller
 
         $cart = session()->get('cart', []);
 
-        // Formatear el precio a peso chileno
-        $precio_formateado = number_format($producto->precio_de_venta, 0, ',', '.');
-
+        
         // Añadir o incrementar la cantidad del producto en el carrito
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
@@ -107,7 +105,8 @@ class CarritoController extends Controller
 
         foreach ($cart as $id => $details) {
             $cantidad = $details['quantity'];
-            $precio = $details['precio'];
+            $precio = str_replace('.', '', $details['precio']);
+            $precio = (float) $precio;
 
             // Calcular el subtotal considerando siempre el precio completo
             $subtotal2 += $precio * $cantidad;
@@ -115,6 +114,7 @@ class CarritoController extends Controller
             // Si hay stock, cobra el precio completo; si no, cobra la mitad
             if ($details['stock'] > 0) {
                 $total_con_stock += $precio * $cantidad;
+                $descuentos[$id] = 0;
             } else {
                 // Calcula el 50% del precio por cantidad y lo almacena en el arreglo de descuentos
                 $descuento_individual = ($precio * $cantidad) / 2;
@@ -128,7 +128,6 @@ class CarritoController extends Controller
 
         return view('web.checkout', compact('cart', 'subtotal2', 'total_pedido', 'total_con_stock', 'total_sin_stock', 'descuentos'));
     }
-
 
 
     public function processCheckout(Request $request)
@@ -221,7 +220,7 @@ class CarritoController extends Controller
             // Limpiar carrito y confirmar éxito
             session()->forget('cart');
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'Pago realizado con éxito.']);
+            return response()->json(['success' => true, 'message' => 'Pago realizado con éxito.', 'pedido' => $pedido]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'Hubo un problema al procesar el pedido. Inténtalo de nuevo.'], 500);
@@ -260,11 +259,11 @@ class CarritoController extends Controller
         $pedido->email_cliente = $request->correo;
         $pedido->telefono_cliente = $request->telefono;
         $pedido->total =  $request->total_pedido;
-        $pedido->monto_pagado = $request->total;// Total pagado si se descuenta stock, de lo contrario 0
+        $pedido->monto_pagado = $request->total; // Total pagado si se descuenta stock, de lo contrario 0
         $pedido->estado_pago = $descontarStock ? 1 : 0; // Estado de pago según si se descuenta stock
         $pedido->estado_pedido = $descontarStock ? 2 : 0; // Estado del pedido según si se descuenta stock
         $pedido->save();
-        
+
         // Crear detalles del pedido
         $this->crearDetallesPedido($pedido->id, $request->productos, $request);
 
@@ -275,15 +274,14 @@ class CarritoController extends Controller
     {
         foreach ($productos as $productoData) {
             $producto = Producto::find($productoData['id_producto']);
-
+    
             if ($producto) {
-                $precio = (float) $producto->precio_de_venta;
                 $detallePedido = new DetallePedido();
                 $detallePedido->pedido_id = $pedidoId;
                 $detallePedido->id_producto = $producto->id;
                 $detallePedido->cantidad = $productoData['cantidad'];
-                $detallePedido->precio = $precio;
-                $detallePedido->subtotal = $precio * $productoData['cantidad'];
+                $detallePedido->precio = str_replace('.', '', $productoData['precio']);
+                $detallePedido->subtotal = $request->total_pedido;
                 $detallePedido->descuento = $productoData['descuento'] ?? 0;
                 $detallePedido->tipo_pago_id = $request->metodo_pago;
                 $detallePedido->nota = $request->nota ?? '';
@@ -294,9 +292,6 @@ class CarritoController extends Controller
             }
         }
     }
-
-
-
 
     private function procesarPagoConAPI($datos)
     {

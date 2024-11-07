@@ -90,6 +90,7 @@ Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('r
 Route::get('/home', [WebController::class, 'inicio'])->name('home');
 Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
 Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
+
 // Ruta para agregar al carrito
 Route::get('cart', [CarritoController::class, 'showCartSlide']);
 Route::get('add-to-cart/{id}', [CarritoController::class, 'addToCart']);
@@ -97,9 +98,17 @@ Route::delete('remove-from-cart', [CarritoController::class, 'removeCartItem']);
 Route::get('clear-cart', [CarritoController::class, 'clearCart']);
 Route::post('/update-cart', [CarritoController::class, 'updateCart'])->name('update-cart');
 Route::get('/get-cart-content', [CarritoController::class, 'getCartContent'])->name('getCartContent');
+
+
 //rutas para checkout
 Route::get('/checkout', [CarritoController::class, 'showCheckout'])->name('checkout');
 Route::post('/checkout', [CarritoController::class, 'procesarPago'])->name('procesarPago');
+Route::post('/checkout/procesar-pago', [CarritoController::class, 'procesarPago'])->name('checkout.procesarPago');
+Route::get('/webpay/confirmar-pago', [CarritoController::class, 'confirmPago'])->name('webpay.confirm');
+Route::get('/webpay/estado-pago', [CarritoController::class, 'webpayStatus'])->name('checkout.status');
+
+
+
 // rutas para el webpay
 Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
 Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
