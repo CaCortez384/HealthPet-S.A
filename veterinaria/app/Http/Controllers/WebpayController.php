@@ -3,22 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pedido;
 use Transbank\Webpay\WebpayPlus\Transaction;
 
 class WebpayController extends Controller
 {
-    public function init()
+    public function init(Request $request)
     {
+        $pedidoId = $request->input('pedido_id');
         $transaction = new Transaction();
+
+        // Configura el valor de la transacción basado en el pedido
+        $pedido = Pedido::findOrFail($pedidoId);
+        $amount = $pedido->total;
+
         $response = $transaction->create(
-            'order' . rand(),
+            'order' . $pedidoId,
             'session' . rand(),
-            15000,
-            route('webpay.result')
+            $amount,
+            route('webpay.result', ['pedido_id' => $pedidoId])
         );
 
         return view('webpay.init', ['response' => $response]);
     }
+
 
     public function getResult(Request $request)
     {
@@ -26,8 +34,17 @@ class WebpayController extends Controller
         $transaction = new Transaction();
         $response = $transaction->commit($token);
 
-        return view('webpay.result', ['response' => $response]);
+        // Actualizar el estado del pedido tras el pago exitoso
+        if ($response->isApproved()) {
+            $pedido = Pedido::findOrFail($request->input('pedido_id'));
+            $pedido->estado_pago = 1;
+            $pedido->estado_pedido = 2;
+            $pedido->save();
+        }
+
+        return view('web.estadoPago', ['response' => $response]);
     }
+
 
     public function getStatus(Request $request)
     {

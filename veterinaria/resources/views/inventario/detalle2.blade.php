@@ -208,8 +208,9 @@
                     <h4>Información web</h4>
                     <div class="info-cards">
                         <div class="card">
-                            <p>Imagen</p>
-                            <h5>{{ $detalleWeb ? $detalleWeb->imagen : '' }}</h5>
+                            <p>Imagen</p>                            
+                            <img src="{{ asset('storage/' . $producto->imagen) }}" alt="Imagen del producto">
+
                         </div>
                         <div class="card">
                             <p>Marca</p>

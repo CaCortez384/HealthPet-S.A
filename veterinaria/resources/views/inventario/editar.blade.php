@@ -183,9 +183,46 @@
                         <div id="camposPrueba" style="display: none;">
                             <h6>Propiedades web</h6>
                             <md-divider inset></md-divider>
-                            <md-filled-text-field class="input-uniforme" label="Foto del producto" name="foto_web"
-                                type="file" id="foto_web">
-                            </md-filled-text-field>
+                            <label for="image">Subir imagen:</label>
+                            <input type="file" name="image" id="image" accept="image/*">
+                            <img id="imagePreview" src="{{ $producto ? asset('storage/' . $producto->imagen) : '#' }}" alt="Vista previa de la imagen" style="display: {{ $detalleWebs && $detalleWebs->imagen ? 'block' : 'none' }}; max-width: 100%; height: auto; margin-top: 10px;">
+                            <button type="button" id="cancelImageUpload" style="display: none;">Cancelar</button>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const imageInput = document.getElementById('image');
+                                    const imagePreview = document.getElementById('imagePreview');
+                                    const cancelImageUpload = document.getElementById('cancelImageUpload');
+                                    const originalImageSrc = imagePreview.src;
+
+                                    // Mostrar la imagen precargada si existe
+                                    if (imagePreview.src && imagePreview.src !== '#') {
+                                        imagePreview.style.display = 'block';
+                                    }
+
+                                    imageInput.addEventListener('change', function(event) {
+                                        const file = event.target.files[0];
+                                        const reader = new FileReader();
+
+                                        reader.onload = function(e) {
+                                            imagePreview.src = e.target.result;
+                                            imagePreview.style.display = 'block';
+                                            cancelImageUpload.style.display = 'inline-block'; // Mostrar el botón cancelar
+                                        };
+
+                                        if (file) {
+                                            reader.readAsDataURL(file);
+                                        }
+                                    });
+
+                                    cancelImageUpload.addEventListener('click', function() {
+                                        imageInput.value = ''; // Clear the file input
+                                        imagePreview.src = originalImageSrc; // Reset to original image
+                                        imagePreview.style.display = originalImageSrc !== '#' ? 'block' : 'none';
+                                        cancelImageUpload.style.display = 'none'; // Ocultar el botón cancelar
+                                    });
+                                });
+                            </script>
                             <md-filled-text-field class="input-uniforme" label="Marca"
                                 value="{{ $detalleWebs ? $detalleWebs->marca : '' }}" name="marca_web"
                                 id="marca_web">

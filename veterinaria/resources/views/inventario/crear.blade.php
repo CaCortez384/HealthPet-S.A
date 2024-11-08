@@ -31,7 +31,9 @@
 
             <div>
 
-                <form action="{{ route('inventario.store') }}" method="POST" id="formulario-productos">
+                <form action="{{ route('inventario.store') }}" method="POST" id="formulario-productos"
+                    enctype="multipart/form-data">
+
                     @csrf
                     <div id="formulario-crear">
 
@@ -123,15 +125,35 @@
 
                         <label>
                             Mostrar en la web
-                            <md-switch id="mostrar_web" name="mostrar_web" value = 1 onchange="toggleCamposPrueba()"></md-switch>
+                            <md-switch id="mostrar_web" name="mostrar_web" value=1
+                                onchange="toggleCamposPrueba()"></md-switch>
                         </label>
-                        
+
                         <div id="camposPrueba" style="display: none;">
                             <h6>Propiedades web</h6>
                             <md-divider inset></md-divider>
-                            <md-filled-text-field class="input-uniforme" label="Foto del producto" value=""
-                                name="foto_web" type="file" id="foto_web">
-                            </md-filled-text-field>
+
+                            <label for="image">Subir imagen:</label>
+                            <input type="file" name="image" id="image" accept="image/*" required>
+                            <img id="imagePreview" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
+
+                            <script>
+                                document.getElementById('image').addEventListener('change', function(event) {
+                                    const file = event.target.files[0];
+                                    const reader = new FileReader();
+
+                                    reader.onload = function(e) {
+                                        const preview = document.getElementById('imagePreview');
+                                        preview.src = e.target.result;
+                                        preview.style.display = 'block';
+                                    };
+
+                                    if (file) {
+                                        reader.readAsDataURL(file);
+                                    }
+                                });
+                            </script>
+
                             <md-filled-text-field class="input-uniforme" label="Marca" value=""
                                 name="marca_web" id="marca_web">
                             </md-filled-text-field>
@@ -142,7 +164,7 @@
                                 name="descripcion_web" type="textarea" id="descripcion_web">
                             </md-filled-text-field>
                         </div>
-                        
+
                         <script>
                             function toggleCamposPrueba() {
                                 const mostrarWebSwitch = document.getElementById('mostrar_web');
@@ -162,7 +184,7 @@
                                 }
                             }
                         </script>
-                        
+
 
                     </div>
                     <div id="boton-enviar">

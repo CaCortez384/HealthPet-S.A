@@ -100,5 +100,10 @@ class Producto extends Model
     {
         return $this->hasMany(DetalleVenta::class, 'id_producto');
     }
+
+    public function detallePedidos()
+    {
+        return $this->hasMany(DetallePedido::class, 'id_producto');
+    }
     
 }

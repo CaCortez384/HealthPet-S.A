@@ -88,6 +88,7 @@ body {
 	background-color: #ffffff;
 	transition: transform 0.4s;
 	padding: 15px;
+	box-sizing: border-box; /* Ensure all items have the same box-sizing */
 }
 
 .products-list .product-item:hover {
