@@ -62,7 +62,7 @@
 
         <div class="user-contenido">
 
-            <md-filled-text-field label="Nombre de Usuario" id="name" name="name" type="text" value="{{old('name', $user->name)}}" required autofocus autocomplete="name" >
+            <md-filled-text-field label="Nombre de Usuario" supporting-text="*required" id="name" name="name" type="text" value="{{old('name', $user->name)}}" required autofocus autocomplete="name" >
             </md-filled-text-field>
 
             <x-alert class="mt-2" :messages="$errors->get('name')" />
@@ -70,7 +70,7 @@
 
         <div class="user-contenido">
 
-            <md-filled-text-field label="Correo de Usuario" id="email" name="email" type="email" value="{{old('email', $user->email)}}" required autocomplete="username" >
+            <md-filled-text-field label="Correo de Usuario" supporting-text="*required" id="email" name="email" type="email" value="{{old('email', $user->email)}}" required autocomplete="username" >
             </md-filled-text-field>
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -91,6 +91,16 @@
                 </div>
             @endif
         </div>
+
+
+        <div class="user-contenido">
+
+            <md-filled-text-field label="Celular"     prefix-text="+569" minlength="8"  maxlength="8" id="movile" name="movile" type="tel" value="{{old('movile', $user->movile)}}" required  autocomplete="movile" >
+            </md-filled-text-field>
+
+            <x-alert class="mt-2" :messages="$errors->get('movile')" />
+        </div>
+
 
         <div class="user-contenido">
 

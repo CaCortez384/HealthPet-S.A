@@ -25,11 +25,19 @@
                             required>
                         <input type="hidden" name="nombre" value="{{ Auth::user()->name }}">
                     </div>
+
                     <div class="form-group">
                         <label for="correo">Correo</label>
                         <input type="email" id="correo1" value="{{ Auth::user()->email }}" readonly disabled
                             required>
                         <input type="hidden" name="correo" value="{{ Auth::user()->email }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" name="telefono" pattern="\+569[0-9]{8}"
+                            placeholder="+569XXXXXXXX" value="+569 {{ Auth::user()->movile }}" required disabled
+                            oninput="if(!this.value.startsWith('+569')) this.value='+569' + this.value.slice(4)">
                     </div>
                 @else
                     <div class="form-group">
@@ -40,13 +48,15 @@
                         <label for="correo">Correo</label>
                         <input type="email" id="correo" name="correo" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" name="telefono" pattern="\+569[0-9]{8}"
+                            placeholder="+569XXXXXXXX" value="+569" required
+                            oninput="if(!this.value.startsWith('+569')) this.value='+569' + this.value.slice(4)">
+                    </div>
                 @endif
-                <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="text" id="telefono" name="telefono" pattern="\+569[0-9]{8}"
-                        placeholder="+569XXXXXXXX" value="+569" required
-                        oninput="if(!this.value.startsWith('+569')) this.value='+569' + this.value.slice(4)">
-                </div>
+
                 <div class="form-group">
                     <label for="metodo_pago">Método de Pago</label>
                     <select id="metodo_pago" name="metodo_pago" required>

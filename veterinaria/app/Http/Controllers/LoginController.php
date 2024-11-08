@@ -32,9 +32,13 @@ class LoginController extends Controller
                 'name' => 'required|string|max:50',
                 'email' => 'required|string|email|max:50|unique:users,email', // Añade unique para validar que no esté registrado
                 'password' => 'required|string|min:4',
+                'movile' => 'required|integer|digits:8', // Agrega las reglas para el número de celular
             ], [
                 'name.required' => 'El campo nombre es obligatorio.',
                 'name.max' => 'El nombre no puede tener más de 50 caracteres.',
+                'movile.required' => 'El campo Celular es obligatorio.', // Mensaje personalizado para el celular
+                'movile.integer' => 'El campo Celular debe ser un número entero.', // Validación para asegurarse de que sea numérico
+                'movile.digits' => 'El campo Celular debe tener exactamente 8 dígitos.', // Validación para la cantidad de dígitos
                 'email.required' => 'El campo correo electrónico es obligatorio.',
                 'email.email' => 'El correo electrónico debe ser una dirección de correo válida.',
                 'email.max' => 'El correo electrónico no puede tener más de 50 caracteres.',
@@ -50,6 +54,7 @@ class LoginController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->movile = $request->movile;
         $user->password = Hash::make($request->password);
         $user->save();
 
