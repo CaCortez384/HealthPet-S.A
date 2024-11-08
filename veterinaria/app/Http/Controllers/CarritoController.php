@@ -26,7 +26,7 @@ class CarritoController extends Controller
 
         $cart = session()->get('cart', []);
 
-        
+
         // Añadir o incrementar la cantidad del producto en el carrito
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
@@ -137,13 +137,13 @@ class CarritoController extends Controller
             return redirect()->back()->with('error', 'El carrito está vacío.');
         }
 
-        // Aquí puedes agregar la lógica para procesar el pago y crear la orden
+        // Crear el pedido sin confirmación de pago
+        $pedido = $this->crearPedido($request, false);
 
-        // Limpiar el carrito después de procesar el checkout
-        session()->forget('cart');
-
-        return redirect()->route('checkout.success')->with('success', 'Compra realizada con éxito.');
+        // Redirigir a WebpayController para procesar el pago
+        return redirect()->route('webpay.init', ['pedido_id' => $pedido->id]);
     }
+
 
     public function checkoutSuccess()
     {
@@ -274,7 +274,7 @@ class CarritoController extends Controller
     {
         foreach ($productos as $productoData) {
             $producto = Producto::find($productoData['id_producto']);
-    
+
             if ($producto) {
                 $detallePedido = new DetallePedido();
                 $detallePedido->pedido_id = $pedidoId;

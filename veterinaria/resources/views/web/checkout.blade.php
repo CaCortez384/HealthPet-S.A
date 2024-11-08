@@ -16,7 +16,7 @@
         <!-- Formulario de Pago -->
         <div class="payment-form">
             <h2>Detalles de Pago</h2>
-            <form action="{{ route('checkout.procesarPago') }}" method="POST">
+            <form action="{{ route('processCheckout') }}" method="POST">
                 @csrf
                 @if (Auth::check())
                     <div class="form-group">

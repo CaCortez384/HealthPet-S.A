@@ -102,16 +102,17 @@ Route::get('/get-cart-content', [CarritoController::class, 'getCartContent'])->n
 
 //rutas para checkout
 Route::get('/checkout', [CarritoController::class, 'showCheckout'])->name('checkout');
-Route::post('/checkout', [CarritoController::class, 'procesarPago'])->name('procesarPago');
-Route::post('/checkout/procesar-pago', [CarritoController::class, 'procesarPago'])->name('checkout.procesarPago');
-Route::get('/webpay/confirmar-pago', [CarritoController::class, 'confirmPago'])->name('webpay.confirm');
+Route::post('/checkout', [CarritoController::class, 'processCheckout'])->name('processCheckout');
+// Route::post('/checkout/procesar-pago', [CarritoController::class, 'procesarPago'])->name('checkout.procesarPago');
+
 Route::get('/webpay/estado-pago', [CarritoController::class, 'webpayStatus'])->name('checkout.status');
 
 
 
 // rutas para el webpay
 Route::get('/webpay/init', [WebpayController::class, 'init'])->name('webpay.init');
-Route::post('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
+Route::post('/webpay/result', [CarritoController::class, 'confirmPago'])->name('webpay.result');
+Route::get('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
 Route::post('/webpay/status', [WebpayController::class, 'getStatus'])->name('webpay.status');
 Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay.refund');
 
