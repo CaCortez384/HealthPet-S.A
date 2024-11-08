@@ -9,6 +9,12 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 
+
+// rutas login nueva
+use App\Http\Controllers\ProfileController;
+
+
+
 #rutas uri para acceder mediante el navegador
 
 Route::get('/', [HomeController::class, 'index'] )->middleware('role:admin')->name('inicio');
@@ -37,7 +43,7 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 // rutas para el login
 
-Route::get('/login', [LoginController::class, 'loguearse'])-> name('login');
+Route::get('/inicio-sesion', [LoginController::class, 'loguearse'])-> name('login');
 Route::view('/registro',"login.register")->name('registro');
 Route::view('/registro-admin',"login.registerAdmin")->middleware('role:admin')->name('registro-admin');
 Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->middleware('role:admin')->name('listar.usuarios');
@@ -143,5 +149,16 @@ Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay
 
 //});
 
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/mis-pedidos', [ProfileController::class, 'pedidos'])->name('profile.pedidos');
+});
+
+require __DIR__.'/auth.php';
 
 

@@ -88,6 +88,11 @@
         <label for="checkbox-two">Recordar</label>
     </div>
 
+    <a id="registrar-a"   href="{{ route('password.request') }}">
+        {{ __('Olvidaste tu contraseña?') }}
+    </a>
+
+
     <p>¿No tienes cuenta? <a id="registrar-a"  href="{{ route('registro') }}">Ir a registro</a></p>
 
     <a class="buscar-botons" href="#" onclick="event.preventDefault(); validateAndSubmit();">

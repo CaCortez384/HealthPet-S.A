@@ -167,7 +167,8 @@ jQuery(document).ready(function($){
             
                     {{-- Menú para usuarios autenticados --}}
                     @auth
-                        <li><a class="dropdown-item" href="#" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi Perfil</a></li>
+                        <li><a class="dropdown-item" href="{{route('profile.edit')}}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi Perfil</a></li>
+                        <li><a class="dropdown-item" href="{{route('profile.edit')}}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mis Pedidos</a></li>
                         <li><a class="dropdown-item" href="{{ route('logout') }}"  style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Cerrar Sesión</a></li>
                         
                         {{-- Formulario para cerrar sesión --}}
