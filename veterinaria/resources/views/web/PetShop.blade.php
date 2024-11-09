@@ -4,7 +4,13 @@
     <script src="{{ asset('js/jquery-pet.js') }}" defer></script>
     <script src="{{ asset('js/scriptPetShop.js') }}" defer></script>
     <!-- Contenido de la página -->
+
+
     <div class="wrap">
+        @include('components.alert')
+        @section('content')
+            @include('components.alert')
+        @endsection
         <h1>Escoge un producto</h1>
         <div class="store-wrapper">
             <!-- Listado de categorías -->
@@ -26,8 +32,8 @@
             <!-- Listado de productos -->
             <section class="products-list">
                 @foreach ($productos as $producto)
-                
-                    <div class="product-item" category="{{ $producto->id_categoria }}" onclick="goToDetail({{ $producto->id }})">
+                    <div class="product-item" category="{{ $producto->id_categoria }}"
+                        onclick="goToDetail({{ $producto->id }})">
                         <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}">
                         <div class="product-details">
                             <h4>Marca: {{ $producto->nombre }}</h4>
@@ -51,10 +57,10 @@
                     </div>
                 @endforeach
                 <script>
-    function goToDetail(productId) {
-        window.location.href = '{{ url('detalle') }}/' + productId;
-    }
-</script>
+                    function goToDetail(productId) {
+                        window.location.href = '{{ url('detalle') }}/' + productId;
+                    }
+                </script>
             </section>
         </div>
     </div>

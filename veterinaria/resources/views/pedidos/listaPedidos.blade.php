@@ -3,7 +3,6 @@
     
     <div>
         @include('components.alert')
-        {{-- alerta que muestra cuando una venta se creo con éxito --}}
         @section('content')
             @include('components.alert')
         @endsection

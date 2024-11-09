@@ -34,7 +34,16 @@ class WebpayController extends Controller
     {
         $token = $request->input('token_ws');
         $transaction = new Transaction();
-        $response = $transaction->commit($token);
+
+        try {
+            // Intentamos confirmar la transacción
+            $response = $transaction->commit($token);
+        } catch (\Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException $e) {
+            // Captura la excepción si la transacción no puede ser confirmada
+            session()->flash('errors', 'El pago fue cancelado o no aprobado. Intenta nuevamente.');
+            // Redirigir a la ruta 'web.petshop' con el mensaje de error
+            return redirect()->route('petshop')->with('errors', 'El pago fue cancelado o no aprobado. Intenta nuevamente.');
+        }
 
         // Crear instancia de CarritoController y llamar a procesarPagoConAPI
         $carritoController = new CarritoController();
@@ -78,19 +87,19 @@ class WebpayController extends Controller
             if (!$hayFaltaDeStock) {
                 session()->forget('cart');
             }
+
+            return view('web.estadoPago', ['response' => $response, 'isPaymentApproved' => $isPaymentApproved]);
         } else {
             // Si la transacción no fue aprobada o fue cancelada
             $pedido->monto_pagado = 0;
             $pedido->estado_pago = 0;
             $pedido->save();
+
+            // Devolver una respuesta JSON con error
+            // Redirigir a la ruta 'web.petshop' con el mensaje de error
+            return redirect()->route('petshop')->with('errors', 'El pago fue cancelado o no aprobado. Intenta nuevamente.');
         }
-
-        return view('web.estadoPago', ['response' => $response, 'isPaymentApproved' => $isPaymentApproved]);
     }
-
-
-
-
 
 
     public function getStatus(Request $request)
