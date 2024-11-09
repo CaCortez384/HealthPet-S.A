@@ -78,11 +78,14 @@
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
                                 producto</a></li>
                         <li><a class="dropdown-item" href="{{ route('ventas.create') }}"
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva venta</a></li>
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva
+                                venta</a></li>
                         <li><a class="dropdown-item" href="{{ route('deudas.index') }}"
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Deudores</a></li>
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Deudores</a>
+                        </li>
                         <li><a class="dropdown-item" href="{{ route('registro-admin') }}"
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo administrador</a></li>
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nuevo
+                                administrador</a></li>
                     </ul>
                 </div>
 
@@ -108,47 +111,48 @@
                     </ul>
 
                     <div style="margin-right: 50px">
-                        <a href="#" id="inventarioDropdown1" role="button" 
-                            aria-expanded="false">
+                        <a href="#" id="inventarioDropdown1" role="button" aria-expanded="false">
                             <md-fab class="boton-tabla" size="small" aria-label="Imprimir">
                                 <md-icon slot="icon">notifications</md-icon>
                             </md-fab>
                         </a>
 
 
-                                <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
-            style="background-color: #f5f5f5; color: #333; border-radius: 20px; 
+                        <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
+                            style="background-color: #f5f5f5; color: #333; border-radius: 20px; 
                 box-shadow: var(--md-sys-elevation-3); display: none; 
                 max-height: 300px; overflow-y: auto; padding: 10px; 
                 margin-left: -188px; /* Sin margen izquierdo para acercarlo a la izquierda */
-                width: 300px;"> 
+                width: 300px;">
 
-            <li style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">
-                Notificaciones de Stock Bajo
-            </li>
+                            <li style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">
+                                Notificaciones de Stock Bajo
+                            </li>
 
-            @if ($productosBajoStock->count() > 0)
-                @foreach ($productosBajoStock as $producto)
-                    <li style="padding: 10px; background-color: #fff; 
+                            @if ($productosBajoStock->count() > 0)
+                                @foreach ($productosBajoStock as $producto)
+                                    <li
+                                        style="padding: 10px; background-color: #fff; 
                                 border-radius: 10px; margin: 5px 0; 
                                 display: flex; align-items: center; 
                                 border: 1px solid #ddd;">
-                        
-                        <i class="fas fa-exclamation-triangle" style="color: orange; margin-right: 10px;"></i>
-                        
-                        <div>
-                            <strong>{{ $producto->nombre }}</strong> - 
-                            <span style="color: red;">Stock: {{ $producto->stock_unidades }}</span> 
-                            (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
-                        </div>
-                    </li>
-                @endforeach
-            @else
-                <li style="padding: 10px; background-color: #fff; border-radius: 10px; margin: 5px 0;">
-                    No hay productos con stock bajo.
-                </li>
-            @endif
-        </ul>
+
+                                        <i class="fas fa-exclamation-triangle"
+                                            style="color: orange; margin-right: 10px;"></i>
+
+                                        <div>
+                                            <strong>{{ $producto->nombre }}</strong> -
+                                            <span style="color: red;">Stock: {{ $producto->stock_unidades }}</span>
+                                            (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @else
+                                <li style="padding: 10px; background-color: #fff; border-radius: 10px; margin: 5px 0;">
+                                    No hay productos con stock bajo.
+                                </li>
+                            @endif
+                        </ul>
 
 
 
@@ -157,47 +161,47 @@
 
                     <script>
                         // Control del evento click en el botón del dropdown
-document.getElementById('inventarioDropdown1').addEventListener('click', function (event) {
-    event.preventDefault(); // Evita el comportamiento por defecto del enlace
+                        document.getElementById('inventarioDropdown1').addEventListener('click', function(event) {
+                            event.preventDefault(); // Evita el comportamiento por defecto del enlace
 
-    // Selecciona el menú dropdown actual
-    const dropdownMenu = this.nextElementSibling;
+                            // Selecciona el menú dropdown actual
+                            const dropdownMenu = this.nextElementSibling;
 
-    // Cierra otros dropdowns abiertos
-    document.querySelectorAll('.dropdown-menu-a').forEach(function (menu) {
-        if (menu !== dropdownMenu) {
-            menu.style.display = 'none'; // Cierra otros dropdowns
-        }
-    });
+                            // Cierra otros dropdowns abiertos
+                            document.querySelectorAll('.dropdown-menu-a').forEach(function(menu) {
+                                if (menu !== dropdownMenu) {
+                                    menu.style.display = 'none'; // Cierra otros dropdowns
+                                }
+                            });
 
-    // Alterna la visibilidad del menú dropdown actual
-    if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
-        dropdownMenu.style.display = 'block';
-    } else {
-        dropdownMenu.style.display = 'none';
-    }
-});
+                            // Alterna la visibilidad del menú dropdown actual
+                            if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+                                dropdownMenu.style.display = 'block';
+                            } else {
+                                dropdownMenu.style.display = 'none';
+                            }
+                        });
 
-// Evita que el menú se cierre al hacer clic en un ítem
-document.querySelectorAll('.dropdown-menu-a').forEach(function (item) {
-    item.addEventListener('click', function (event) {
-        event.stopPropagation(); // Detiene la propagación del clic para que no cierre el menú
-    });
-});
+                        // Evita que el menú se cierre al hacer clic en un ítem
+                        document.querySelectorAll('.dropdown-menu-a').forEach(function(item) {
+                            item.addEventListener('click', function(event) {
+                                event.stopPropagation(); // Detiene la propagación del clic para que no cierre el menú
+                            });
+                        });
 
-// Cierra el dropdown si se hace clic fuera
-document.addEventListener('click', function (event) {
-    const dropdown = document.getElementById('inventarioDropdown1');
-    const dropdownMenu = dropdown.nextElementSibling;
-    
-    // Cierra el menú solo si el clic ocurre fuera del dropdown
-    if (!dropdown.contains(event.target)) {
-        dropdownMenu.style.display = 'none';
-    }
-});
+                        // Cierra el dropdown si se hace clic fuera
+                        document.addEventListener('click', function(event) {
+                            const dropdown = document.getElementById('inventarioDropdown1');
+                            const dropdownMenu = dropdown.nextElementSibling;
+
+                            // Cierra el menú solo si el clic ocurre fuera del dropdown
+                            if (!dropdown.contains(event.target)) {
+                                dropdownMenu.style.display = 'none';
+                            }
+                        });
                     </script>
 
-                                           
+
 
                     <div id="usuario">
                         @auth
@@ -206,7 +210,8 @@ document.addEventListener('click', function (event) {
                                 <!-- Primera letra mayúscula y demás en minúscula -->
                                 <a href="{{ route('logout') }}">
                                     Cerrar Sesi&oacute;n
-                                    <md-icon slot="icon" style="  --md-icon-size: 13px;">power_settings_new</md-icon></a>
+                                    <md-icon slot="icon"
+                                        style="  --md-icon-size: 13px;">power_settings_new</md-icon></a>
                             </div>
 
                             <img id="avatar"
@@ -296,12 +301,26 @@ document.addEventListener('click', function (event) {
                     <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
                         style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
                         <li><a class="dropdown-item" href=""
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva cita</a></li>
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Nueva
+                                cita</a></li>
                         <li><a class="dropdown-item" href=""
-                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Proximas citas</a></li>
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Proximas
+                                citas</a></li>
                     </ul>
-                </div
-
+                </div>
+                <div class="nav_link dropdown">
+                    <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class='bx bx-time'></i>
+                        <span class="nav_name">Pedidos</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
+                        style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
+                        <li><a class="dropdown-item" href=""
+                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Lista
+                                de pedidos</a></li>
+                    </ul>
+                </div>
                 <div class="nav_link dropdown">
                     <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -319,6 +338,8 @@ document.addEventListener('click', function (event) {
                     </ul>
                 </div>
 
+
+
             </div>
 
         </div>
@@ -327,7 +348,7 @@ document.addEventListener('click', function (event) {
     <div id="contenido">
         {{ $slot }}
     </div>
-    
+
     <script src="{{ asset('js\layout-js.js') }}"></script>
 </body>
 

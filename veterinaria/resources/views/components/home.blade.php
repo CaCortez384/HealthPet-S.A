@@ -125,7 +125,7 @@
     </script>
 
 
-
+            
     <!--Main Navigation-->
     <header style="background-color: rgb(73, 97, 194)">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -172,25 +172,16 @@
 
                                     {{-- Menú para usuarios no autenticados --}}
                                     @guest
-                                        <li><a class="dropdown-item" href="{{ route('login') }}"
-                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Inicia
-                                                Sesión</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('registro') }}"
-                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Registrarse</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href=""
-                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a>
-                                        </li>
+                                    <li><a class="dropdown-item" href="{{ route('login') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Inicia Sesión</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('registro') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Registrarse</a></li>
+                                    <li><a class="dropdown-item" href="" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a></li>
                                     @endguest
 
                                     {{-- Menú para usuarios autenticados --}}
                                     @auth
-                                        <li><a class="dropdown-item" href="#"
-                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi
-                                                Perfil</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Cerrar
-                                                Sesión</a></li>
+                                    <li><a class="dropdown-item" href="{{route('profile.edit')}}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi Perfil</a></li>
+                                    <li><a class="dropdown-item" href="{{route('profile.edit')}}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mis Pedidos</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}"  style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Cerrar Sesión</a></li>
 
                                         {{-- Formulario para cerrar sesión --}}
 

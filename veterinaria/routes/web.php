@@ -9,6 +9,13 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\PedidoController;
+
+
+
+// rutas login nueva
+use App\Http\Controllers\ProfileController;
+
 
 
 #rutas uri para acceder mediante el navegador
@@ -36,9 +43,9 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 // rutas para el login
 
-Route::get('/login', [LoginController::class, 'loguearse'])->name('login');
-Route::view('/registro', "login.register")->name('registro');
-Route::view('/registro-admin', "login.registerAdmin")->middleware('role:admin')->name('registro-admin');
+Route::get('/inicio-sesion', [LoginController::class, 'loguearse'])-> name('login');
+Route::view('/registro',"login.register")->name('registro');
+Route::view('/registro-admin',"login.registerAdmin")->middleware('role:admin')->name('registro-admin');
 Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->middleware('role:admin')->name('listar.usuarios');
 Route::delete('/usuarios/{id}', [LoginController::class, 'destroy'])->middleware('role:admin')->name('usuarios.destroy');
 Route::get('/usuarios/{id}/edit', [LoginController::class, 'edit'])->middleware('role:admin')->name('usuarios.edit');
@@ -80,7 +87,8 @@ Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware
 Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin')->name('pago.create'); // Formulario para pagar una deuda
 Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin')->name('pago.store'); // Guardar un pago
 
-
+//rutas para pedidos
+Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin')->name('pedidos.index');
 
 
 // Rutas para la web aqui abajo
@@ -160,3 +168,17 @@ Route::get('/carrito', function () {
 
 
 //});
+
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/mis-pedidos', [ProfileController::class, 'pedidos'])->name('profile.pedidos');
+});
+
+require __DIR__.'/auth.php';
+
+

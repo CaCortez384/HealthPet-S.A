@@ -88,6 +88,12 @@
     </div>
 
     <div class="contenedor-input">
+        <md-filled-text-field label="Celular"     prefix-text="+569 " type="tel" name="movile" supporting-text="Ejemplo: +56912121212" required>
+            <md-icon slot="trailing-icon">phone</md-icon>
+        </md-filled-text-field>
+    </div>
+
+    <div class="contenedor-input">
         <md-filled-text-field label="Contrase&ntilde;a" type="password" name="password" id="password" supporting-text="Mínimo 4 caracteres" required>
             <md-icon-button id="togglePassword" toggle slot="trailing-icon" aria-label="Mostrar/Ocultar Contraseña">
                 <md-icon id="toggleIcon">visibility</md-icon>

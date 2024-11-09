@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pedido;
+use App\Models\Producto;
+use App\Models\DetallePedido;
 use Transbank\Webpay\WebpayPlus\Transaction;
 
 class WebpayController extends Controller
@@ -15,7 +17,7 @@ class WebpayController extends Controller
 
         // Configura el valor de la transacción basado en el pedido
         $pedido = Pedido::findOrFail($pedidoId);
-        $amount = $pedido->total;
+        $amount = $pedido->monto_pagado;
 
         $response = $transaction->create(
             'order' . $pedidoId,
@@ -34,16 +36,61 @@ class WebpayController extends Controller
         $transaction = new Transaction();
         $response = $transaction->commit($token);
 
-        // Actualizar el estado del pedido tras el pago exitoso
-        if ($response->isApproved()) {
-            $pedido = Pedido::findOrFail($request->input('pedido_id'));
-            $pedido->estado_pago = 1;
-            $pedido->estado_pedido = 2;
+        // Crear instancia de CarritoController y llamar a procesarPagoConAPI
+        $carritoController = new CarritoController();
+        $isPaymentApproved = $carritoController->procesarPagoConAPI([
+            'aprobado' => $response->isApproved()
+        ]);
+
+        // Obtener el pedido
+        $pedido = Pedido::findOrFail($request->input('pedido_id'));
+
+        if ($isPaymentApproved) {
+            // Verificar y descontar stock de los productos en el pedido
+            $productos = DetallePedido::where('pedido_id', $pedido->id)->get();
+            $hayFaltaDeStock = false;
+
+            foreach ($productos as $detalle) {
+                $producto = Producto::find($detalle->id_producto);
+                if ($producto) {
+                    if ($producto->stock_unidades >= $detalle->cantidad) {
+                        // Descontar el stock si hay suficiente
+                        $producto->stock_unidades -= $detalle->cantidad;
+                        $producto->save();
+                    } else {
+                        // Marcar que al menos un producto no tiene suficiente stock
+                        $hayFaltaDeStock = true;
+                    }
+                } else {
+                    // Marcar que al menos un producto no se encontró o no tiene stock
+                    $hayFaltaDeStock = true;
+                }
+            }
+
+            // Actualizar estado_pago y estado_pedido
+            $pedido->estado_pago = $hayFaltaDeStock ? 1 : 2;
+            $pedido->estado_pedido = $hayFaltaDeStock ? 1 : 3;
+
+            // Guardar cambios en el pedido
+            $pedido->save();
+
+            // Limpiar el carrito solo si todos los productos fueron procesados correctamente
+            if (!$hayFaltaDeStock) {
+                session()->forget('cart');
+            }
+        } else {
+            // Si la transacción no fue aprobada o fue cancelada
+            $pedido->monto_pagado = 0;
+            $pedido->estado_pago = 0;
             $pedido->save();
         }
 
-        return view('web.estadoPago', ['response' => $response]);
+        return view('web.estadoPago', ['response' => $response, 'isPaymentApproved' => $isPaymentApproved]);
     }
+
+
+
+
 
 
     public function getStatus(Request $request)
