@@ -203,19 +203,16 @@ class CarritoController extends Controller
         }
 
         // Verificar stock de productos
-        if (!$this->verificarStock($request->productos)) {
-            // Registrar pedido sin descontar stock si no hay suficiente
-            $pedido = $this->crearPedido($request, false);
-            return response()->json(['success' => true, 'message' => 'Pedido realizado con éxito.']);
-        }
+        $todosConStock = $this->verificarStock($request->productos);
 
-        // Ejecutar la transacción para asegurar consistencia en la base de datos
+        // Crear el pedido con el estado adecuado según el stock
         DB::beginTransaction();
-
         try {
-            // Crear pedido y descontar stock
-            $pedido = $this->crearPedido($request, true);
-            $this->actualizarStock($request->productos);
+            // Si todos tienen stock, establecer los estados en 1, de lo contrario en 0
+            $pedido = $this->crearPedido($request, $todosConStock);
+            if ($todosConStock) {
+                $this->actualizarStock($request->productos);
+            }
 
             // Limpiar carrito y confirmar éxito
             session()->forget('cart');
@@ -251,7 +248,7 @@ class CarritoController extends Controller
         }
     }
 
-    private function crearPedido(Request $request, bool $descontarStock): Pedido
+    private function crearPedido(Request $request, bool $todosConStock): Pedido
     {
         $pedido = new Pedido();
         $pedido->user_id = Auth::id();
@@ -259,9 +256,9 @@ class CarritoController extends Controller
         $pedido->email_cliente = $request->correo;
         $pedido->telefono_cliente = $request->telefono;
         $pedido->total =  $request->total_pedido;
-        $pedido->monto_pagado = $request->total; // Total pagado si se descuenta stock, de lo contrario 0
-        $pedido->estado_pago = $descontarStock ? 1 : 0; // Estado de pago según si se descuenta stock
-        $pedido->estado_pedido = $descontarStock ? 2 : 0; // Estado del pedido según si se descuenta stock
+        $pedido->monto_pagado = $request->total;
+        $pedido->estado_pago = 0; // Estado de pago depende del stock
+        $pedido->estado_pedido = 0; // Estado del pedido depende del stock
         $pedido->save();
 
         // Crear detalles del pedido
@@ -281,7 +278,7 @@ class CarritoController extends Controller
                 $detallePedido->id_producto = $producto->id;
                 $detallePedido->cantidad = $productoData['cantidad'];
                 $detallePedido->precio = str_replace('.', '', $productoData['precio']);
-                $detallePedido->subtotal = $request->total_pedido;
+                $detallePedido->subtotal = $request->total;
                 $detallePedido->descuento = $productoData['descuento'] ?? 0;
                 $detallePedido->tipo_pago_id = $request->metodo_pago;
                 $detallePedido->nota = $request->nota ?? '';
@@ -293,10 +290,13 @@ class CarritoController extends Controller
         }
     }
 
-    private function procesarPagoConAPI($datos)
+    public function procesarPagoConAPI($datos)
     {
-        // Aquí iría la lógica para procesar el pago con la API correspondiente
-        // Retornar true si el pago fue exitoso, false en caso contrario
-        return true;
+        // Lógica de validación del pago
+        if ($datos['aprobado']) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

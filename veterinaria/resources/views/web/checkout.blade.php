@@ -2,6 +2,7 @@
 
     <link href="{{ asset('css/home/checkout-style.css') }}" rel="stylesheet">
     <div class="checkout-container">
+        <?php $subtotal = 0; ?>
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -67,7 +68,7 @@
                 </div>
                 <div class="form-group">
                     <label for="nota">Nota del pedido</label>
-                    <input type="text" id="nota" name="nota" required>
+                    <input type="text" id="nota" name="nota">
                 </div>
 
                 <!-- Campos ocultos para las cosas en el carrito -->

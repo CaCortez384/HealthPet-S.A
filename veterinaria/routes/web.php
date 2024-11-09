@@ -9,6 +9,7 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\PedidoController;
 
 
 
@@ -89,7 +90,8 @@ Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware
 Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin')->name('pago.create'); // Formulario para pagar una deuda
 Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin')->name('pago.store'); // Guardar un pago
 
-
+//rutas para pedidos
+Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin')->name('pedidos.index');
 
 
 // Rutas para la web aqui abajo
