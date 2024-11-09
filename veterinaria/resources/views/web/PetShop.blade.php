@@ -26,7 +26,8 @@
             <!-- Listado de productos -->
             <section class="products-list">
                 @foreach ($productos as $producto)
-                    <div class="product-item" category="{{ $producto->id_categoria }}">
+                
+                    <div class="product-item" category="{{ $producto->id_categoria }}" onclick="goToDetail({{ $producto->id }})">
                         <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}">
                         <div class="product-details">
                             <h4>Marca: {{ $producto->nombre }}</h4>
@@ -49,6 +50,11 @@
                         </div>
                     </div>
                 @endforeach
+                <script>
+    function goToDetail(productId) {
+        window.location.href = '{{ url('detalle') }}/' + productId;
+    }
+</script>
             </section>
         </div>
     </div>

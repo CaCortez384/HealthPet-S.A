@@ -32,9 +32,6 @@ Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCod
 Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->middleware('role:admin')->name('inventario.validarCodigoEdit');
 Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'])->middleware('role:admin')->name('detalle2.producto');
 
-// //BELEN EDITO AQUI//
-// Route::get('/inventario/detalle/{id}', [InventarioController::class, 'detalle'])->name('detalle.producto');
-// ///
 
 
 // rutas para el login
@@ -90,6 +87,7 @@ Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('r
 Route::get('/home', [WebController::class, 'inicio'])->name('home');
 Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
 Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
+Route::get('/detalle/{id}', [WebController::class, 'detalle'])->name('detalle');
 
 // Ruta para agregar al carrito
 Route::get('cart', [CarritoController::class, 'showCartSlide']);
