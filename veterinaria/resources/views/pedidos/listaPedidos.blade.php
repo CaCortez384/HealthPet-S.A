@@ -1,226 +1,234 @@
 <x-app-layout>
 
-    
     <div>
         @include('components.alert')
         @section('content')
             @include('components.alert')
         @endsection
 
-
         <div id="contenedor_buscar">
-
-            <div>
-                <h6>Buscar ventas</h6>
-            </div>
-            {{-- Formulario para búsqueda de ventas mediante rut de cliente o si posee deuda --}}
+            <h6>Buscar pedidos</h6>
             <div id="menu-busqueda">
-                <form action="{{ route('ventas.index') }}" method="GET">
+                <form action="{{ route('pedidos.index') }}" method="GET">
                     <div class="todo_input-busqueda">
-
-                        <div>
-                            <md-filled-text-field class="input-busqueda" label="Rut del cliente" name="rut">
-                            </md-filled-text-field>
-                        </div>
-                        
-                <div>
-                    <md-filled-select class="input-busqueda" label="Estado de Venta" name="deuda">
-                        <md-select-option value="" selected>Selecciona una opción</md-select-option>
-                        <md-select-option value="0">Registra deuda</md-select-option>
-                        <md-select-option value="1">Completa</md-select-option>
-                        <md-select-option value="2">Anulada</md-select-option>
-                        
-                    </md-filled-select>
-                </div>
-                
-
-                <div id="rango_fechas">
-                    <h6>Seleccione un rango de fechas</h6>
-                        <!-- Campo de fecha inicio -->
-                        <md-filled-text-field class="input-busqueda" label="Fecha Inicio (dd-mm-yyyy)" name="fecha_inicio" type="date">
-                        </md-filled-text-field>
-                
-                        <!-- Campo de fecha fin -->
-                        <md-filled-text-field class="input-busqueda" label="Fecha Fin (dd-mm-yyyy)" name="fecha_fin" type="date">
-                        </md-filled-text-field>
+                        <md-filled-text-field class="input-busqueda" label="Numero de pedido"
+                            name="numero_pedido"></md-filled-text-field>
+                        <md-filled-select class="input-busqueda" label="Estado de pedido" name="estado_pedido">
+                            <md-select-option value="" selected>Selecciona una opción</md-select-option>
+                            <md-select-option value="1">Pendiente</md-select-option>
+                            <md-select-option value="2">Pedido realizado</md-select-option>
+                            <md-select-option value="3">Listo para entrega</md-select-option>
+                            <md-select-option value="4">Entregado</md-select-option>
+                            <md-select-option value="5">Cancelado</md-select-option>
+                        </md-filled-select>
                     </div>
-                </div>
-
-<div id="botones_busqueda">
-                        <!-- Botón para buscar -->
-                        <a class="buscar-botons" href="{{ route('ventas.index') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                    <div id="botones_busqueda">
+                        <a class="buscar-botons" href="{{ route('pedidos.index') }}"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
                             <md-fab label="Buscar">
                                 <md-icon slot="icon">search</md-icon>
                             </md-fab>
                         </a>
-
-
-                
-                    {{-- Botón para limpiar el filtro de fecha y RUT --}}
-                    <a class="buscar-botons" href="{{ route('ventas.index', array_filter(request()->except(['rut','deuda', 'fecha_inicio', 'fecha_fin']))) }}">
-                        <md-fab label="Eliminar filtro">
-                            <md-icon slot="icon">delete</md-icon>
-                        </md-fab>
-                    </a>
-
+                        <a class="buscar-botons"
+                            href="{{ route('pedidos.index', array_filter(request()->except(['numero_pedido', 'estado_pedido']))) }}">
+                            <md-fab label="Eliminar filtro">
+                                <md-icon slot="icon">delete</md-icon>
+                            </md-fab>
+                        </a>
                     </div>
-
-
-                
                 </form>
             </div>
-
-
-
-            @if ($filtros['rut'] || isset($filtros['deuda']) || ($filtros['fecha_inicio'] && $filtros['fecha_fin']))
-            <div class="filtros-activos">
-                <h5>Filtros Aplicados:</h5>
-                <md-chip-set>
-                    @if (!empty($filtros['rut']))
-                        <md-assist-chip>Rut: "{{ $filtros['rut'] }}"
-                            <md-icon slot="icon">person</md-icon>
-                        </md-assist-chip>
-                    @endif
-                    @if (isset($filtros['deuda']))  {{-- Cambiado a isset --}}
-                        <md-assist-chip>Deuda: "{{ $filtros['deuda'] }}"
-                            <md-icon slot="icon">badge</md-icon>
-                        </md-assist-chip>
-                    @endif
-                    @if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin']))
-                        <md-assist-chip>
-                            Fecha: Desde "{{ $filtros['fecha_inicio'] }}" Hasta "{{ $filtros['fecha_fin'] }}"
-                            <md-icon slot="icon">calendar_today</md-icon>
-                        </md-assist-chip>
-                    @endif
-                </md-chip-set>
-            </div>
-        @endif
-        </div>
-
-        <div id="contenedor">
-
-            <div id="lista-usuarios">
-                <h6>Listado de ventas</h6>
-                {{-- Botón para agregar una nueva venta --}}
-                <a href="{{ route('ventas.create') }}">
-                    <md-fab label="Registrar Nueva venta">
-                        <md-icon slot="icon">add</md-icon>
-                    </md-fab>
-                </a>
-            </div>
-
-            <!-- Tabla para listar ventas -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID Venta</th>
-                        <th scope="col">Fecha de venta</th>
-                        <th scope="col">Vendedor</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Tipo de pago</th>
-                        <th scope="col">Estado de Venta</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{-- recorrer todas las ventas --}}
-                    @forelse ($ventas as $venta)
-                        <tr>
-                            <td>{{ $venta->id }}</td>
-                            <td>{{ $venta->fecha_venta->format('d/m/Y') }}</td>
-                            <td>{{ $venta->nombre_vendedor }}</td>
-                            <td>{{ $venta->nombre_cliente }}</td>
-                            <td>{{ $venta->total }}</td>
-                            <td>{{ $venta->tipoPago->nombre }}</td>
-                            <td>
-                                @switch($venta->estado_pago)
-                                    @case(0)
-                                        Registra deuda
-                                        @break
+            @if ($filtros['Numero_pedido'] || isset($filtros['Estado_pedido']))
+                <div class="filtros-activos">
+                    <h5>Filtros Aplicados:</h5>
+                    <md-chip-set>
+                        @if (!empty($filtros['Numero_pedido']))
+                            <md-assist-chip>Nro pedido: "{{ $filtros['Numero_pedido'] }}"
+                                <md-icon slot="icon">barcode</md-icon>
+                            </md-assist-chip>
+                        @endif
+                        @if (isset($filtros['Estado_pedido']))
+                            {{-- Cambiado a isset --}}
+                            <md-assist-chip>
+                                Estado de pedido:
+                                @switch($filtros['Estado_pedido'])
                                     @case(1)
-                                        Completa
-                                        @break
+                                        Pendiente
+                                    @break
+
                                     @case(2)
-                                        Anulada
-                                        @break
+                                        Pedido realizado
+                                    @break
+
+                                    @case(3)
+                                        Listo para entrega
+                                    @break
+
+                                    @case(4)
+                                        Entregado
+                                    @break
+
+                                    @case(5)
+                                        Cancelado
+                                    @break
+
                                     @default
                                         Desconocido
                                 @endswitch
-                            </td>
-                            <td>
-                                <a href="{{ route('ventas.show', ['id' => $venta->id]) }}">
-                                    <md-fab size="small" aria-label="View">
-                                        <md-icon slot="icon">visibility</md-icon>
-                                    </md-fab>
-                                </a>
+                                <md-icon slot="icon">assignment_turned_in</md-icon>
+                            </md-assist-chip>
+                        @endif
+                    </md-chip-set>
+                </div>
+            @endif
+        </div>
+        <br>
+        <div class="accordion" id="ordersAccordion">
+            @forelse ($pedidos as $pedido)
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="order{{ $pedido->id }}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOrder{{ $pedido->id }}" aria-expanded="true"
+                            aria-controls="collapseOrder{{ $pedido->id }}">
+                            <div class="row w-100">
+                                <div class="col-md-2"><strong>N°:</strong> {{ $pedido->id }}</div>
+                                <div class="col-md-2"><strong>Fecha:</strong> {{ $pedido->created_at->format('Y-m-d') }}
+                                </div>
+                                <div class="col-md-2"><strong>Items:</strong>
+                                    {{ $pedido->detallePedidos->sum('cantidad') }}</div>
+                                <div class="col-md-3"><strong>Total:</strong>
+                                    ${{ number_format($pedido->total, 0, ',', '.') }}</div>
+                                <div class="col-md-3"><strong>Monto pagado:</strong>
+                                    ${{ number_format($pedido->monto_pagado, 0, ',', '.') }}</div>
+                                <div class="col-md-3"><strong>Estado:</strong>
+                                    @switch($pedido->estado_pedido)
+                                        @case(1)
+                                            Pendiente
+                                        @break
 
-                                <!-- Botón para diálogo alerta eliminar -->
-                                <a id="openDialogButton_{{ $venta->id }}">
-                                    <md-fab class="boton-tabla" size="small" aria-label="Delete">
-                                        <md-icon slot="icon">delete</md-icon>
-                                    </md-fab>
-                                </a>
-                                <!-- Diálogo alerta para eliminar venta -->
-                                <md-dialog id="dialog_{{ $venta->id }}">
-                                    <div slot="headline">
-                                        Anular Venta "{{ $venta->id }}"
-                                    </div>
-                                    <form slot="content" action="{{ route('ventas.destroy', $venta->id) }}"
-                                        id="form-id-{{ $venta->id }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        Una vez que la venta haya sido anulada, no será posible revertir los cambios realizados.
-                                        ¿Está seguro que desea Anular la venta?
-                                    </form>
-                                    <div slot="actions">
-                                        <md-text-button id="closeButton_{{ $venta->id }}">Cancelar</md-text-button>
+                                        @case(2)
+                                            En proceso
+                                        @break
 
-                                        {{-- Botón para confirmar la eliminación de la venta --}}
-                                        <md-text-button type="submit"
-                                            form="form-id-{{ $venta->id }}">Anular</md-text-button>
-                                    </div>
-                                </md-dialog>
-                            </td>
-                        </tr>
+                                        @case(3)
+                                            Listo para entrega
+                                        @break
 
-                    @empty
-                        <tr>
-                            <td colspan="5">No se encontraron ventas con los filtros aplicados.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                        @case(4)
+                                            Entregado
+                                        @break
 
-            {{-- Enlaces de paginación --}}
-            <div class="pagination">
-                {{ $ventas->links() }} <!-- Agrega enlaces de paginación aquí -->
+                                        @default
+                                            Cancelado
+                                    @endswitch
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapseOrder{{ $pedido->id }}" class="accordion-collapse collapse"
+                        aria-labelledby="order{{ $pedido->id }}" data-bs-parent="#ordersAccordion">
+                        <div class="accordion-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Subtotal</th>
+                                        <th>Monto Pagado</th>
+                                        <th>Disponible</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pedido->detallePedidos as $detalle)
+                                        <tr>
+                                            <td>{{ $detalle->producto->nombre }}</td>
+                                            <td>{{ $detalle->cantidad }}</td>
+                                            <td>${{ number_format($detalle->precio, 0, ',', '.') }}</td>
+                                            <td>${{ number_format($detalle->cantidad * $detalle->precio, 0, ',', '.') }}
+                                            </td>
+                                            <td>
+                                                @if ($detalle->descuento == 0)
+                                                    Completo
+                                                @else
+                                                    ${{ number_format($detalle->descuento, 0, ',', '.') }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" {{ $detalle->descuento == 0 ? 'checked' : '' }}>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <form action="{{ route('pedidos.update', $pedido->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="btn-group" role="group" aria-label="Estado del Pedido">
+                                    <button type="button"
+                                        class="btn btn-outline-primary {{ $pedido->estado_pedido == 1 ? 'active' : '' }}"
+                                        data-value="1">Pendiente</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary {{ $pedido->estado_pedido == 2 ? 'active' : '' }}"
+                                        data-value="2">En proceso</button>
+                                    <button type="button"
+                                        class="btn btn-outline-success {{ $pedido->estado_pedido == 3 ? 'active' : '' }}"
+                                        data-value="3">Listo para retiro</button>
+                                    <button type="button"
+                                        class="btn btn-outline-info {{ $pedido->estado_pedido == 4 ? 'active' : '' }}"
+                                        data-value="4">Entregado</button>
+                                    <button type="button"
+                                        class="btn btn-outline-danger {{ $pedido->estado_pedido == 5 ? 'active' : '' }}"
+                                        data-value="5">Cancelado</button>
+                                </div>
+                                <input type="hidden" name="estado_pedido" id="estado_pedido"
+                                    value="{{ $pedido->estado_pedido }}">
+                                <div>
+                                    <button type="submit" class="btn btn-primary mt-2">Cambiar estado</button>
+                                </div>
+                            </form>
+
+
+                            <br>
+                            <a href="{{ route('pedidos.show', ['id' => $pedido->id]) }}">
+                                <md-fab size="small" aria-label="Ver Detalles">
+                                    <md-icon slot="icon">visibility</md-icon>
+                                </md-fab>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                @empty
+                    <p>No se encontraron pedidos con los filtros aplicados.</p>
+                @endforelse
             </div>
 
+            <div class="pagination">
+                {{ $pedidos->links() }}
+            </div>
         </div>
 
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                @foreach ($ventas as $venta)
-                    // Obtener el botón y el diálogo con el id específico de la venta
-                    const openDialogButton_{{ $venta->id }} = document.getElementById(
-                        'openDialogButton_{{ $venta->id }}');
-                    const dialog_{{ $venta->id }} = document.getElementById('dialog_{{ $venta->id }}');
-                    const closeButton_{{ $venta->id }} = document.getElementById(
-                        'closeButton_{{ $venta->id }}');
+            document.addEventListener("DOMContentLoaded", function() {
+                const accordions = document.querySelectorAll('.accordion-item');
 
-                    // Añadir el evento para abrir el diálogo
-                    openDialogButton_{{ $venta->id }}.addEventListener('click', async () => {
-                        await dialog_{{ $venta->id }}.show(); // Abre el diálogo correspondiente
-                    });
+                accordions.forEach(accordion => {
+                    const buttons = accordion.querySelectorAll('.btn-group .btn');
+                    const estadoPedidoInput = accordion.querySelector('input[name="estado_pedido"]');
 
-                    // Añadir el evento para cerrar el diálogo
-                    closeButton_{{ $venta->id }}.addEventListener('click', async () => {
-                        await dialog_{{ $venta->id }}.close(); // Cierra el diálogo correspondiente
+                    buttons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            // Remueve la clase 'active' de todos los botones
+                            buttons.forEach(btn => btn.classList.remove('active'));
+                            // Agrega la clase 'active' solo al botón clicado
+                            this.classList.add('active');
+                            // Actualiza el valor del input
+                            estadoPedidoInput.value = this.getAttribute('data-value');
+                        });
                     });
-                @endforeach
+                });
             });
         </script>
 
-    </div>
-</x-app-layout>
+    </x-app-layout>

@@ -316,7 +316,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
                         style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
-                        <li><a class="dropdown-item" href=""
+                        <li><a class="dropdown-item" href="{{ route('pedidos.index') }}"
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Lista
                                 de pedidos</a></li>
                     </ul>

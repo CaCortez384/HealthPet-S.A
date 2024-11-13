@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    
+
     <div>
         @include('components.alert')
         {{-- alerta que muestra cuando una venta se creo con éxito --}}
@@ -23,79 +23,84 @@
                             <md-filled-text-field class="input-busqueda" label="Rut del cliente" name="rut">
                             </md-filled-text-field>
                         </div>
-                        
-                <div>
-                    <md-filled-select class="input-busqueda" label="Estado de Venta" name="deuda">
-                        <md-select-option value="" selected>Selecciona una opción</md-select-option>
-                        <md-select-option value="0">Registra deuda</md-select-option>
-                        <md-select-option value="1">Completa</md-select-option>
-                        <md-select-option value="2">Anulada</md-select-option>
-                        
-                    </md-filled-select>
-                </div>
-                
 
-                <div id="rango_fechas">
-                    <h6>Seleccione un rango de fechas</h6>
-                        <!-- Campo de fecha inicio -->
-                        <md-filled-text-field class="input-busqueda" label="Fecha Inicio (dd-mm-yyyy)" name="fecha_inicio" type="date">
-                        </md-filled-text-field>
-                
-                        <!-- Campo de fecha fin -->
-                        <md-filled-text-field class="input-busqueda" label="Fecha Fin (dd-mm-yyyy)" name="fecha_fin" type="date">
-                        </md-filled-text-field>
+                        <div>
+                            <md-filled-select class="input-busqueda" label="Estado de Venta" name="deuda">
+                                <md-select-option value="" selected>Selecciona una opción</md-select-option>
+                                <md-select-option value="0">Registra deuda</md-select-option>
+                                <md-select-option value="1">Completa</md-select-option>
+                                <md-select-option value="2">Anulada</md-select-option>
+
+                            </md-filled-select>
+                        </div>
+
+
+                        <div id="rango_fechas">
+                            <h6>Seleccione un rango de fechas</h6>
+                            <!-- Campo de fecha inicio -->
+                            <md-filled-text-field class="input-busqueda" label="Fecha Inicio (dd-mm-yyyy)"
+                                name="fecha_inicio" type="date">
+                            </md-filled-text-field>
+
+                            <!-- Campo de fecha fin -->
+                            <md-filled-text-field class="input-busqueda" label="Fecha Fin (dd-mm-yyyy)" name="fecha_fin"
+                                type="date">
+                            </md-filled-text-field>
+                        </div>
                     </div>
-                </div>
 
-<div id="botones_busqueda">
+                    <div id="botones_busqueda">
                         <!-- Botón para buscar -->
-                        <a class="buscar-botons" href="{{ route('ventas.index') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                        <a class="buscar-botons" href="{{ route('ventas.index') }}"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
                             <md-fab label="Buscar">
                                 <md-icon slot="icon">search</md-icon>
                             </md-fab>
                         </a>
 
 
-                
-                    {{-- Botón para limpiar el filtro de fecha y RUT --}}
-                    <a class="buscar-botons" href="{{ route('ventas.index', array_filter(request()->except(['rut','deuda', 'fecha_inicio', 'fecha_fin']))) }}">
-                        <md-fab label="Eliminar filtro">
-                            <md-icon slot="icon">delete</md-icon>
-                        </md-fab>
-                    </a>
+
+                        {{-- Botón para limpiar el filtro de fecha y RUT --}}
+                        <a class="buscar-botons"
+                            href="{{ route('ventas.index', array_filter(request()->except(['rut', 'deuda', 'fecha_inicio', 'fecha_fin']))) }}">
+                            <md-fab label="Eliminar filtro">
+                                <md-icon slot="icon">delete</md-icon>
+                            </md-fab>
+                        </a>
 
                     </div>
 
 
-                
+
                 </form>
             </div>
 
 
 
             @if ($filtros['rut'] || isset($filtros['deuda']) || ($filtros['fecha_inicio'] && $filtros['fecha_fin']))
-            <div class="filtros-activos">
-                <h5>Filtros Aplicados:</h5>
-                <md-chip-set>
-                    @if (!empty($filtros['rut']))
-                        <md-assist-chip>Rut: "{{ $filtros['rut'] }}"
-                            <md-icon slot="icon">person</md-icon>
-                        </md-assist-chip>
-                    @endif
-                    @if (isset($filtros['deuda']))  {{-- Cambiado a isset --}}
-                        <md-assist-chip>Deuda: "{{ $filtros['deuda'] }}"
-                            <md-icon slot="icon">badge</md-icon>
-                        </md-assist-chip>
-                    @endif
-                    @if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin']))
-                        <md-assist-chip>
-                            Fecha: Desde "{{ $filtros['fecha_inicio'] }}" Hasta "{{ $filtros['fecha_fin'] }}"
-                            <md-icon slot="icon">calendar_today</md-icon>
-                        </md-assist-chip>
-                    @endif
-                </md-chip-set>
-            </div>
-        @endif
+                <div class="filtros-activos">
+                    <h5>Filtros Aplicados:</h5>
+                    <md-chip-set>
+                        @if (!empty($filtros['rut']))
+                            <md-assist-chip>Rut: "{{ $filtros['rut'] }}"
+                                <md-icon slot="icon">person</md-icon>
+                            </md-assist-chip>
+                        @endif
+                        @if (isset($filtros['deuda']))
+                            {{-- Cambiado a isset --}}
+                            <md-assist-chip>Deuda: "{{ $filtros['deuda'] }}"
+                                <md-icon slot="icon">badge</md-icon>
+                            </md-assist-chip>
+                        @endif
+                        @if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin']))
+                            <md-assist-chip>
+                                Fecha: Desde "{{ $filtros['fecha_inicio'] }}" Hasta "{{ $filtros['fecha_fin'] }}"
+                                <md-icon slot="icon">calendar_today</md-icon>
+                            </md-assist-chip>
+                        @endif
+                    </md-chip-set>
+                </div>
+            @endif
         </div>
 
         <div id="contenedor">
@@ -138,13 +143,16 @@
                                 @switch($venta->estado_pago)
                                     @case(0)
                                         Registra deuda
-                                        @break
+                                    @break
+
                                     @case(1)
                                         Completa
-                                        @break
+                                    @break
+
                                     @case(2)
                                         Anulada
-                                        @break
+                                    @break
+
                                     @default
                                         Desconocido
                                 @endswitch
@@ -171,7 +179,8 @@
                                         id="form-id-{{ $venta->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        Una vez que la venta haya sido anulada, no será posible revertir los cambios realizados.
+                                        Una vez que la venta haya sido anulada, no será posible revertir los cambios
+                                        realizados.
                                         ¿Está seguro que desea Anular la venta?
                                     </form>
                                     <div slot="actions">
@@ -185,43 +194,43 @@
                             </td>
                         </tr>
 
-                    @empty
-                        <tr>
-                            <td colspan="5">No se encontraron ventas con los filtros aplicados.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                            <tr>
+                                <td colspan="5">No se encontraron ventas con los filtros aplicados.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
 
-            {{-- Enlaces de paginación --}}
-            <div class="pagination">
-                {{ $ventas->links() }} <!-- Agrega enlaces de paginación aquí -->
+                {{-- Enlaces de paginación --}}
+                <div class="pagination">
+                    {{ $ventas->links() }} <!-- Agrega enlaces de paginación aquí -->
+                </div>
+
             </div>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    @foreach ($ventas as $venta)
+                        // Obtener el botón y el diálogo con el id específico de la venta
+                        const openDialogButton_{{ $venta->id }} = document.getElementById(
+                            'openDialogButton_{{ $venta->id }}');
+                        const dialog_{{ $venta->id }} = document.getElementById('dialog_{{ $venta->id }}');
+                        const closeButton_{{ $venta->id }} = document.getElementById(
+                            'closeButton_{{ $venta->id }}');
+
+                        // Añadir el evento para abrir el diálogo
+                        openDialogButton_{{ $venta->id }}.addEventListener('click', async () => {
+                            await dialog_{{ $venta->id }}.show(); // Abre el diálogo correspondiente
+                        });
+
+                        // Añadir el evento para cerrar el diálogo
+                        closeButton_{{ $venta->id }}.addEventListener('click', async () => {
+                            await dialog_{{ $venta->id }}.close(); // Cierra el diálogo correspondiente
+                        });
+                    @endforeach
+                });
+            </script>
+
         </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                @foreach ($ventas as $venta)
-                    // Obtener el botón y el diálogo con el id específico de la venta
-                    const openDialogButton_{{ $venta->id }} = document.getElementById(
-                        'openDialogButton_{{ $venta->id }}');
-                    const dialog_{{ $venta->id }} = document.getElementById('dialog_{{ $venta->id }}');
-                    const closeButton_{{ $venta->id }} = document.getElementById(
-                        'closeButton_{{ $venta->id }}');
-
-                    // Añadir el evento para abrir el diálogo
-                    openDialogButton_{{ $venta->id }}.addEventListener('click', async () => {
-                        await dialog_{{ $venta->id }}.show(); // Abre el diálogo correspondiente
-                    });
-
-                    // Añadir el evento para cerrar el diálogo
-                    closeButton_{{ $venta->id }}.addEventListener('click', async () => {
-                        await dialog_{{ $venta->id }}.close(); // Cierra el diálogo correspondiente
-                    });
-                @endforeach
-            });
-        </script>
-
-    </div>
-</x-app-layout>
+    </x-app-layout>

@@ -7,6 +7,7 @@ use App\Models\Pedido;
 use App\Models\Producto;
 use App\Models\User;
 use App\Models\DetallePedido;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -14,57 +15,116 @@ use Illuminate\Http\Request;
 
 class PedidoController extends Controller
 {
-    public function listar()
+    public function listar(Request $request)
     {
-        $pedidos = Pedido::all();
-        return view('pedidos.listarPedidos', compact('pedidos'));
+        $filtros = [
+            'Numero_pedido' => request('numero_pedido'),
+            'Estado_pedido' => request('estado_pedido'),
+        ];
+
+        $query = Pedido::where('estado_pago', '!=', 0);
+
+        if (!empty($filtros['Numero_pedido'])) {
+            $query->where('id', 'like', '%' . $filtros['Numero_pedido'] . '%');
+        }
+
+        if (!empty($filtros['Estado_pedido'])) {
+            $query->where('estado_pedido', $filtros['Estado_pedido']);
+        }
+
+        $pedidos = $query->paginate(10);
+        $detallesPedido = [];
+        foreach ($pedidos as $pedido) {
+            $detallesPedido[] = $pedido->detallePedidos;
+        }
+
+        return view('pedidos.listaPedidos', compact('pedidos', 'filtros', 'detallesPedido'));
     }
 
     public function show($id)
     {
         $pedido = Pedido::find($id);
-        return view('pedidos.detallePedido', compact('pedido'));
-    }
 
+        if (!$pedido) {
+            return redirect()->route('pedidos.index')->with('error', 'Pedido no encontrado.');
+        }
 
-    public function edit($id)
-    {
-        $pedido = Pedido::find($id);
-        $productos = Producto::all();
-        $usuarios = User::all();
-        return view('pedidos.editarPedido', compact('pedido', 'productos', 'usuarios'));
+        // Obtener los detalles de la venta
+        $detallesPedido = DetallePedido::where('pedido_id', $id)->get();
+
+        // Formatear los valores numéricos
+
+        $pedido->total = number_format($pedido->total, 0, ',', '.');
+        $pedido->monto_pagado = number_format($pedido->monto_pagado, 0, ',', '.');
+
+        return view('pedidos.detallePedidos', compact('pedido', 'detallesPedido'));
     }
 
     public function update(Request $request, $id)
     {
-        $pedido = Pedido::find($id);
-        $pedido->fecha = $request->fecha;
-        $pedido->total = $request->total;
-        $pedido->user_id = $request->user_id;
+        $pedido = Pedido::findOrFail($id);
+        $pedido->estado_pedido = $request->input('estado_pedido');
         $pedido->save();
 
-        $productos = $request->productos;
-        $cantidades = $request->cantidades;
-        $precios = $request->precios;
-
-        DetallePedido::where('pedido_id', $pedido->id)->delete();
-
-        for ($i = 0; $i < count($productos); $i++) {
-            $detalle = new DetallePedido();
-            $detalle->pedido_id = $pedido->id;
-            $detalle->producto_id = $productos[$i];
-            $detalle->cantidad = $cantidades[$i];
-            $detalle->precio = $precios[$i];
-            $detalle->save();
-        }
-
-        return redirect()->route('listar.pedidos');
+        return redirect()->route('pedidos.index')->with('success', 'Estado del pedido ' . $id . ' actualizado correctamente.');
     }
+
+
 
     public function destroy($id)
     {
         $pedido = Pedido::find($id);
         $pedido->delete();
         return redirect()->route('listar.pedidos');
+    }
+
+    public function mostrarPerfil()
+    {
+        $filtros = [
+            'Numero_pedido' => request('numero_pedido'),
+            'Estado_pedido' => request('estado_pedido'),
+        ];
+
+        $userId = Auth::user()->id;
+        $query = Pedido::where('user_id', $userId)->where('estado_pago', '!=', 0);
+
+        if (!empty($filtros['Numero_pedido'])) {
+            $query->where('id', 'like', '%' . $filtros['Numero_pedido'] . '%');
+        }
+
+        if (!empty($filtros['Estado_pedido'])) {
+            $query->where('estado_pedido', $filtros['Estado_pedido']);
+        }
+
+        $pedidos = $query->paginate(10);
+        $detallesPedido = [];
+
+        foreach ($pedidos as $pedido) {
+            $detallesPedido[] = $pedido->detallePedidos;
+        }
+
+        return view('profile.mis-pedidos', compact('pedidos', 'filtros', 'detallesPedido', 'userId'));
+    }
+
+    public function BuscarPedido(Request $request)
+    {
+        $filtros = [
+            'Numero_pedido' => request('numero_pedido'),
+        ];
+
+        $query = Pedido::where('estado_pago', '!=', 0);
+
+        if (!empty($filtros['Numero_pedido'])) {
+            $query->where('id', 'like', '%' . $filtros['Numero_pedido'] . '%');
+        }
+
+        $pedidos = $query->paginate(10);
+        $detallesPedido = [];
+
+        foreach ($pedidos as $pedido) {
+            $detallesPedido[] = $pedido->detallePedidos;
+        }
+
+        return view('profile.buscarPedidos', compact('pedidos', 'filtros', 'detallesPedido'));
     }
 }

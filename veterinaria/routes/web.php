@@ -89,6 +89,10 @@ Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('r
 
 //rutas para pedidos
 Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin')->name('pedidos.index');
+Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('role:admin')->name('pedidos.show');
+Route::get('/pedidos/{id}/edit', [PedidoController::class, 'edit'])->middleware('role:admin')->name('pedidos.edit');
+Route::put('/pedidos/{id}', [PedidoController::class, 'update'])->middleware('role:admin')->name('pedidos.update');
+
 
 
 // Rutas para la web aqui abajo
@@ -124,9 +128,9 @@ Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay
 
 
 
-Route::get('/carrito', function () {
-    return view('components.carrito-slide');
-});
+
+
+
 
 
 //Route::get('/prueba', function () {
@@ -176,8 +180,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/profile/mis-pedidos', [ProfileController::class, 'pedidos'])->name('profile.pedidos');
+    Route::get('/profile/mis-pedidos', [PedidoController::class, 'mostrarPerfil'])->name('profile.pedidos');
 });
+
+Route::get('/buscar-pedido', [PedidoController::class, 'BuscarPedido'])->name('buscar.pedido');
 
 require __DIR__.'/auth.php';
 
