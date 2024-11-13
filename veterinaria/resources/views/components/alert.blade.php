@@ -12,7 +12,7 @@
 
 @if (session('errors'))
     <div class="alert alert-dismissible fixed-bottom fade show" id="customAlert" role="alert">
-        {{ session('errors')->first() }}
+        {{ session('errors') }}
         <button type="button" class="close no-style" data-dismiss="alert" aria-label="Close" id="closeAlertButton">
             <p id="aceptar">Aceptar</p>
         </button>
