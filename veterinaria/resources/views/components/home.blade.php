@@ -49,38 +49,39 @@
 
         /* cursor */
         *{
-  cursor: url('img/cursor-gato.png'), auto;
+            cursor: url('{{ asset("img/cursor-gato.png") }}'), auto;
   
 
 }
 
 a:hover{
-  cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
 
 ul:hover{
-  cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
 
 li:hover{
-  cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
 
 button:hover{
-  cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
 
 .btn:hover{
-  cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
 
 md-icon:hover{
-    cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
 
 #imagen-home:hover{
-    cursor: url('img/cursor-gato-hover.png'), auto;
+    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
 }
+
 
 
         /* fin estilo cursor */

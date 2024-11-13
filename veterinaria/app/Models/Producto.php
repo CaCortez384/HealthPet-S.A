@@ -105,5 +105,11 @@ class Producto extends Model
     {
         return $this->hasMany(DetallePedido::class, 'id_producto');
     }
+
+// para mostrar en la vista de deetalle de producto en la web
+    public function detalleWeb()
+    {
+        return $this->hasOne(DetalleWeb::class, 'id_producto', 'id');
+    }
     
 }

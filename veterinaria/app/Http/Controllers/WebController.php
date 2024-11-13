@@ -26,8 +26,8 @@ class WebController extends Controller
         return view('web.petshop', compact('productos')); 
     }
     public function detalle($id) {
-        // Buscar el producto por su ID
-        $producto = Producto::with('categoria')->findOrFail($id);
+        // Buscar el producto por su ID junto con la categoría y detalleWeb
+        $producto = Producto::with(['categoria', 'detalleWeb', 'presentacion', 'unidad'])->findOrFail($id);
         return view('web.detalle', compact('producto')); 
     }
 }

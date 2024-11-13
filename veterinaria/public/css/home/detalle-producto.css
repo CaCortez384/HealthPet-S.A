@@ -1,0 +1,83 @@
+#contenedor-detalle{
+    width: 80%;
+    margin: auto;
+}
+/* Botón Agregar al Carrito */
+.add-to-cart {
+	display: inline-block;
+	margin-top: 10px;
+	padding: 10px 20px;
+	background-color: #4961C2;
+	color: white;
+	text-decoration: none;
+	border-radius: 8px;
+	text-align: center;
+	transition: background-color 0.3s ease;
+	border: none;
+	cursor: pointer;
+}
+
+.add-to-cart:hover {
+	background-color: #354a91;
+}
+
+.card{
+    box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    background: linear-gradient(
+        120deg,
+        #ffffff,   /* Azul oscuro */
+        #ffffff   /* Azul medio */
+  
+    );
+}
+
+
+.col-md-4 >img{
+    transition: transform 0.3s ease; /* Suaviza el cambio de tamaño */
+    border-radius: 5px;
+}
+.col-md-4 img:hover{
+    transform: scale(1.1); /* Aumenta el tamaño a 110% al pasar el cursor */
+    box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
+
+}
+
+.card-title{
+    color: #4961C2;
+}
+
+#precio{
+    color: #4961C2;
+}
+
+.card-body>p>strong{
+    color: #4961C2;
+}
+
+.card-body{
+    display: flex;
+    align-items: normal;
+
+    flex-direction: column;
+}
+
+.titulo-veterinaria {
+    padding: 15px 25px; /* Espaciado interno */
+    border: 3px solid #4961C2; /* Borde azul */
+    background-color: #fff; /* Fondo blanco */
+    color: #4961C2; /* Texto en azul */
+    border-radius: 10px; /* Bordes redondeados */
+    text-align: center; /* Centrado del texto */
+    font-family: 'Arial', sans-serif; /* Fuente limpia y profesional */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: 20px auto; /* Espaciado externo */
+    max-width: 600px; /* Ancho máximo */
+    transition: transform 0.3s ease; /* Animación al pasar el cursor */
+}
+
+.titulo-veterinaria:hover {
+    transform: scale(1.02); /* Aumenta ligeramente el tamaño al pasar el cursor */
+}
+
+
