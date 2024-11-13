@@ -42,13 +42,13 @@
                             <p>Stock: {{ $producto->stock_unidades }}</p>
                             @if ($producto->stock_unidades == 0)
                                 <button class="add-to-cart add-to-cart-button"
-                                    data-product-id="{{ $producto->id }}">Realizar pedido</button>
+                                    data-product-id="{{ $producto->id }}" onclick="event.stopPropagation();">Realizar pedido</button>
                                 <span id="adding-cart-{{ $producto->id }}"
                                     class="btn btn-warning btn-block text-center added-msg"
                                     style="display:none;">Añadido!</span>
                             @else
                                 <button class="add-to-cart add-to-cart-button"
-                                    data-product-id="{{ $producto->id }}">Agregar al carrito</button>
+                                    data-product-id="{{ $producto->id }}" onclick="event.stopPropagation();">Agregar al carrito</button>
                                 <span id="adding-cart-{{ $producto->id }}"
                                     class="btn btn-warning btn-block text-center added-msg"
                                     style="display:none;">Añadido!</span>
