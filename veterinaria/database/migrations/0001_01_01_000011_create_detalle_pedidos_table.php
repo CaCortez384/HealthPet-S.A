@@ -25,7 +25,6 @@ return new class extends Migration
 
             // Agrega la relación si es necesario
             $table->foreign('pedido_id')->references('id')->on('pedidos');
-            $table->foreign('id_producto')->references('id')->on('producto');
             $table->foreign('tipo_pago_id')->references('id')->on('tipo_pago');
 
         });

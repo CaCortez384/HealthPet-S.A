@@ -134,7 +134,7 @@
                             <md-divider inset></md-divider>
 
                             <label for="image">Subir imagen:</label>
-                            <input type="file" name="image" id="image" accept="image/*" required>
+                            <input type="file" name="image" id="image" accept="image/*" >
                             <img id="imagePreview" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
 
                             <script>

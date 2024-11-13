@@ -10,6 +10,7 @@ use App\Models\Unidad;
 use App\Models\Presentacion;
 use App\Models\Especie;
 use App\Models\DetalleWeb;
+use Illuminate\Support\Facades\Storage;
 
 class InventarioController extends Controller
 {
@@ -78,7 +79,7 @@ class InventarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Asegúrate de validar la imagen
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Asegúrate de validar la imagen
         ]);
 
         // Validar el código antes de guardar
@@ -114,8 +115,14 @@ class InventarioController extends Controller
         $producto->cantidad_minima_requerida = $request->cantidad_minima_requerida;
         $producto->mostrar_web = $request->input('mostrar_web');
         $file = $request->file('image');
-        $path = $file->store('productos', 'public'); // Guarda la imagen en el disco 'public'
-        $producto->imagen = $path; // Asigna la ruta de la imagen al modelo
+
+        if ($file) {
+            $path = $file->store('productos', 'public'); // Guarda la imagen en el disco 'public'
+            $producto->imagen = $path; // Asigna la ruta de la imagen al modelo
+        } else {
+            // Manejar el caso en que no se haya subido una imagen
+            $producto->imagen = null; // O cualquier valor por defecto que desees
+        }
         $producto->save();
 
         $mostrar_web = $request->input('mostrar_web');
@@ -136,7 +143,6 @@ class InventarioController extends Controller
         //redirecciona a la lista de productos atraves de la ruta listar.productos (al retornar una vista return view('inventario/listar') no funciona;)
         return redirect()->route('listar.productos')->with('success', 'Producto agregado correctamente.');
     }
-
     // funcion para validar codigo antes de agregar nuevo registro
     public function validarCodigo($codigo)
     {
@@ -235,6 +241,20 @@ class InventarioController extends Controller
                 $producto->precio_fraccionado = 0;
                 break;
         }
+
+        if ($request->hasFile('image')) {
+            // Eliminar la imagen anterior si existe
+            if ($producto->imagen) {
+                Storage::disk('public')->delete($producto->imagen);
+            }
+
+            // Guardar la nueva imagen con un nombre personalizado
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('productos', $filename, 'public'); // Guarda la imagen en el disco 'public' con el nuevo nombre
+            $producto->imagen = $path; // Asigna la ruta de la nueva imagen al modelo
+        }
+
         $producto->save();
 
         $mostrar_web = $request->input('mostrar_web');
@@ -247,13 +267,6 @@ class InventarioController extends Controller
             $detalleWeb->marca = $request->marca_web;
             $detalleWeb->descripcion = $request->descripcion_web;
             $detalleWeb->contenido_neto = $request->contenido_neto_web;
-            // Verificar si se subió una nueva imagen
-            if ($request->hasFile('imagen')) {
-                $file = $request->file('imagen');
-                $filename = $producto->id . '_' . time() . '.' . $file->getClientOriginalExtension(); // Nombre único basado en el ID del producto y timestamp
-                $path = $file->storeAs('productos', $filename, 'public'); // Almacena en storage/app/public/productos
-                $detalleWeb->imagen = $path; // Guarda la ruta de la imagen en el modelo
-            }
 
             $detalleWeb->save();
         }
@@ -310,8 +323,17 @@ class InventarioController extends Controller
         if ($producto === null) {
             return redirect()->route('listar.productos')->with('error', 'Producto no encontrado.');
         }
+
+        // Eliminar el detalle_web asociado
+        $detalleWeb = DetalleWeb::where('id_producto', $producto->id)->first();
+        if ($detalleWeb) {
+            $detalleWeb->delete();
+        }
+
+        // Eliminar el producto
         $producto->delete();
-        return redirect()->route('listar.productos');
+
+        return redirect()->route('listar.productos')->with('success', 'Producto eliminado correctamente.');
     }
 
     public function detalle2()

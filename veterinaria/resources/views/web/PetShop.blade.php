@@ -36,7 +36,7 @@
                         onclick="goToDetail({{ $producto->id }})">
                         <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}">
                         <div class="product-details">
-                            <h4>Marca: {{ $producto->nombre }}</h4>
+                            <h6>{{ $producto->nombre }}</h6>
                             <p>Precio: <span class="price">${{ $producto->precio_de_venta }}</span>
                             </p>
                             <p>Stock: {{ $producto->stock_unidades }}</p>
