@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Producto; // Asegúrate de importar tu modelo de Producto
-
 use Illuminate\Http\Request;
 
 class WebController extends Controller

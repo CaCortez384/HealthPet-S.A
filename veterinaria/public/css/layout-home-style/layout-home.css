@@ -111,6 +111,12 @@ i {
     left: -25px;
 }
 
+.ubication-a{
+	text-decoration: none;
+	color: white;
+	
+}
+
 
 @media(min-width: 992px){
 	.navbar-expand-custom {
@@ -180,4 +186,6 @@ i {
 		z-index: 9999;
 		background-color: rgba(0, 0, 0, 0.5);
 	}
+
+
 }

@@ -18,6 +18,8 @@ use App\Http\Controllers\ProfileController;
 
 
 
+
+
 #rutas uri para acceder mediante el navegador
 
 Route::get('/', [HomeController::class, 'index'])->middleware('role:admin')->name('inicio');
