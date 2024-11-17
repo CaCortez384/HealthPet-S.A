@@ -13,8 +13,6 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CitaController;
 
-
-
 // rutas login nueva
 use App\Http\Controllers\ProfileController;
 use App\Models\Cita;

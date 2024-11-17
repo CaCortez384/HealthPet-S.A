@@ -12,8 +12,7 @@ class CitaController extends Controller
 
     public function create()
     {
-        $servicios = Servicio::all();
-        return view('citas.create', compact('servicios'));
+        return view('citas.create');
     }
 
     public function store(Request $request)
