@@ -102,6 +102,11 @@ Route::get('/home', [WebController::class, 'inicio'])->name('home');
 Route::get('/home/prueba', [WebController::class, 'prueba1'])->name('prueba1');
 Route::get('/petshop', [WebController::class, 'petShop'])->name('petshop');
 Route::get('/detalle/{id}', [WebController::class, 'detalle'])->name('detalle');
+Route::get('/filtrar-productos', [WebController::class, 'filterCategory']);
+
+
+
+
 
 // Ruta para agregar al carrito
 Route::get('cart', [CarritoController::class, 'showCartSlide']);

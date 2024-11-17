@@ -6,8 +6,48 @@
 }
 
 body {
-	background: #f2f2f2;
+	
 	font-family: 'Arial', sans-serif;
+	background-image: url('/img/clientes/fondo-cliente.png'); 
+	
+	
+}
+/* Estilo para el mensaje deslizante */
+.nav-deslizable {
+    position: relative;
+    top: 31px;
+    left: 100%;
+    background-color: #00BFFF; /* Color celeste brillante */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    transition: left 15s linear;
+    animation: slide 15s infinite;
+}
+
+/* Animación para hacer que el mensaje se deslice */
+@keyframes slide {
+    0% {
+        left: 100%;
+    }
+    50% {
+        left: 0%;
+    }
+    100% {
+        left: -100%;
+    }
+}
+
+/* Para hacer que se vea mejor en pantallas pequeñas */
+@media screen and (max-width: 600px) {
+    .nav-deslizable {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
 }
 
 
@@ -24,6 +64,7 @@ body {
     max-width: 1100px;
     width: 90%;
     margin: 40px auto !important; /* Espacio superior e inferior */
+	zoom: 0.7;  /* 70% de su tamaño original */
 }
 
 
@@ -34,7 +75,7 @@ body {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.5);
     box-shadow: 0px 4px 8px rgba(233, 59, 59, 0.1);
     max-width: 1200px;
 }
@@ -76,44 +117,55 @@ body {
 }
 
 .products-list .product-item {
-	width: 22%;
-	margin-left: 3%;
-	margin-bottom: 25px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	align-self: flex-start;
-	background-color: #ffffff;
-	transition: transform 0.4s;
-	padding: 15px;
-	box-sizing: border-box; /* Ensure all items have the same box-sizing */
+    width: 22%; /* Ajusta según el diseño */
+    margin-left: 3%;
+    margin-bottom: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column; /* Garantiza alineación vertical */
+    justify-content: space-between; /* Espacio entre contenido y botón */
+    align-items: center;
+    background-color: #ffffff;
+    transition: transform 0.4s;
+    padding: 15px;
+    box-sizing: border-box;
+    height: 350px; /* Asegura que todas las tarjetas tengan la misma altura */
 }
+
 
 .products-list .product-item:hover {
 	transform: scale(1.05);
 }
 
 .products-list .product-item img {
-	width: 100%;
-	border-radius: 8px;
+    width: 100%;
+    max-height: 120px; /* Limita la altura máxima de la imagen */
+    object-fit: cover; /* Asegura que las imágenes mantengan su proporción */
+    border-radius: 8px;
 }
 
 .product-details {
-	padding-top: 10px;
-	text-align: center;
+    padding-top: 61px;
+    text-align: center;
+    flex-grow: 1; /* Permite que el contenido se adapte al espacio disponible */
 }
 
 .product-details h4 {
-	color: #333;
-	font-weight: bold;
-	margin: 8px 0;
+    color: #333;
+    font-weight: bold;
+    margin: 8px 0;
+    font-size: 14px; /* Ajusta el tamaño de la fuente */
+    line-height: 1.2; /* Controla el espaciado entre líneas */
+    overflow: hidden; /* Oculta el texto que se exceda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es muy largo */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    height: 1.5em; /* Controla la altura del contenedor de texto */
 }
-
 .product-details p {
 	margin: 4px 0;
 	color: #666;
+	
 }
 
 .product-details .price {
@@ -128,18 +180,24 @@ body {
 
 /* Botón Agregar al Carrito */
 .add-to-cart {
-	display: inline-block;
-	margin-top: 10px;
-	padding: 10px 20px;
-	background-color: #4961C2;
-	color: white;
-	text-decoration: none;
-	border-radius: 8px;
-	text-align: center;
-	transition: background-color 0.3s ease;
-	border: none;
-	cursor: pointer;
+    display: block; 
+    margin-top: 20px; /* Aumenta este valor según el espacio que necesites */
+    padding: 10px 39px;
+    background-color: #4961C2;
+    color: white;
+    text-decoration: none;
+    border-radius: 18px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 10px; 
+    width: 100%; 
+    box-sizing: border-box;
 }
+
+
+
 
 .add-to-cart:hover {
 	background-color: #354a91;

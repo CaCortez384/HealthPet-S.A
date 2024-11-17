@@ -1,8 +1,10 @@
 <x-home>
     <link href="{{ asset('css/home/PetShop.css') }}" rel="stylesheet">
     <!-- Asegúrate de cargar jQuery primero -->
-    <script src="{{ asset('js/jquery-pet.js') }}" defer></script>
-    <script src="{{ asset('js/scriptPetShop.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/Web/scriptPetShop.js') }}" defer></script>
+    
+
     <!-- Contenido de la página -->
 
 
@@ -11,23 +13,27 @@
         @section('content')
             @include('components.alert')
         @endsection
-        <h1>Escoge un producto</h1>
+        
+    <Div><h1>¡Compra y Reserva productos para tu mascota! Paga un 50% al hacer el pedido o el total y recógelo en nuestra veterinaria.
+    </h1></Div>
+        
         <div class="store-wrapper">
             <!-- Listado de categorías -->
             <div class="category_list">
                 <a href="#" class="category_item" category="all">Todo</a>
-                <a href="#" class="category_item" category="gato-adulto">Gato adulto</a>
-                <a href="#" class="category_item" category="gato-bebe">Gato Bebé</a>
-                <a href="#" class="category_item" category="perro-adulto">Perro Adulto</a>
-                <a href="#" class="category_item" category="cachorro">Cachorro</a>
-                <a href="#" class="category_item" category="snacks">Snacks</a>
+                <a href="#" class="category_item" category="gato">Gato</a>
+                <a href="#" class="category_item" category="perro">Perro</a>
+                <a href="#" class="category_item" category="snack-gato">snacks Gato</a>
+                <a href="#" class="category_item" category="snack-perro">Snacks Perro</a>
+                <a href="#" class="category_item" category="humeda-gato">Comida humeda Gato</a>
+                <a href="#" class="category_item" category="humeda-perro">Comida humeda Perro</a>
                 <div class="price-filter">
                     <h4>Filtrar por precio</h4>
-                    <input type="range" id="price-range" min="0" max="50000" value="50000" step="1000"
-                        oninput="updatePriceDisplay(this.value)">
+                    <input type="range" id="price-range" min="0" max="50000" value="50000" step="1000">
                     <p>Precio máximo: $<span id="price-display">50000</span></p>
-                    <button onclick="applyPriceFilter()">Aplicar filtro</button>
+                    <button id="apply-price-filter">Aplicar filtro</button>
                 </div>
+        
             </div>
             <!-- Listado de productos -->
             <section class="products-list">
