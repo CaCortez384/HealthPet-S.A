@@ -10,24 +10,20 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\CitaController;
 
 
 
 // rutas login nueva
 use App\Http\Controllers\ProfileController;
-
-
-
-
+use App\Models\Cita;
 
 #rutas uri para acceder mediante el navegador
-
 Route::get('/', [HomeController::class, 'index'])->middleware('role:admin')->name('inicio');
-
 Route::get('/nose', [HomeController::class, 'nose'])->name('welcome');
 
 //rutas para gestion de inventario
-
 // esta ruta tiene restriccion de acceso, solo admin puede ingresar. 
 Route::get('/inventario', [InventarioController::class, 'listar'])->middleware('role:admin')->name('listar.productos');
 Route::get('/inventario/crear', [InventarioController::class, 'crear'])->middleware('role:admin')->name('inventario.crear');
@@ -44,7 +40,6 @@ Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'
 
 
 // rutas para el login
-
 Route::get('/inicio-sesion', [LoginController::class, 'loguearse'])-> name('login');
 Route::view('/registro',"login.register")->name('registro');
 Route::view('/registro-admin',"login.registerAdmin")->middleware('role:admin')->name('registro-admin');
@@ -62,7 +57,6 @@ Route::get('/ventas', [VentaController::class, 'listarVentas'])->middleware('rol
 Route::get('/ventas/create', [VentaController::class, 'create'])->middleware('role:admin')->name('ventas.create'); // Formulario para crear una nueva venta
 Route::post('/ventas', [VentaController::class, 'store'])->middleware('role:admin')->name('ventas.store'); // Guardar una nueva venta
 Route::get('/ventas/{id}', [VentaController::class, 'show'])->middleware('role:admin')->name('ventas.show'); // Ver el detalle de una venta específica
-// Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit'); // Formulario para editar una venta
 Route::put('/ventas/{id}', [VentaController::class, 'update'])->middleware('role:admin')->name('ventas.update'); // Actualizar una venta existente
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->middleware('role:admin')->name('ventas.destroy'); // Eliminar una venta
 
@@ -74,15 +68,12 @@ Route::put('/ventas/{id}', [VentaController::class, 'actualizarVenta'])->middlew
 
 // Devolver el stock de una venta y mantenerla
 Route::post('/ventas/{id}/devolver-stock', [VentaController::class, 'devolverStock'])->middleware('role:admin')->name('ventas.devolverStock');
-
-
-
+// imprimir recibo en PDF
 Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->middleware('role:admin')->name('venta.recibo');
 
 // routes/api.php
 Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->middleware('role:admin')->name('buscar-productos');
 
-//rutas para deudas
 //rutas para deudas
 Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('role:admin')->name('deudas.index');
 Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin')->name('deuda.detalle');
@@ -120,8 +111,6 @@ Route::get('/get-cart-content', [CarritoController::class, 'getCartContent'])->n
 //rutas para checkout
 Route::get('/checkout', [CarritoController::class, 'showCheckout'])->name('checkout');
 Route::post('/checkout', [CarritoController::class, 'processCheckout'])->name('processCheckout');
-// Route::post('/checkout/procesar-pago', [CarritoController::class, 'procesarPago'])->name('checkout.procesarPago');
-
 Route::get('/webpay/estado-pago', [CarritoController::class, 'webpayStatus'])->name('checkout.status');
 
 
@@ -132,57 +121,7 @@ Route::post('/webpay/result', [CarritoController::class, 'confirmPago'])->name('
 Route::get('/webpay/result', [WebpayController::class, 'getResult'])->name('webpay.result');
 Route::post('/webpay/status', [WebpayController::class, 'getStatus'])->name('webpay.status');
 Route::post('/webpay/refund', [WebpayController::class, 'refund'])->name('webpay.refund');
-
-
-
-
-
-
-
-
-//Route::get('/prueba', function () {
-    #crear producto
-    // $producto = new Producto();
-    // $producto->nombre = 'Producto 1';
-    // $producto->codigo = 152;
-    // $producto->precio_de_compra = 100;
-    // $producto->precio_de_venta = 100;
-    // $producto->unidades = 'ml';
-    // $producto->stock = 10;
-    // $producto->fecha_de_vencimiento = '2021-12-31';
-    // $producto->cantidad_minima_requerida = 5;
-    // $producto->save();
-    // return $producto;
-
-    #buscar producto
-    // $producto = Producto::where('codigo', 1234)->first();
-    // return $producto;
-
-    #actualizar producto
-    // $producto = Producto::where('codigo', 1234)->first();
-    // $producto->precio_de_venta = 10000;
-    // $producto->save();
-    // return $producto;
-
-    #eliminar producto
-    // $producto = Producto::where('codigo', 152)->first();
-    // $producto->delete();
-    // return $producto;
-
-    #listar productos
-    //$productos = Producto::all();
-    //return $productos;
-
-    #este codigo devuelve la fecha formateada
-    //$producto= Producto::find(1);
-    //return $producto->created_at->format('d/m/Y');
-
-
-//});
-
-
-
-
+// rutas para perfil de usuario y pedidos
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -194,4 +133,11 @@ Route::get('/buscar-pedido', [PedidoController::class, 'BuscarPedido'])->name('b
 
 require __DIR__.'/auth.php';
 
+//rutas para agendar citas
+// Route::resource('citas', CitaController::class);
+// Route::resource('servicios', ServicioController::class);
+
+Route::get('/citas/crear', [CitaController::class, 'create'])->name('citas.create');
+Route::post('/citas/crear', [CitaController::class, 'store'])->name('citas.store');
+Route::get('appointments/available-times', [CitaController::class, 'availableTimes']);
 
