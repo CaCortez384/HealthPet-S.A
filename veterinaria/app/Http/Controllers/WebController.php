@@ -30,7 +30,72 @@ class WebController extends Controller
         $producto = Producto::with(['categoria', 'detalleWeb', 'presentacion', 'unidad'])->findOrFail($id);
         return view('web.detalle', compact('producto')); 
     }
+    public function filterCategory(Request $request)
+{
+    $categoria = $request->input('categoria');  // Recuperamos la categoría seleccionada
+    $precioMaximo = $request->input('precio'); // Recuperamos el precio máximo
+
+    // Iniciamos la consulta para filtrar productos
+    $query = Producto::query();
+
+   // Filtramos según la categoría seleccionada
+   switch ($categoria) {
+    case 'perro':
+        $query->where('id_categoria', 2) // Alimento
+              ->where('id_especie', 1)  // Perro
+              ->where('id_presentacion', 4); // Seco
+        break;
+    case 'gato':
+        $query->where('id_categoria', 2) // Alimento
+              ->where('id_especie', 2)  // Gato
+              ->where('id_presentacion', 4); // Seco
+        break;
+    case 'snack-perro':
+        $query->where('id_categoria', 2) // Alimento
+              ->where('id_especie', 1)  // Perro
+              ->where('id_presentacion', 6); // Snack
+        break;
+    case 'snack-gato':
+        $query->where('id_categoria', 2) // Alimento
+              ->where('id_especie', 2)  // Gato
+              ->where('id_presentacion', 6); // Snack
+        break;
+    case 'humedo-perro':
+        $query->where('id_categoria', 2) // Alimento
+              ->where('id_especie', 1)  // Perro
+              ->where('id_presentacion', 5); // Húmedo
+        break;
+    case 'humedo-gato':
+        $query->where('id_categoria', 2) // Alimento
+              ->where('id_especie', 2)  // Gato
+              ->where('id_presentacion', 5); // Húmedo
+        break;
+    default:
+        // Si no hay categoría específica seleccionada, traer todos los productos
+        $query->get();
+        break;
 }
 
+// Filtrar por precio máximo si se proporcionó
+if ($precioMaximo) {
+    $query->where('precio_de_venta', '<=', $precioMaximo);
+}
+
+$productos = $query->get();
+
+// Verificar si no hay resultados
+if ($productos->isEmpty()) {
+    return response()->json([
+        'success' => false,
+        'message' => 'Esta categoría no se encuentra disponible. 😢',
+    ]);
+}
+
+return response()->json([
+    'success' => true,
+    'productos' => $productos,
+]);
+}
+}
     
 

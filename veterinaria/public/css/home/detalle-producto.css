@@ -1,3 +1,5 @@
+
+
 #contenedor-detalle{
     width: 80%;
     margin: auto;
@@ -81,3 +83,132 @@
 }
 
 
+
+
+
+
+
+
+
+
+/* ----------------------------------------- */
+
+
+
+.product-container {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image {
+    flex: 6; /* Usa el 60% del ancho */
+    background: url('producto.jpg') no-repeat ;
+
+    width: 40%;
+    height: 40%;
+    display: block;
+    margin-left: 10%;
+    position: relative;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+    
+
+}
+
+.product-image img:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la imagen */
+    z-index: 2;
+    position: relative;
+    box-shadow: 15px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.product-image img {
+    border-radius: 20px;
+    transition: transform 0.3s ease; /* Animación suave */
+
+
+}
+
+.product-info {
+    flex: 4; /* Usa el 40% del ancho */
+    position: absolute;
+    top: 15%; /* Ajusta la posición vertical del cuadro */
+    right: 16%;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+    padding: 20px;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+    width: 32%; /* Ancho del cuadro de información */
+        z-index: 1;
+    border-radius: 10px;
+
+
+}
+
+.product-details {
+    margin-bottom: 20px;
+}
+
+.product-details h1 {
+    margin: 0 0 10px;
+    font-size: 24px;
+}
+
+.product-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.product-details .add-to-cart {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.product-details .add-to-cart:hover {
+    background-color: #0056b3;
+}
+
+.seccion-seguro {
+    margin-top: auto;
+    font-size: 14px;
+    color: #777;
+}
+
+.seccion-seguro h5 {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.seccion-seguro h5 i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+
+.breadcrumb {
+    background-color: #fff;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: #0056b3;
+}

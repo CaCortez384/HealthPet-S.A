@@ -1,6 +1,5 @@
 <x-home>
 
-
 @auth
     {{-- Si el usuario está autenticado, redirigir a la página principal --}}
     <script type="text/javascript">
@@ -229,8 +228,4 @@ const passwordInput = document.getElementById('password');
         }
     }
 </script>
-
-
-
-</div>
 </x-home>

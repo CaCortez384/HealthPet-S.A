@@ -18,7 +18,7 @@
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4" style="margin: auto">
-                    <img src="{{ asset('storage/' . $producto->imagen) }}" class="img-fluid rounded-start"
+                    <img src="{{ asset('storage/' . $producto->imagen) }}" class="img-fluid "
                         alt="{{ $producto->nombre }}">
                 </div>
                 <div class="col-md-8">
@@ -63,6 +63,42 @@
             </div>
         </div>
     </div>
+
+
+    {{-- <div class="breadcrumb">
+        <a href="#">Petshop</a> / 
+        <a href="#">Alimento</a> / 
+        <a href="#">Alimento Perro</a>
+    </div>
+
+
+    <div class="product-container">
+        <div class="product-image ">
+            <img src="{{ asset('storage/' . $producto->imagen) }}" class="" style="width: 48%"
+            alt="{{ $producto->nombre }}">
+        </div>
+        <div class="product-info">
+            <div class="product-details">
+                <h1>Nombre del Producto</h1>
+                <p><strong>Marca:</strong> Marca del Producto</p>
+                <p><strong>Descripción:</strong> Una breve descripción del producto.</p>
+                <p><strong>Categoría:</strong> Categoría del Producto</p>
+                <p><strong>Contenido Neto:</strong> 500g</p>
+                <p><strong>Precio:</strong> $12,000</p>
+                <p><strong>Stock:</strong> Disponible</p>
+                <button class="add-to-cart">Agregar al Carrito</button>
+            </div>
+            <div class="seccion-seguro">
+                <hr>
+                <h5><i class="fa-solid fa-lock"></i> Pago seguro con WebPay Plus</h5>
+                <hr>
+                <h5><i class="fa-solid fa-arrows-spin"></i> Garantía y Políticas de Devolución</h5>
+                <hr>
+                <h5><i class="fa-solid fa-store"></i> Solo disponibilidad en tienda física</h5>
+                <hr>
+            </div>
+        </div>
+    </div> --}}
 
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
