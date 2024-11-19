@@ -1,39 +1,18 @@
 <x-home>
 
-
-
-<style>
-    #fondo {
-        background-image: url('{{ asset('img/fondo-reg.png') }}');
-        /* O usando la ruta directa */
-        height: 80vh;
-        /* Ajusta la altura al 100% de la ventana */
-        
-        background-size: 100% 100%;
-        /* La imagen cubrirá todo el contenedor */
-
-        background-repeat: no-repeat;
-        /* Evita que la imagen se repita */
-    }
-    @media (max-width: 1300px) {
-
-        #fondo {
-        background-image: url('{{ asset('img/fondo-reg.png') }}');
-        /* O usando la ruta directa */
-        height: 100vh;
-        /* Ajusta la altura al 100% de la ventana */
-        background-size: 100% 100%;
-        /* La imagen cubrirá todo el contenedor */
-        background-position: center;
-        /* Centra la imagen */
-        background-repeat: no-repeat;
-        /* Evita que la imagen se repita */
-    }
-    }
- 
-</style>
-
-<div id="fondo">
+    <style>
+        .contenedor-registro{
+                position: relative;
+                background-image: url('{{ asset('img/fondo-registro.png') }}');
+            
+        }
+    
+        .inputContainer input:hover {
+                cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+            }
+    </style>
+<link href="{{ asset('scss/registro-user.scss') }}" rel="stylesheet">
+<link href="{{ asset('css\boton-sucess-style.css') }}" rel="stylesheet">
     <script src="https://esm.run/@material/web/all.js" type="module"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -43,20 +22,116 @@
 <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
 
 
-<div id="modal">
+<div class="contenedor-registro">
 
+
+    <img src="{{ asset('img/cosatado-gato.png') }}" alt=""  id="imagen-cat">
+
+
+    <form class="form" action="{{ route('validar-regitro') }}" method="POST" id="form">
+        @csrf
+        <p class="title"><i class="fa-solid fa-paw"></i> Registro</p>
+        <p class="message">Regístrese ahora y obtenga acceso completo a nuestra aplicación.</p>
     
+        <div class="inputContainer">
+            <i class="fa-solid fa-user" style="width: 25px"></i>
+            <input class="inputField" id="username" placeholder="Nombre de Usuario" type="text" name="name" required>
+        </div>
+    
+        <div class="inputContainer">
+            <i class="fa-solid fa-envelope" style="width: 25px"></i>
+            <input class="inputField" id="email" placeholder="Email" type="email" name="email" required>
+        </div>
+    
+        <div class="inputContainer">
+            <i class="fa-solid fa-phone" style="width: 25px"></i>
+            <p style="padding-top: 20px">+569</p>
+            <input class="inputField" id="movile" placeholder="Celular" type="tel" name="movile" required>
+        </div>
+    
+        <div class="inputContainer">
+            <i class="fa-solid fa-lock" style="width: 25px"></i>
+            <input class="inputField" id="password" placeholder="Contraseña" type="password" name="password" required>
+        </div>
+    
+        <div class="inputContainer">
+            <i class="fa-solid fa-lock" style="width: 25px"></i>
+            <input class="inputField" id="confirmPassword" placeholder="Confirmar Contraseña" type="password" name="confirm_password" required>
+        </div>
+    
+        <button class="submit" id="submit">Regístrarse</button>
+        <hr>
+        <p class="signin">¿Ya tienes una cuenta?<a href="{{ route('login') }}">Iniciar sesión</a></p>
+    </form>
+    
+    <!-- Contenedor de alerta -->
+    <div id="customAlert" class="alert alert-dismissible fixed-bottom fade" style="display: flex; align-items: center; justify-content: space-between">
+        <span id="alertMessage"></span>
+        <button type="button" class="close no-style" aria-label="Close" id="closeAlertButton">
+            <p id="aceptar">Aceptar</p>
+        </button>
+    </div>
+    
+    <script>
+        // Función para mostrar la alerta
+        function showAlert(message) {
+            const alertBox = document.getElementById('customAlert');
+            const alertMessage = document.getElementById('alertMessage');
+    
+            // Insertar el mensaje y mostrar la alerta
+            alertMessage.textContent = message;
+            alertBox.style.display = 'block';
+            alertBox.classList.add('show');
+        }
+    
+        // Función para cerrar la alerta
+        function closeAlert() {
+            const alertBox = document.getElementById('customAlert');
+    
+            // Ocultar la alerta y remover la clase 'show'
+            alertBox.style.display = 'none';
+            alertBox.classList.remove('show');
+        }
+    
+        // Evento para cerrar la alerta al hacer clic en "Aceptar"
+        document.getElementById('closeAlertButton').addEventListener('click', closeAlert);
+    
+        // Validación del formulario
+        document.getElementById('form').addEventListener('submit', function (e) {
+            const mobileField = document.getElementById('movile');
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirmPassword');
+    
+            const mobileValue = mobileField.value;
+            const passwordValue = passwordField.value;
+            const confirmPasswordValue = confirmPasswordField.value;
+    
+            // Validaciones
+            if (!/^\d{8}$/.test(mobileValue)) {
+                e.preventDefault(); // Evitar el envío del formulario
+                showAlert('El número de celular debe tener exactamente 8 dígitos.');
+                return;
+            }
+    
+            if (passwordValue.length < 5) {
+                e.preventDefault(); // Evitar el envío del formulario
+                showAlert('La contraseña debe tener al menos 5 caracteres.');
+                return;
+            }
+    
+            if (passwordValue !== confirmPasswordValue) {
+                e.preventDefault(); // Evitar el envío del formulario
+                showAlert('Las contraseñas no coinciden.');
+                return;
+            }
+        });
+    </script>
+</div>
 
-    @include('components.alert')
 
+{{-- <div id="modal"> --}}
 
-    {{-- alerta que muestra cuando un producto se agrego con exito --}}
-    @section('content')
-    @include('components.alert')
-
-    <!-- Resto del contenido de la página -->
-@endsection
-<div id="logo">
+{{-- <div id="logo">
 
 
     <img src="img\logo-vet.png" alt="logo" width="100px">
@@ -121,60 +196,8 @@
     </a>
 </form>
 
-</div>
-
-<script>
-    // Obtener los elementos necesarios para mostrar/ocultar la contraseña
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-    const toggleIcon = document.getElementById('toggleIcon');
-
-    // Añadir un listener al botón de mostrar/ocultar contraseña
-    togglePassword.addEventListener('click', function (event) {
-        event.preventDefault();
-        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordField.setAttribute('type', type);
-        toggleIcon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
-    });
-
-    // Mostrar/ocultar contraseña de confirmación
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const confirmPasswordField = document.getElementById('confirmPassword');
-    const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
-
-    toggleConfirmPassword.addEventListener('click', function (event) {
-        event.preventDefault();
-        const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPasswordField.setAttribute('type', type);
-        toggleConfirmIcon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
-    });
-
-    function validateAndSubmit() {
-        const form = document.getElementById('form');
-        const password = passwordField.value;
-        const confirmPassword = confirmPasswordField.value;
-        const passwordError = document.getElementById('passwordError');
-
-        // Verificar si las contraseñas coinciden
-        if (password !== confirmPassword) {
-            passwordError.style.display = 'block'; // Mostrar el mensaje de error
-            return; // No enviar el formulario
-        } else {
-            passwordError.style.display = 'none'; // Ocultar el mensaje de error si coincide
-        }
-
-        // Comprueba si el formulario es válido
-        if (form.checkValidity()) {
-            form.submit(); // Si es válido y las contraseñas coinciden, envía el formulario
-        } else {
-            form.reportValidity(); // Muestra un mensaje de error nativo
-        }
-    }
-</script>
+</div> --}}
 
 
 
-
-
-</div>
 </x-home>
