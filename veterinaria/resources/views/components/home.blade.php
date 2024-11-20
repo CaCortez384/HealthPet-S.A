@@ -245,7 +245,7 @@ md-icon:hover{
 
                             <!-- Cart -->
                             <div class="nav_link dropdown">
-                                <a href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown" <a
+                                <a href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown" 
                                     href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                     style="text-decoration: none; color: white;display: flex; align-items: center; justify-content: center;  flex-direction: column;">

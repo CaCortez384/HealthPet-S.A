@@ -13,7 +13,7 @@
         }
     </style>
     <!-- Contenido de la página -->
-    <div id="contenedor-detalle">
+    {{-- <div id="contenedor-detalle">
         <h1 class="titulo-veterinaria">Detalle del Producto <i class="fa-solid fa-paw"></i></h1>
         <div class="card mb-3">
             <div class="row g-0">
@@ -63,29 +63,41 @@
             </div>
         </div>
     </div>
+ --}}
 
-
-    {{-- <div class="breadcrumb">
-        <a href="#">Petshop</a> / 
-        <a href="#">Alimento</a> / 
-        <a href="#">Alimento Perro</a>
+    <div class="breadcrumb">
+        <a href="{{ route('petshop') }}">Petshop </a> <strong> <span> / </span></strong>
+        <a href="#">{{ $producto->nombre }}</a>
     </div>
 
 
     <div class="product-container">
+
         <div class="product-image ">
-            <img src="{{ asset('storage/' . $producto->imagen) }}" class="" style="width: 48%"
+            <img src="{{ asset('storage/' . $producto->imagen) }}" class="imagen" 
             alt="{{ $producto->nombre }}">
         </div>
+
         <div class="product-info">
             <div class="product-details">
-                <h1>Nombre del Producto</h1>
-                <p><strong>Marca:</strong> Marca del Producto</p>
-                <p><strong>Descripción:</strong> Una breve descripción del producto.</p>
-                <p><strong>Categoría:</strong> Categoría del Producto</p>
-                <p><strong>Contenido Neto:</strong> 500g</p>
-                <p><strong>Precio:</strong> $12,000</p>
-                <p><strong>Stock:</strong> Disponible</p>
+                <h1><strong><span>{{ $producto->nombre }}</span></strong></h1>
+                <p class="card-text"><strong>Marca:</strong>
+                    {{ $producto->detalleWeb->marca ?? 'Marca no disponible' }}</p>
+                    <p class="card-text"><strong>Descripcion:</strong>
+                        {{ $producto->detalleWeb->descripcion ?? 'Sin Descripcion' }}</p>
+                        <p class="card-text"><strong>Categoría:</strong>
+                            {{ $producto->categoria->nombre ?? 'No disponible' }}
+                            {{ $producto->presentacion->nombre ?? '' }}</p>
+                            <p class="card-text"><strong>Contenido neto:</strong>
+                                {{ number_format($producto->detalleWeb->contenido_neto, 0, '.', '') ?? '' }}
+                                {{ $producto->unidad->nombre ?? '' }}</p>
+                                <br>
+                <h5 class="card-text" id="precio">Precio: <span
+                    class="price">${{ $producto->precio_de_venta }}</span></h5>
+
+                    <p class="card-text"><small class="text-muted">Stock: {{ $producto->stock_unidades }}</small>
+                    </p>
+
                 <button class="add-to-cart">Agregar al Carrito</button>
             </div>
             <div class="seccion-seguro">
@@ -98,7 +110,7 @@
                 <hr>
             </div>
         </div>
-    </div> --}}
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

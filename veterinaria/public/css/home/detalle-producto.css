@@ -94,24 +94,24 @@
 /* ----------------------------------------- */
 
 
+.imagen{
+    width: 400px;
+    border-radius: 20px;
+    transition: transform 0.3s ease; /* Animación suave */
 
+}
 .product-container {
     display: flex;
-    position: relative;
-    overflow: hidden;
+
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    margin: auto;
 }
 
 .product-image {
-    flex: 6; /* Usa el 60% del ancho */
     background: url('producto.jpg') no-repeat ;
-
-    width: 40%;
-    height: 40%;
-    display: block;
-    margin-left: 10%;
-    position: relative;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin: 30px;
 
     
 
@@ -120,29 +120,18 @@
 .product-image img:hover {
     transform: scale(1.1); /* Aumenta el tamaño de la imagen */
     z-index: 2;
-    position: relative;
     box-shadow: 15px 10px 1px rgba(0, 0, 0, 0.1);
 }
 
-.product-image img {
-    border-radius: 20px;
-    transition: transform 0.3s ease; /* Animación suave */
-
-
-}
 
 .product-info {
-    flex: 4; /* Usa el 40% del ancho */
-    position: absolute;
-    top: 15%; /* Ajusta la posición vertical del cuadro */
-    right: 16%;
     background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
     padding: 20px;
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-    width: 32%; /* Ancho del cuadro de información */
         z-index: 1;
     border-radius: 10px;
-
+    margin-bottom: 20px;
+    
 
 }
 
@@ -211,4 +200,20 @@
 
 .breadcrumb a:hover {
     color: #0056b3;
+}
+
+
+@media (max-width: 900px) {
+
+    .product-container {
+        display: flex;
+
+        flex-direction: column;
+    
+        justify-content: center;
+        align-items: center;
+        width: 97%;
+        margin: auto;
+    }
+    
 }
