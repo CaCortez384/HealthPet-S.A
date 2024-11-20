@@ -282,9 +282,9 @@ md-icon:hover{
                         <a class="nav-link" href="{{ route('petshop') }}"><i class="fa-solid fa-shop"></i>PetShop</a>
                     </li>
 
-                    <li class="nav-item {{ Request::routeIs('citas.create') ? 'active' : '' }}">
+                    {{-- <li class="nav-item {{ Request::routeIs('citas.create') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('citas.create') }}"><i class="far fa-calendar-alt"></i>Agendar</a>
-                    </li>
+                    </li> --}}
 
                 </ul>
             </div>

@@ -112,11 +112,13 @@
             </a>
 
             <script>
+                // Esperar a que la página se cargue completamente
                 window.onload = function() {
+                    // Ejecutar el código después de 5 segundos
                     setTimeout(function() {
-                        document.getElementById('whatsapp-icon').style.display = 'block';
-                        document.getElementById('whatsapp-icon').style.opacity =
-                            1; // Asegura que se vea correctamente si usas la transición
+                        const whatsappIcon = document.getElementById('whatsapp-icon');
+                        whatsappIcon.style.opacity = '1'; // Hacer visible
+                        whatsappIcon.style.pointerEvents = 'auto'; // Permitir interacción
                     }, 5000); // 5000 ms = 5 segundos
                 };
             </script>
@@ -212,104 +214,115 @@
 
 
                                         <!-- Tarjetas (cards) originales -->
-                                        <div class="card-item">
+                                        <div class="card-item " id="peluqueria">
                                             <img src="img/servicios/peluqueria.png" alt="Peluquería">
                                             <hr>
                                             <h5>Peluquería</h5>
                                             <p>Baño, corte de pelo, limpieza de oídos, corte de uñas y peinados
                                                 especiales para mascotas.</p>
-                                                <button id="openModal" class="card-button">Saber más</button>
+                                            <button class="card-button" data-service="peluqueria">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="consultas">
                                             <img src="img/servicios/consultas.png" alt="Consultas">
                                             <hr>
                                             <h5>Consultas</h5>
                                             <p>Revisión general, control de peso, vacunación, desparasitación y
                                                 asesoramiento personalizado.</p>
-                                                <button class="card-button">Saber más</button>
+                                            <button class="card-button" data-service="consultas">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="operaciones">
                                             <img src="img/servicios/operaciones.png" alt="Operaciones">
                                             <hr>
                                             <h5>Cirugías</h5>
                                             <p>Esterilización, extracción de tumores, limpieza dental, cuidados pre y
                                                 postoperatorios.</p>
-                                                <button class="card-button">Saber más</button>
+                                            <button class="card-button" data-service="operaciones">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="examenes">
                                             <img src="img/servicios/examenes.png" alt="Exámenes">
                                             <hr>
                                             <h5>Laboratorio</h5>
                                             <p>Análisis de sangre, orina, heces, pruebas hormonales y diagnósticos
                                                 avanzados.</p>
-                                                <button class="card-button">Saber más</button>
+                                                <button class="card-button" data-service="examenes">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="hospital">
                                             <img src="img/servicios/hospit-hd.png" alt="Hospital">
                                             <hr>
                                             <h5>Hospital</h5>
                                             <p>Monitoreo constante, administración de medicamentos, cuidado
                                                 postoperatorio y atención veterinaria especializada.</p>
-                                                <button class="card-button">Saber más</button>
+                                                <button class="card-button" data-service="hospital">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="radiografias">
                                             <img src="img/servicios/radiografia.png" alt="Radiografías">
                                             <hr>
                                             <h5>Radiografías</h5>
                                             <p>Diagnóstico preciso, imágenes detalladas, evaluación de huesos, órganos y
                                                 detección de lesiones.</p>
-                                                <button class="card-button">Saber más</button>
+                                                <button class="card-button" data-service="radiografias">Saber más</button>
                                         </div>
 
                                         <!-- Duplicar las tarjetas para crear el bucle suave -->
-                                        <div class="card-item">
+                                        <div class="card-item " id="peluqueria">
                                             <img src="img/servicios/peluqueria.png" alt="Peluquería">
                                             <hr>
                                             <h5>Peluquería</h5>
                                             <p>Baño, corte de pelo, limpieza de oídos, corte de uñas y peinados
                                                 especiales para mascotas.</p>
-                                                <button class="card-button">Saber más</button>
+                                            <button class="card-button" data-service="peluqueria">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="consultas">
                                             <img src="img/servicios/consultas.png" alt="Consultas">
                                             <hr>
                                             <h5>Consultas</h5>
                                             <p>Revisión general, control de peso, vacunación, desparasitación y
                                                 asesoramiento personalizado.</p>
-                                                <button class="card-button">Saber más</button>
+                                            <button class="card-button" data-service="consultas">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="operaciones">
                                             <img src="img/servicios/operaciones.png" alt="Operaciones">
                                             <hr>
                                             <h5>Cirugías</h5>
                                             <p>Esterilización, extracción de tumores, limpieza dental, cuidados pre y
                                                 postoperatorios.</p>
-                                                <button class="card-button">Saber más</button>
+                                            <button class="card-button" data-service="operaciones">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="examenes">
                                             <img src="img/servicios/examenes.png" alt="Exámenes">
                                             <hr>
                                             <h5>Laboratorio</h5>
                                             <p>Análisis de sangre, orina, heces, pruebas hormonales y diagnósticos
                                                 avanzados.</p>
-                                                <button class="card-button">Saber más</button>
+                                                <button class="card-button" data-service="examenes">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="hospital">
                                             <img src="img/servicios/hospit-hd.png" alt="Hospital">
                                             <hr>
                                             <h5>Hospital</h5>
                                             <p>Monitoreo constante, administración de medicamentos, cuidado
                                                 postoperatorio y atención veterinaria especializada.</p>
-                                                <button class="card-button">Saber más</button>
+                                                <button class="card-button" data-service="hospital">Saber más</button>
                                         </div>
-                                        <div class="card-item">
+
+                                        <div class="card-item" id="radiografias">
                                             <img src="img/servicios/radiografia.png" alt="Radiografías">
                                             <hr>
                                             <h5>Radiografías</h5>
                                             <p>Diagnóstico preciso, imágenes detalladas, evaluación de huesos, órganos y
                                                 detección de lesiones.</p>
-                                                <button class="card-button">Saber más</button>
+                                                <button class="card-button" data-service="radiografias">Saber más</button>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -320,65 +333,101 @@
 
 
             <div class="modal-overlay" id="modalOverlay">
-              <div class="card2">
-                <button class="btn-close" id="closeModal">&times;</button>
-                <div class="card-wrapper">
-                  <div class="card-icon">
-                    <div class="icon-cart-box">
-                      <svg
-                        viewBox="0 0 512 512"
-                        width="20"
-                        height="20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"
-                          fill="#ffffff"
-                        ></path>
-                      </svg>
+                <div class="card2">
+                    <button class="btn-close" id="closeModal">&times;</button>
+                    <div class="card-wrapper">
+                        <div class="card-content">
+                                <span class="card-title" id="modalTitle">Título del Servicio </span> <i class="fa-solid fa-circle-info"></i>
+                            </div>
+                            <div class="card-text" id="modalText">
+                                Detalles del servicio aquí.
+                            </div>
+                            <button type="button" class="btn-accept" id="closeModalButton">Cerrar</button>
+                        </div>
                     </div>
-                  </div>
-                  <div class="card-content">
-                    <div class="card-title-wrapper">
-                      <span class="card-title">Privacy</span>
-                    </div>
-                    <div class="card-text">
-                      This website requires cookies to provide all of its features. Please
-                      enable your browser cookies.
-                    </div>
-                    <button type="button" class="btn-accept">Accept</button>
-                  </div>
                 </div>
-              </div>
             </div>
 
         </section>
         <!-- end service section -->
 
         <script>
-          // Selecciona elementos
-          const modalOverlay = document.getElementById('modalOverlay');
-          const openModalButton = document.getElementById('openModal');
-          const closeModalButton = document.getElementById('closeModal');
-        
-          // Abre el modal
-          openModalButton.addEventListener('click', () => {
-            modalOverlay.classList.add('modal-visible');
-          });
-        
-          // Cierra el modal
-          closeModalButton.addEventListener('click', () => {
-            modalOverlay.classList.remove('modal-visible');
-          });
-        
-          // Cierra el modal al hacer clic fuera de la tarjeta
-          modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-              modalOverlay.classList.remove('modal-visible');
-            }
-          });
+            // Selecciona elementos
+            // Mapeo de información por servicio
+
+            //aqui se pueden agregar mas descripciones especificas para cada servicio quye se mostrara en la modal de cada tarjeta de servicio
+
+            const modalContent =  {
+                peluqueria: {
+                    title: "Peluquería",
+                    text: "En nuestro servicio de peluquería, nos aseguramos de brindar un trato amable y respetuoso a tu mascota. Realizamos baños relajantes, cortes de pelo adaptados a la raza y estilo que prefieras, limpieza cuidadosa de oídos, corte de uñas para mantener su comodidad y peinados especiales. Es importante que la mascota sea amigable y esté acostumbrada a interactuar con personas para garantizar una experiencia positiva. Si tu mascota es un poco nerviosa, nuestro equipo está capacitado para manejarla con paciencia y cuidado, siempre priorizando su bienestar. ¡Queremos que tu mascota luzca y se sienta fantástica!",
+
+                },
+                consultas: {
+                    title: "Consultas",
+                    text: "Nuestras consultas están diseñadas para evaluar y atender las necesidades específicas de tu mascota. Ya sea una revisión general, control de peso, vacunación o desparasitación, nos enfocamos en ofrecer el mejor servicio y soluciones personalizadas para cada caso. Nuestro personal veterinario escucha con atención tus inquietudes y trabaja contigo para garantizar el bienestar de tu mascota. Tratamos cada consulta con empatía y profesionalismo, procurando siempre minimizar el estrés de tu mascota y buscar la mejor solución para su salud.",
+                },
+                operaciones: {
+                    title: "Cirugías",
+                    text: "Las cirugías se realizan únicamente después de una revisión exhaustiva del caso. Esto incluye un análisis previo para determinar las necesidades específicas de tu mascota y garantizar su seguridad durante el procedimiento. Nuestro equipo veterinario pone especial atención en proporcionar un ambiente tranquilo y respetuoso, tanto en los cuidados preoperatorios como postoperatorios. Nos aseguramos de que las mascotas reciban el trato más cálido y profesional posible, siempre priorizando su bienestar y recuperación.",
+                },
+                examenes: {
+                    title: "Laboratorio",
+                    text: "Ofrecemos un servicio de análisis clínico preciso para apoyar el diagnóstico de las condiciones de tu mascota. Las muestras necesarias, como sangre, orina o heces, son recolectadas en nuestro hospital veterinario con técnicas cuidadosas que priorizan la comodidad de tu mascota. Posteriormente, las enviamos a laboratorios de confianza que garantizan resultados confiables y de alta calidad. Nuestro equipo veterinario interpreta estos resultados con atención al detalle, brindándote un diagnóstico claro y recomendaciones específicas para el bienestar de tu compañero peludo. Todo el proceso está diseñado para que tanto tú como tu mascota se sientan tranquilos y atendidos en todo momento.",
+                },
+                hospital: {
+                    title: "Hospital",
+                    text: "En casos que requieran hospitalización, proporcionamos un cuidado especializado y adaptado a las necesidades particulares de cada mascota. Monitoreamos constantemente su evolución, administramos los medicamentos indicados y trabajamos para ofrecerle un entorno cómodo y seguro. Nuestro objetivo es confortar a tu mascota mientras recibe el tratamiento necesario. Nos aseguramos de que se sienta acompañada y tranquila durante su estancia, manteniéndote informado en todo momento sobre su estado y progreso.",
+                },
+                radiografias: {
+                    title: "Radiografías",
+                    text: "Las radiografías se realizan únicamente cuando nuestros veterinarios determinan que son necesarias para el diagnóstico de un problema específico. Antes del procedimiento, evaluamos cuidadosamente a la mascota para garantizar su bienestar y minimizar cualquier incomodidad. Durante la toma de imágenes, utilizamos técnicas que aseguran un buen trato y comodidad para tu mascota. Este servicio nos permite obtener imágenes detalladas de huesos, órganos y tejidos, brindando información clave para un diagnóstico preciso. Nuestro enfoque siempre está en proporcionar una experiencia positiva para tu mascota y tranquilidad para ti.",
+                },
+            };
+// Selecciona todas las tarjetas
+const cards = document.querySelectorAll('.card-item');
+
+// Obtén la modal y el botón de cierre
+const modal = document.getElementById('modalOverlay');
+const closeModalBtn = document.getElementById('closeModal');
+
+// Función para cerrar el modal
+const hideModal = () => {
+    modalOverlay.style.display = "none";
+};
+
+// Añadir eventos a los botones de cierre
+closeModal.addEventListener("click", hideModal);
+closeModalButton.addEventListener("click", hideModal);
+
+       // Añade el evento a cada tarjeta
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+        const serviceId = card.id; // Obtén el ID de la tarjeta clickeada
+        const content = modalContent[serviceId]; // Obtén el contenido para esa tarjeta
+
+        // Llena la modal con la información del servicio
+        document.querySelector('.card-title').textContent = content.title;
+        document.querySelector('.card-text').textContent = content.text;
+
+        // Muestra la modal
+        modal.style.display = 'flex';
+    });
+});
+
+// Cierra la modal al presionar el botón de cerrar
+closeModalBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+// Cierra la modal al hacer clic fuera de ella
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
         </script>
-        
+
         <script>
             const carousel = document.querySelector('.carousel1');
 
