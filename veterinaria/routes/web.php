@@ -12,6 +12,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CitaController;
+use App\Http\Controllers\ContactController;
 
 // rutas login nueva
 use App\Http\Controllers\ProfileController;
@@ -139,3 +140,7 @@ Route::get('/citas/crear', [CitaController::class, 'create'])->name('citas.creat
 Route::post('/citas/crear', [CitaController::class, 'store'])->name('citas.store');
 Route::get('appointments/available-times', [CitaController::class, 'availableTimes']);
 
+
+
+// para el correo del home contacot de los usuarios por mail
+Route::post('/contacto', [ContactController::class, 'sendContact']);

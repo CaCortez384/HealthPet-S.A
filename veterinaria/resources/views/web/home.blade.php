@@ -24,6 +24,17 @@
         <link href="{{ asset('css\home\responsive.css') }}" rel="stylesheet">
 
     </head>
+
+    @include('components.alert')
+
+
+    {{-- alerta que muestra cuando un producto se agrego con exito --}}
+    @section('content')
+    @include('components.alert')
+
+    <!-- Resto del contenido de la página -->
+@endsection
+
     <div id="todo-home">
 
         <style>
@@ -626,20 +637,28 @@ window.addEventListener('click', (e) => {
 
 
 
-                    <form class="form1" id="contactanos">
+                    <form id="contactanos" class="form1" method="POST" action="/contacto">
+                        @csrf
                         <div id="contenedor-imagen">
                             <img src="img/sello-postal-cat.png" alt="" id="imagen-sello">
                         </div>
-                        <p class="heading">Contáctanos </p>
-                        <input placeholder="Nombre" class="input" type="text" required>
-                        <input placeholder="Celular (9 12345678)" class="input" type="number" required>
-                        <input placeholder="Correo" class="input" type="text" required>
-                        <textarea placeholder="Mensaje" name="mensaje" class="input" required></textarea>
-                        <button class="bt" id="bt">
+                        <p class="heading">Contáctanos</p>
+                        <input name="nombre" placeholder="Nombre" class="input" type="text" maxlength="50" required>
+                        <input name="celular" placeholder="Celular (9 12345678)" class="input" type="number" required>
+                        <input name="correo" placeholder="Correo" class="input" type="email" required>
+                        <textarea name="mensaje" placeholder="Mensaje" class="input" required></textarea>
+                    
+                        <!-- Google reCAPTCHA -->
+                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" style="margin: auto; margin-top: 10px; border-radius: 20px"></div>
+                    
+                        <button class="bt" id="bt" type="submit">
                             <span class="msg" id="msg"></span>
                             Enviar <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </form>
+                    
+                    <!-- reCAPTCHA Script -->
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
                     <div id="maps">
