@@ -147,3 +147,5 @@ Route::post('/contacto', [ContactController::class, 'sendContact']);
 
 //pruebas de graficos
 Route::get('/ventas/datos/{tipo}', [HomeController::class, 'getSalesData'])->name('ventas.datos');
+Route::get('/ingresos/tipo', [HomeController::class, 'getIngresosPorTipoData']);
+

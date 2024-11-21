@@ -38,7 +38,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center shadow-sm">
+                <div class="card text-center shadow-sm card-hover"
+                    onclick="window.location.href='{{ route('pedidos.index') }}'">
                     <div class="card-header bg-success text-white">Nuevos Pedidos</div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $nuevosPedidos }}</h5>
@@ -46,7 +47,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center shadow-sm">
+                <div class="card text-center shadow-sm card-hover" onclick="window.location.href='{{ route('pedidos.index') }}'">
                     <div class="card-header bg-warning text-white">Pedidos Activos</div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $pedidosActivos }}</h5>
@@ -58,7 +59,7 @@
         {{-- Segunda fila --}}
         <div class="row mt-4 g-3">
             <div class="col-md-4">
-                <div class="card text-center shadow-sm">
+                <div class="card text-center shadow-sm card-hover" onclick="window.location.href='{{ route('ventas.index') }}'">
                     <div class="card-header bg-info text-white">Ventas de Hoy</div>
                     <div class="card-body">
                         <h5 class="card-title">{{ number_format($ventas, 0, ',', '.') }}</h5>
@@ -66,7 +67,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center shadow-sm">
+                <div class="card text-center shadow-sm card-hover" onclick="window.location.href='{{ route('deudas.index') }}'">
                     <div class="card-header bg-danger text-white">Deudores Actuales</div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $deudoresActuales }}</h5>
@@ -74,7 +75,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center shadow-sm">
+                <div class="card text-center shadow-sm card-hover" onclick="window.location.href='{{ route('listar.productos') }}'">
                     <div class="card-header bg-secondary text-white">Productos con Stock Bajo</div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $productosBajoStock->count() }}</h5>
@@ -83,16 +84,26 @@
             </div>
         </div>
 
-        {{-- Gráfico de ventas mensuales --}}
-        <div class="row mt-5">
-            <div class="col-md-12">
+        {{-- Gráfico de ventas mensuales e ingresos por tipo --}}
+        <div class="grid-container mt-5">
+            <div class="ventas-chart">
                 <div class="card shadow-sm">
                     <div class="card-header bg-dark text-white text-center">
-                        Gráfico de Ventas
+                        ingresos de ventas totales por mes
                     </div>
                     <div class="card-body">
-
                         <canvas id="ventasChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ingresos-chart">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white text-center">
+                        Ingresos por tipo
+                    </div>
+                    <div class="card-body">
+                        <canvas id="ingresosChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -118,42 +129,42 @@
 
                     const ctx = document.getElementById('ventasChart').getContext('2d');
                     chartInstance = new Chart(ctx, {
-                        type: 'bar', // Tipo de gráfico, puedes cambiar a 'bar', 'pie', etc.
-                        data: {
-                            labels: chartLabels,
-                            datasets: [{
-                                label: 'Ventas Totales',
-                                data: chartData,
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'top',
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(tooltipItem) {
-                                            return '$' + tooltipItem.raw.toLocaleString();
+                            type: 'bar', // Tipo de gráfico, puedes cambiar a 'bar', 'pie', etc.
+                            data: {
+                                labels: chartLabels,
+                                datasets: [{
+                                    label: 'Ventas Totales',
+                                    data: chartData,
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'top',
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                return '$' + tooltipItem.raw.toLocaleString();
+                                            }
                                         }
                                     }
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
                                 }
                             }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching data:', error);
-                    });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
                 });
         }
 
@@ -167,4 +178,46 @@
             obtenerDatos('mes');
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/ingresos/tipo')
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById('ingresosChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie', // Puedes usar 'bar', 'doughnut', etc.
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Ingresos por Tipo',
+                                data: data.data,
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.2)', // Color para ventas
+                                    'rgba(255, 206, 86, 0.2)', // Color para pedidos
+                                ],
+                                borderColor: [
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
+
+
 </x-app-layout>

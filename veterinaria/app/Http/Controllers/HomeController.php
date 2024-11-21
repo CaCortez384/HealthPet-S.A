@@ -35,7 +35,7 @@ class HomeController extends Controller
         $productosBajoStock = Producto::whereColumn('stock_unidades', '<', 'cantidad_minima_requerida')->get();
         $nuevosPedidos = Pedido::whereDate('created_at', Carbon::today())->count();
         $pedidosActivos = Pedido::whereIn('estado_pedido', [1, 2, 3])->count();
-        $ingresosHoy = Venta::whereDate('fecha_venta', Carbon::today())->sum('monto_pagado');
+        $ingresosHoy = Venta::whereDate('fecha_venta', Carbon::today())->sum('monto_pagado') + Pedido::whereDate('created_at', Carbon::today())->sum('monto_pagado');
         $ventas = Venta::whereDate('fecha_venta', Carbon::today())->count();
         $deudoresActuales = Deuda::where('estado', 0)->count();
         $promedioVentasDiario = Venta::avg('monto_pagado') ?? 0; // Asegura que no sea null
@@ -94,7 +94,62 @@ class HomeController extends Controller
         ]);
     }
 
+    public function getIngresosData($tipo = 'mes') // 'mes' por defecto
+    {
+        if ($tipo == 'dia') {
+            // Obtener ventas diarias
+            $ventasPorDia = Venta::selectRaw('DATE(fecha_venta) as dia, SUM(total) as total')
+                ->groupBy('dia')
+                ->orderBy('dia', 'asc')
+                ->get();
 
+            // Transformar datos para el gráfico
+            $labels = $ventasPorDia->map(fn($venta) => $venta->dia);
+            $data = $ventasPorDia->pluck('total');
+        } else {
+            // Obtener ventas mensuales
+            $ventasPorMes = Venta::selectRaw('MONTH(fecha_venta) as mes, YEAR(fecha_venta) as anio, SUM(total) as total')
+                ->groupBy('anio', 'mes')
+                ->orderBy('anio', 'asc')
+                ->orderBy('mes', 'asc')
+                ->get();
+
+            // Transformar datos para el gráfico
+            $labels = $ventasPorMes->map(fn($venta) => $venta->anio . '-' . str_pad($venta->mes, 2, '0', STR_PAD_LEFT));
+            $data = $ventasPorMes->pluck('total');
+        }
+
+        // Obtener cantidad de ventas y pedidos del día actual
+        $ventasHoy = Venta::whereDate('fecha_venta', Carbon::today())->count();
+        $pedidosHoy = Pedido::whereDate('created_at', Carbon::today())->count();
+
+        // Obtener ingresos totales de ventas y pedidos del día actual
+        $ingresosVentasHoy = Venta::whereDate('fecha_venta', Carbon::today())->sum('total');
+        $ingresosPedidosHoy = Pedido::whereDate('created_at', Carbon::today())->sum('total_pagado');
+
+        // Retornar datos al cliente
+        return response()->json([
+            'labels' => $labels,
+            'data' => $data,
+            'ventasHoy' => $ventasHoy,
+            'pedidosHoy' => $pedidosHoy,
+            'ingresosVentasHoy' => $ingresosVentasHoy,
+            'ingresosPedidosHoy' => $ingresosPedidosHoy
+        ]);
+    }
+
+    public function getIngresosPorTipoData()
+    {
+        $ingresosPorTipo = [
+            'Ventas' => Venta::sum('total'),
+            'Pedidos' => Pedido::sum('monto_pagado'),
+        ];
+
+        return response()->json([
+            'labels' => array_keys($ingresosPorTipo),
+            'data' => array_values($ingresosPorTipo),
+        ]);
+    }
 
 
     public function nose()

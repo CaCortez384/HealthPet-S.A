@@ -78,7 +78,7 @@ class WebpayController extends Controller
 
             // Actualizar estado_pago y estado_pedido
             $pedido->estado_pago = $hayFaltaDeStock ? 1 : 2;
-            $pedido->estado_pedido = $hayFaltaDeStock ? 1 : 3;
+            $pedido->estado_pedido = $hayFaltaDeStock ? 1 : 2;
 
             // Guardar cambios en el pedido
             $pedido->save();

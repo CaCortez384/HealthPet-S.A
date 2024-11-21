@@ -34,4 +34,29 @@
     grid-column-start: 4;
     grid-row-start: 3;
 }
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
         
+.grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+}
+
+.ventas-chart {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.ingresos-chart {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
