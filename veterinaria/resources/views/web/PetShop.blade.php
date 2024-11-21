@@ -3,7 +3,7 @@
     <!-- Asegúrate de cargar jQuery primero -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/Web/scriptPetShop.js') }}" defer></script>
-    
+
 
     <!-- Contenido de la página -->
 
@@ -13,10 +13,13 @@
         @section('content')
             @include('components.alert')
         @endsection
-        
-    <Div><h1>¡Compra y Reserva productos para tu mascota! Paga un 50% al hacer el pedido o el total y recógelo en nuestra veterinaria.
-    </h1></Div>
-        
+
+        <Div>
+            <h1>¡Compra y Reserva productos para tu mascota! Paga un 50% al hacer el pedido o el total y recógelo en
+                nuestra veterinaria.
+            </h1>
+        </Div>
+
         <div class="store-wrapper">
             <!-- Listado de categorías -->
             <div class="category_list">
@@ -33,7 +36,7 @@
                     <p>Precio máximo: $<span id="price-display">50000</span></p>
                     <button id="apply-price-filter">Aplicar filtro</button>
                 </div>
-        
+
             </div>
             <!-- Listado de productos -->
             <section class="products-list">
@@ -47,14 +50,14 @@
                             </p>
                             <p>Stock: {{ $producto->stock_unidades }}</p>
                             @if ($producto->stock_unidades == 0)
-                                <button class="add-to-cart add-to-cart-button"
-                                    data-product-id="{{ $producto->id }}" onclick="event.stopPropagation();">Realizar pedido</button>
+                                <button class="add-to-cart add-to-cart-button" data-product-id="{{ $producto->id }}"
+                                    onclick="event.stopPropagation();">Realizar pedido</button>
                                 <span id="adding-cart-{{ $producto->id }}"
                                     class="btn btn-warning btn-block text-center added-msg"
                                     style="display:none;">Añadido!</span>
                             @else
-                                <button class="add-to-cart add-to-cart-button"
-                                    data-product-id="{{ $producto->id }}" onclick="event.stopPropagation();">Agregar al carrito</button>
+                                <button class="add-to-cart add-to-cart-button" data-product-id="{{ $producto->id }}"
+                                    onclick="event.stopPropagation();">Agregar al carrito</button>
                                 <span id="adding-cart-{{ $producto->id }}"
                                     class="btn btn-warning btn-block text-center added-msg"
                                     style="display:none;">Añadido!</span>

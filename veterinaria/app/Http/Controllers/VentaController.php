@@ -37,28 +37,28 @@ class VentaController extends Controller
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
         ];
-    
+
         $ventas = venta::query();
-    
+
         if (!empty($filtros['rut'])) {
             $ventas->where('rut_cliente', 'like', '%' . $filtros['rut'] . '%');
         }
-    
+
         if (!is_null($filtros['deuda'])) {
             $ventas->where('estado_pago', $filtros['deuda']);
         }
-    
+
         // Filtrado por rango de fechas
         if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin'])) {
             // Convertir las fechas al formato Y-m-d
             $fechaInicio = Carbon::createFromFormat('Y-m-d', $filtros['fecha_inicio'])->startOfDay();
             $fechaFin = Carbon::createFromFormat('Y-m-d', $filtros['fecha_fin'])->endOfDay();
-    
+
             $ventas->whereBetween('fecha_venta', [$fechaInicio, $fechaFin]);
         }
-    
+
         $ventas = $ventas->paginate(10);
-    
+
         return view('ventas.listar', compact('ventas', 'filtros'));
     }
 
@@ -86,7 +86,7 @@ class VentaController extends Controller
         ], [
             'monto_pagado.regex' => 'El campo monto pagado debe ser un número válido y no contener letras.',
 
-           
+
         ]);
 
         // Limpiar los valores de subtotal y total eliminando puntos y comas
@@ -113,10 +113,10 @@ class VentaController extends Controller
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
         $venta->nombre_vendedor = "nombre vendedor";
         $venta->tipo_pago_id = $request->tipo_pago_id;
-        $venta->numero_cliente = $request->numero_cliente;//celular del cliente
-        $venta->email_cliente = $request->email_cliente;//celular del cliente
+        $venta->numero_cliente = $request->numero_cliente; //celular del cliente
+        $venta->email_cliente = $request->email_cliente; //celular del cliente
 
-        
+
 
         //Descomentar al momento de poner el proyecto en producción
         //$venta->nombre_vendedor = $nombreUsuario;
@@ -238,208 +238,49 @@ class VentaController extends Controller
 
 
 
-public function show($id)
-{
-    $venta = Venta::find($id);
+    public function show($id)
+    {
+        $venta = Venta::find($id);
 
-    if (!$venta) {
-        return redirect()->route('ventas.index')->with('error', 'Venta no encontrada.');
-    }
+        if (!$venta) {
+            return redirect()->route('ventas.index')->with('error', 'Venta no encontrada.');
+        }
 
         // Obtener los detalles de la venta
         $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
 
-    // Formatear los valores numéricos
+        // Formatear los valores numéricos
 
-    $venta->subtotal = number_format( $venta->subtotal, 0, ',', '.');
-    $venta->monto_pagado = number_format( $venta->monto_pagado, 0, ',', '.');
+        $venta->subtotal = number_format($venta->subtotal, 0, ',', '.');
+        $venta->monto_pagado = number_format($venta->monto_pagado, 0, ',', '.');
 
-    return view('ventas.detalle', compact('venta', 'detallesVenta'));
-}
-
-
-
- // Función para exportar a PDF
- public function exportPdf($id)
- {
-     $venta = Venta::findOrFail($id);
-
-     // Datos que pasarás a la vista para generar el PDF
-     $data = [
-         'venta' => $venta,
-     ];
-
-     $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
-
-
-     $data2 = [
-         'detalle' => $detallesVenta,
-     ];
-     // Generar el PDF usando la vista del producto
-     $pdf = Pdf::loadView('ventas.venta_recibo', $data, $data2);
-
-     // Descargar el PDF con el nombre "producto.pdf"
-     return $pdf->stream('venta.pdf');
- }
-
-
-
-
-
-
- 
-
-// aqui abajo controladoir par actualizar venta
-
-
-public function edit($id)
-{
-    // Recuperar la venta por ID
-    $venta = Venta::findOrFail($id);
-    // Obtener los detalles de venta para una venta específica
-    $productosVendidos = DetalleVenta::where('venta_id', $id)
-        ->with('producto') // Asegúrate de tener la relación definida en tu modelo DetalleVenta
-        ->get();
-    $productos = Producto::all();
-$tipoPago = TipoPago::all();
-
-
-    // Aquí puedes cargar cualquier otra información que necesites para el formulario,
-    // como productos, clientes, etc.
-
-    // Retornar la vista de edición con la venta
-    return view('ventas.editar', compact('venta','productos', 'tipoPago', 'productosVendidos'));
-}
-
-
-
-
-
-
- public function actualizarVenta(Request $request, $id)
-{
-    $venta = Venta::find($id);
-
-    if ($venta === null) {
-        return redirect()->route('ventas.index')->with('error', 'Venta no encontrada.');
+        return view('ventas.detalle', compact('venta', 'detallesVenta'));
     }
 
-    // Llamar a la función que devuelve el stock de la venta existente
-    $this->devolverStock($venta);
 
 
-    
-               // Eliminar los detalles de la venta existentes
-               Venta::where('id', $id)->delete();
-   
-   
+    // Función para exportar a PDF
+    public function exportPdf($id)
+    {
+        $venta = Venta::findOrFail($id);
+
+        // Datos que pasarás a la vista para generar el PDF
+        $data = [
+            'venta' => $venta,
+        ];
+
+        $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
 
 
-    
+        $data2 = [
+            'detalle' => $detallesVenta,
+        ];
+        // Generar el PDF usando la vista del producto
+        $pdf = Pdf::loadView('ventas.venta_recibo', $data, $data2);
 
-           // Limpiar los valores de subtotal y total eliminando puntos y comas
-           $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
-           $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
-   
-   
-           // Convertir a valores numéricos
-           $subtotal = (float) $subtotalLimpiado;
-           $total = (float) $totalLimpiado;
-   
-           // Asignar un valor por defecto para el RUT si está vacío
-           $rut_cliente = $request->rut_cliente ?: '11111111-1'; // Si el RUT es vacío o nulo, usar 11111111-1
-           $montoPagado = str_replace([',', '.'], '', $request->input('monto_pagado'));
-           // Crear la venta
-           $venta = new Venta();
-           $venta->id = $request->venta_id;
-           $venta->nombre_cliente = $request->nombre_cliente;
-           $venta->rut_cliente = $rut_cliente; // Usar el RUT validado
-           $venta->subtotal = $subtotal; // Usar el valor limpiado
-           $venta->descuento = $request->descuento;
-           $venta->nota = $request->nota;
-           $venta->total = $total; // Usar el valor limpiado
-           $venta->monto_pagado = $montoPagado;
-           $venta->fecha_venta = now(); // O puedes usar Carbon::now()
-           $venta->nombre_vendedor = "nombre vendedor";
-           $venta->tipo_pago_id = $request->tipo_pago_id;
-           $venta->numero_cliente = $request->numero_cliente;//celular del cliente
-           $venta->email_cliente = $request->email_cliente;//celular del cliente
-   
-           //Descomentar al momento de poner el proyecto en producción
-           //$venta->nombre_vendedor = $nombreUsuario;
-   
-           if ($montoPagado < $total) {
-               $venta->estado_pago = 0; // No pagado completamente
-           } else {
-               $venta->estado_pago = 1; // Pagado completamente
-           }
-   
-           $venta->save(); // Guardar la venta
-
-
-               // Eliminar los detalles de la venta existentes
-                DetalleVenta::where('venta_id', $id)->delete();
-   
-   
-           // Guardar los productos asociados
-           foreach ($request->productos as $productoData) {
-   
-               // Limpiar el valor de precio_unitario
-               $precioUnitarioLimpiado = str_replace(['.', ','], ['', ''], $productoData['precio_unitario']);
-   
-               // Convertir a valor numérico
-               $precioUnitario = (float) $precioUnitarioLimpiado;
-   
-               $detalleVenta = new DetalleVenta();
-               $detalleVenta->venta_id = $venta->id; // Asegúrate de que este es el campo correcto
-               $detalleVenta->id_producto = $productoData['id_producto'];
-               $detalleVenta->cantidad = $productoData['cantidad'];
-               $detalleVenta->tipo_venta = $productoData['tipo_venta']; // Asumiendo que el tipo de venta se envía en el request
-               $detalleVenta->id_presentacion = $productoData['id_presentacion']; // Asumiendo que el tipo de presentación se envía en el request
-               $detalleVenta->precio_unitario = $precioUnitario;
-               $detalleVenta->save(); // Guardar el detalle
-           }
-   
-           // Si no se pagó el total, registrar una deuda
-           if ($montoPagado < $total) {
-               $deuda = new Deuda();
-               $deuda->venta_id = $venta->id;
-               $deuda->monto_adeudado = $total - $montoPagado;
-               $deuda->save();
-           }
-   
-           // Descontar el stock de los productos vendidos
-           foreach ($request->productos as $productoData) {
-               $producto = Producto::find($productoData['id_producto']);
-               $tipoVenta = $productoData['tipo_venta'];
-               $presentacion = $productoData['id_presentacion']; // Asumiendo que el tipo de presentación se envía en el request
-   
-               if ($producto) {
-                   if ($tipoVenta == 'completo') {
-                       $producto->stock_unidades -= $productoData['cantidad'];
-                   } elseif ($tipoVenta == 'fraccionado') {
-                       if ($presentacion == '1') {
-                           $producto->stock_total_comprimidos -= $productoData['cantidad'];
-                       } elseif ($presentacion == '2') {
-                           $producto->stock_total_ml -= $productoData['cantidad'];
-                       } elseif ($presentacion == '3') {
-                           $producto->unidades_granel_total -= $productoData['cantidad'];
-                       }
-                   }
-                   $producto->save();
-               }
-           }
-
- 
-
-    return redirect()->route('ventas.index')->with('success', 'Venta actualizada correctamente y el stock ha sido devuelto.');
-
-
-
-
-
-
-}
+        // Descargar el PDF con el nombre "producto.pdf"
+        return $pdf->stream('venta.pdf');
+    }
 
 
 
@@ -448,43 +289,193 @@ $tipoPago = TipoPago::all();
 
 
 
+    // aqui abajo controladoir par actualizar venta
+
+
+    public function edit($id)
+    {
+        // Recuperar la venta por ID
+        $venta = Venta::findOrFail($id);
+        // Obtener los detalles de venta para una venta específica
+        $productosVendidos = DetalleVenta::where('venta_id', $id)
+            ->with('producto') // Asegúrate de tener la relación definida en tu modelo DetalleVenta
+            ->get();
+        $productos = Producto::all();
+        $tipoPago = TipoPago::all();
+
+
+        // Aquí puedes cargar cualquier otra información que necesites para el formulario,
+        // como productos, clientes, etc.
+
+        // Retornar la vista de edición con la venta
+        return view('ventas.editar', compact('venta', 'productos', 'tipoPago', 'productosVendidos'));
+    }
 
 
 
 
 
 
+    public function actualizarVenta(Request $request, $id)
+    {
+        $venta = Venta::find($id);
+
+        if ($venta === null) {
+            return redirect()->route('ventas.index')->with('error', 'Venta no encontrada.');
+        }
+
+        // Llamar a la función que devuelve el stock de la venta existente
+        $this->devolverStock($venta);
+
+
+
+        // Eliminar los detalles de la venta existentes
+        Venta::where('id', $id)->delete();
 
 
 
 
 
-private function devolverStock($venta)
-{
-    $detallesVenta = DetalleVenta::where('venta_id', $venta->id)->get();
 
-    foreach ($detallesVenta as $detalle) {
-        $producto = Producto::find($detalle->id_producto);
-        $tipoVenta = $detalle->tipo_venta;
-        $presentacion = $detalle->id_presentacion;
+        // Limpiar los valores de subtotal y total eliminando puntos y comas
+        $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
+        $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
 
-        if ($producto) {
-            if ($tipoVenta == 'completo') {
-                $producto->stock_unidades += $detalle->cantidad;
-            } elseif ($tipoVenta == 'fraccionado') {
-                if ($presentacion == '1') {
-                    $producto->stock_total_comprimidos += $detalle->cantidad;
-                } elseif ($presentacion == '2') {
-                    $producto->stock_total_ml += $detalle->cantidad;
-                } elseif ($presentacion == '3') {
-                    $producto->unidades_granel_total += $detalle->cantidad;
+
+        // Convertir a valores numéricos
+        $subtotal = (float) $subtotalLimpiado;
+        $total = (float) $totalLimpiado;
+
+        // Asignar un valor por defecto para el RUT si está vacío
+        $rut_cliente = $request->rut_cliente ?: '11111111-1'; // Si el RUT es vacío o nulo, usar 11111111-1
+        $montoPagado = str_replace([',', '.'], '', $request->input('monto_pagado'));
+        // Crear la venta
+        $venta = new Venta();
+        $venta->id = $request->venta_id;
+        $venta->nombre_cliente = $request->nombre_cliente;
+        $venta->rut_cliente = $rut_cliente; // Usar el RUT validado
+        $venta->subtotal = $subtotal; // Usar el valor limpiado
+        $venta->descuento = $request->descuento;
+        $venta->nota = $request->nota;
+        $venta->total = $total; // Usar el valor limpiado
+        $venta->monto_pagado = $montoPagado;
+        $venta->fecha_venta = now(); // O puedes usar Carbon::now()
+        $venta->nombre_vendedor = "nombre vendedor";
+        $venta->tipo_pago_id = $request->tipo_pago_id;
+        $venta->numero_cliente = $request->numero_cliente; //celular del cliente
+        $venta->email_cliente = $request->email_cliente; //celular del cliente
+
+        //Descomentar al momento de poner el proyecto en producción
+        //$venta->nombre_vendedor = $nombreUsuario;
+
+        if ($montoPagado < $total) {
+            $venta->estado_pago = 0; // No pagado completamente
+        } else {
+            $venta->estado_pago = 1; // Pagado completamente
+        }
+
+        $venta->save(); // Guardar la venta
+
+
+        // Eliminar los detalles de la venta existentes
+        DetalleVenta::where('venta_id', $id)->delete();
+
+
+        // Guardar los productos asociados
+        foreach ($request->productos as $productoData) {
+
+            // Limpiar el valor de precio_unitario
+            $precioUnitarioLimpiado = str_replace(['.', ','], ['', ''], $productoData['precio_unitario']);
+
+            // Convertir a valor numérico
+            $precioUnitario = (float) $precioUnitarioLimpiado;
+
+            $detalleVenta = new DetalleVenta();
+            $detalleVenta->venta_id = $venta->id; // Asegúrate de que este es el campo correcto
+            $detalleVenta->id_producto = $productoData['id_producto'];
+            $detalleVenta->cantidad = $productoData['cantidad'];
+            $detalleVenta->tipo_venta = $productoData['tipo_venta']; // Asumiendo que el tipo de venta se envía en el request
+            $detalleVenta->id_presentacion = $productoData['id_presentacion']; // Asumiendo que el tipo de presentación se envía en el request
+            $detalleVenta->precio_unitario = $precioUnitario;
+            $detalleVenta->save(); // Guardar el detalle
+        }
+
+        // Si no se pagó el total, registrar una deuda
+        if ($montoPagado < $total) {
+            $deuda = new Deuda();
+            $deuda->venta_id = $venta->id;
+            $deuda->monto_adeudado = $total - $montoPagado;
+            $deuda->save();
+        }
+
+        // Descontar el stock de los productos vendidos
+        foreach ($request->productos as $productoData) {
+            $producto = Producto::find($productoData['id_producto']);
+            $tipoVenta = $productoData['tipo_venta'];
+            $presentacion = $productoData['id_presentacion']; // Asumiendo que el tipo de presentación se envía en el request
+
+            if ($producto) {
+                if ($tipoVenta == 'completo') {
+                    $producto->stock_unidades -= $productoData['cantidad'];
+                } elseif ($tipoVenta == 'fraccionado') {
+                    if ($presentacion == '1') {
+                        $producto->stock_total_comprimidos -= $productoData['cantidad'];
+                    } elseif ($presentacion == '2') {
+                        $producto->stock_total_ml -= $productoData['cantidad'];
+                    } elseif ($presentacion == '3') {
+                        $producto->unidades_granel_total -= $productoData['cantidad'];
+                    }
                 }
+                $producto->save();
             }
-            $producto->save();
+        }
+
+
+
+        return redirect()->route('ventas.index')->with('success', 'Venta actualizada correctamente y el stock ha sido devuelto.');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private function devolverStock($venta)
+    {
+        $detallesVenta = DetalleVenta::where('venta_id', $venta->id)->get();
+
+        foreach ($detallesVenta as $detalle) {
+            $producto = Producto::find($detalle->id_producto);
+            $tipoVenta = $detalle->tipo_venta;
+            $presentacion = $detalle->id_presentacion;
+
+            if ($producto) {
+                if ($tipoVenta == 'completo') {
+                    $producto->stock_unidades += $detalle->cantidad;
+                } elseif ($tipoVenta == 'fraccionado') {
+                    if ($presentacion == '1') {
+                        $producto->stock_total_comprimidos += $detalle->cantidad;
+                    } elseif ($presentacion == '2') {
+                        $producto->stock_total_ml += $detalle->cantidad;
+                    } elseif ($presentacion == '3') {
+                        $producto->unidades_granel_total += $detalle->cantidad;
+                    }
+                }
+                $producto->save();
+            }
         }
     }
-}
-
-
-    
 }

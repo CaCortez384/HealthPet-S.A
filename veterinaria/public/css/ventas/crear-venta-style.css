@@ -79,6 +79,22 @@ button:hover {
     margin-top: 20px;
 }
 
+.select2-container {
+    width: 100% !important;
+}
+
+#scanner-container {
+    width: 200px; /* Ancho de la cámara */
+    height: 150px; /* Altura de la cámara */
+    background-color: #e1e1e1; /* Color de fondo */
+    border: 2px solid #ccc; /* Borde */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Ocultar el contenido que se desborda */
+    margin: 0 auto; /* Centrar horizontalmente */
+}
+
+
+
 @media (max-width: 768px) {
     #formulario-crear {
         grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */

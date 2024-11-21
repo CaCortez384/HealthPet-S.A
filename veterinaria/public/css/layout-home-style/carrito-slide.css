@@ -1,149 +1,148 @@
- /* Estilos generales */
- .material-symbols-outlined {
-     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
- }
+/* Estilos generales */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
 
- /* Diseño del contenedor del carrito */
- .carrito-slide {
-     display: flex;
-     flex-direction: column;
-     justify-content: space-between;
-     width: 320px;
-     padding: 16px;
-     background-color: #ffffff;
-     border-radius: 12px;
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-     height: 100vh;
-     overflow-y: auto;
-     font-family: 'Roboto', sans-serif;
-     position: fixed;
-     top: 0;
-     right: 0;
-     z-index: 9999;
-     transform: translateX(100%);
-     transition: transform 0.3s ease-in-out;
- }
+/* Diseño del contenedor del carrito */
+.carrito-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 320px; /* Limita el tamaño máximo */
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 12px 0 0 12px; /* Ajuste para mostrar solo una esquina redondeada */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    height: 100vh;
+    overflow-y: auto;
+    font-family: 'Roboto', sans-serif;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
 
- .carrito-slide.visible {
-     transform: translateX(0);
- }
+.carrito-slide.visible {
+    transform: translateX(0);
+}
 
- .carrito-slide h2 {
-     font-size: 1.4em;
-     color: #1e1e1e;
-     margin-bottom: 16px;
- }
+.carrito-slide h2 {
+    font-size: 1.4em;
+    color: #1e1e1e;
+    margin-bottom: 16px;
+}
 
- /* Botón cerrar */
- .cerrar {
-     align-self: flex-end;
-     color: #6200ee;
-     background: none;
-     border: none;
-     cursor: pointer;
-     font-size: 1.2em;
-     transition: color 0.3s;
- }
+/* Botón cerrar */
+.cerrar {
+    align-self: flex-end;
+    color: #6200ee;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: color 0.3s;
+}
 
- .cerrar:hover {
-     color: #3700b3;
- }
+.cerrar:hover {
+    color: #3700b3;
+}
 
- /* Lista de productos */
- .lista-productos {
-     list-style-type: none;
-     padding: 0;
-     margin: 0;
- }
+/* Lista de productos */
+.lista-productos {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
- /* Diseño compacto de la tarjeta de producto */
- .card {
-     display: flex;
-     align-items: center;
-     padding: 8px 12px;
-     background-color: #f1f1f1;
-     border-radius: 12px;
-     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-     gap: 8px;
-     margin-bottom: 12px;
-     /* Separación entre tarjetas */
- }
+/* Diseño compacto de la tarjeta de producto */
+.card {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 8px;
+    margin-bottom: 12px;
+}
 
- .imagen-producto {
-     width: 50px;
-     height: 50px;
-     border-radius: 8px;
-     flex-shrink: 0;
- }
+.imagen-producto {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
 
- .detalles-producto {
-     flex-grow: 1;
- }
+.detalles-producto {
+    flex-grow: 1;
+}
 
- .nombre {
-     font-size: 1em;
-     color: #333;
- }
+.nombre {
+    font-size: 1em;
+    color: #333;
+}
 
- .precio {
-     font-size: 0.9em;
-     color: #555;
-     margin-top: 4px;
- }
+.precio {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 4px;
+}
 
- /* Controles de cantidad y eliminar juntos */
- .cantidad {
-     display: flex;
-     align-items: center;
-     gap: 4px;
- }
+/* Controles de cantidad y eliminar juntos */
+.cantidad {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
 
- .cantidad button {
-     background-color: #e8eaf6;
-     color: #6200ee;
-     border: none;
-     border-radius: 6px;
-     padding: 4px;
-     cursor: pointer;
-     transition: background-color 0.3s;
- }
+.cantidad button {
+    background-color: #e8eaf6;
+    color: #6200ee;
+    border: none;
+    border-radius: 6px;
+    padding: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
- .cantidad button:hover {
-     background-color: #d1c4e9;
- }
+.cantidad button:hover {
+    background-color: #d1c4e9;
+}
 
- .eliminar {
-     background: none;
-     color: #d32f2f;
-     border: none;
-     font-size: 1.2em;
-     cursor: pointer;
-     transition: color 0.3s;
-     margin-left: 4px;
-     /* Espacio entre sumar y eliminar */
- }
+.eliminar {
+    background: none;
+    color: #d32f2f;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.3s;
+    margin-left: 4px;
+}
 
- .eliminar:hover {
-     color: #b71c1c;
- }
+.eliminar:hover {
+    color: #b71c1c;
+}
 
- /* Botón pagar */
- .pagar {
-     padding: 12px;
-     width: 100%;
-     background-color: #6200ee;
-     color: #ffffff;
-     border: none;
-     border-radius: 8px;
-     font-size: 1.1em;
-     font-weight: bold;
-     cursor: pointer;
-     transition: background-color 0.3s;
- }
+/* Botón pagar */
+.pagar {
+    padding: 12px;
+    width: 100%;
+    background-color: #6200ee;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
- .pagar:hover {
-     background-color: #3700b3;
- }
+.pagar:hover {
+    background-color: #3700b3;
+}
 
 /* Apartado de total */
 .total {
@@ -166,23 +165,40 @@
     font-weight: bold;
 }
 
-/* Apartado de total */
-.subtotal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 0;
-    border-top: 1px solid #e0e0e0;
-    font-size: 1.2em;
-    color: #333;
-    margin-top: 16px;
-}
+/* Media Queries para móviles */
+@media (max-width: 768px) {
+    .carrito-slide {
+        width: 100%;
+        border-radius: 0; /* Elimina las esquinas redondeadas */
+        transform: translateY(-100%); /* Oculta completamente fuera de la pantalla */
+        height: 100vh; /* Ensure it takes full viewport height */
+        overflow-y: auto; /* Enable scrolling if content overflows */
+    }
 
-.subtotal .label {
-    font-weight: bold;
-}
+    .card {
+        flex-direction: column; /* Cambia el diseño de la tarjeta a vertical */
+        align-items: flex-start;
+    }
 
-.subtotal .amount {
-    color: #6200ee;
-    font-weight: bold;
+    .imagen-producto {
+        width: 20%; /* Imagen ocupa el ancho */
+        height: auto;
+        border-radius: 12px;
+    }
+
+    .cantidad {
+        justify-content: space-between; /* Mayor espacio para los controles */
+        width: 100%;
+    }
+
+    .pagar {
+        font-size: 1em; /* Ajusta el tamaño de la fuente */
+        padding: 12px; /* Ensure padding is applied */
+        margin-top: 16px; /* Add margin to separate from other elements */
+    }
+
+    .total, .subtotal {
+        font-size: 1em;
+    }
+    
 }

@@ -88,7 +88,7 @@
                     </div>
                     <div class="purchase-price">
                         <p>Fecha de ultimo pago:</p>
-                        <h3>{{ \Carbon\Carbon::parse($deuda->pagos->sortByDesc('created_at')->first()->created_at)->format('d-m-Y') }}
+                        <h3>{{ $deuda->pagos->isNotEmpty() ? \Carbon\Carbon::parse($deuda->pagos->sortByDesc('created_at')->first()->created_at)->format('d-m-Y') : 'No hay datos' }}
                         </h3>
                     </div>
                     <div class="purchase-price">

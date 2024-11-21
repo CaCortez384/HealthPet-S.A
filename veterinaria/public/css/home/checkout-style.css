@@ -118,3 +118,13 @@
 .checkout-button:hover {
     background-color: #354a91;
 }
+
+@media (max-width: 768px) {
+    .checkout-container {
+        flex-direction: column-reverse;
+    }
+
+    .cart-summary, .payment-form {
+        width: 100%;
+    }
+}
