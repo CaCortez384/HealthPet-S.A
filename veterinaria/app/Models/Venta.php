@@ -25,14 +25,15 @@ class Venta extends Model
     {
         return [
             'fecha_venta' => 'datetime:Y-m-d',
-          
+
         ];
     }
 
     public function getTotalAttribute($value)
     {
-        return '$' . number_format($value, 0, ',', '.');
+        return $value; // Regresa el valor numérico sin formato
     }
+
 
     public function setRutClienteAttribute($value)
     {

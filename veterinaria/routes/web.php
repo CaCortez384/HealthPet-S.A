@@ -144,3 +144,6 @@ Route::get('appointments/available-times', [CitaController::class, 'availableTim
 
 // para el correo del home contacot de los usuarios por mail
 Route::post('/contacto', [ContactController::class, 'sendContact']);
+
+//pruebas de graficos
+Route::get('/ventas/datos/{tipo}', [HomeController::class, 'getSalesData'])->name('ventas.datos');
