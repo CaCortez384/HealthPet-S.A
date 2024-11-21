@@ -3,7 +3,7 @@
 @auth
     {{-- Si el usuario está autenticado, redirigir a la página principal --}}
     <script type="text/javascript">
-        window.location = "{{ route('welcome') }}";
+        window.location = "{{ route('home') }}";
     </script>
 @endauth
 
