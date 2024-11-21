@@ -100,7 +100,7 @@
             <div class="ingresos-chart">
                 <div class="card shadow-sm">
                     <div class="card-header bg-dark text-white text-center">
-                        Ingresos por tipo
+                        Ingresos por tipo del mes actual
                     </div>
                     <div class="card-body">
                         <canvas id="ingresosChart"></canvas>
