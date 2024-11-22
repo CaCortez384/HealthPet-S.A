@@ -291,7 +291,7 @@
                         </li>
                     </ul>
                 </div>
-
+{{-- 
                 <div class="nav_link dropdown">
                     <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -307,7 +307,7 @@
                                 style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Proximas
                                 citas</a></li>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="nav_link dropdown">
                     <a href="#" class="dropdown-toggle" id="inventarioDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">

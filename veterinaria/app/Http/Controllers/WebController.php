@@ -25,11 +25,13 @@ class WebController extends Controller
 
         return view('web.petshop', compact('productos')); 
     }
+    
     public function detalle($id) {
         // Buscar el producto por su ID junto con la categoría y detalleWeb
         $producto = Producto::with(['categoria', 'detalleWeb', 'presentacion', 'unidad'])->findOrFail($id);
         return view('web.detalle', compact('producto')); 
     }
+
     public function filterCategory(Request $request)
 {
     $categoria = $request->input('categoria');  // Recuperamos la categoría seleccionada
@@ -43,36 +45,42 @@ class WebController extends Controller
     case 'perro':
         $query->where('id_categoria', 2) // Alimento
               ->where('id_especie', 1)  // Perro
-              ->where('id_presentacion', 4); // Seco
+              ->where('id_presentacion', 4) // Seco
+              ->where('mostrar_web', 1); //para la web
         break;
     case 'gato':
         $query->where('id_categoria', 2) // Alimento
               ->where('id_especie', 2)  // Gato
-              ->where('id_presentacion', 4); // Seco
+              ->where('id_presentacion', 4) // Seco
+              ->where('mostrar_web', 1); //para la web
         break;
     case 'snack-perro':
         $query->where('id_categoria', 2) // Alimento
               ->where('id_especie', 1)  // Perro
-              ->where('id_presentacion', 6); // Snack
+              ->where('id_presentacion', 6) // Snack
+              ->where('mostrar_web', 1); //para la web
         break;
     case 'snack-gato':
         $query->where('id_categoria', 2) // Alimento
               ->where('id_especie', 2)  // Gato
-              ->where('id_presentacion', 6); // Snack
+              ->where('id_presentacion', 6) // Snack
+              ->where('mostrar_web', 1); //para la web
         break;
     case 'humedo-perro':
         $query->where('id_categoria', 2) // Alimento
               ->where('id_especie', 1)  // Perro
-              ->where('id_presentacion', 5); // Húmedo
+              ->where('id_presentacion', 5) // Húmedo
+              ->where('mostrar_web', 1); //para la web
         break;
     case 'humedo-gato':
         $query->where('id_categoria', 2) // Alimento
               ->where('id_especie', 2)  // Gato
-              ->where('id_presentacion', 5); // Húmedo
+              ->where('id_presentacion', 5) // Húmedo
+              ->where('mostrar_web', 1); //para la web
         break;
     default:
         // Si no hay categoría específica seleccionada, traer todos los productos
-        $query->get();
+        $query->where('mostrar_web', 1); //para la web
         break;
 }
 

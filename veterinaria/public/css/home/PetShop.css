@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+h1, h2 {
+    font-family: 'Pacifico', cursive; /* Títulos con estilo decorativo */
+}
 /* Estilos generales */
 * {
 	margin: 0;
@@ -5,12 +9,21 @@
 	box-sizing: border-box;
 }
 
-body {
+#fondo {
 	
 	font-family: 'Arial', sans-serif;
 	background-image: url('/img/clientes/fondo-cliente.png'); 
-	
-	
+    height: 150%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: fixed; /* Permite que el fondo se quede en su lugar */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ancho completo */
+    height: 100vh; /* Altura completa */
+    filter: blur(8px); /* Aplica el desenfoque al fondo */
+    -webkit-filter: blur(8px); /* Soporte para navegadores basados en WebKit */
+    z-index: -1; /* Envía el fondo detrás del contenido */	
 }
 /* Estilo para el mensaje deslizante */
 .nav-deslizable {
@@ -61,16 +74,16 @@ body {
 }
 
 .wrap {
-    max-width: 1100px;
     width: 90%;
-    margin: 40px auto !important; /* Espacio superior e inferior */
-	zoom: 0.7;  /* 70% de su tamaño original */
+    margin: auto;
+    padding: 50px;
 }
 
 
 .store-wrapper {
     display: flex;
     flex-wrap: wrap;
+    margin: auto;
     margin-top: 20px; /* Espacio adicional en la parte superior dentro de .wrap */
     padding: 20px;
     border: 1px solid #ccc;

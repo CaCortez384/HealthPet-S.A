@@ -7,29 +7,30 @@
 
     <!-- Contenido de la página -->
 
-
+<div id="fondo"></div>
     <div class="wrap">
         @include('components.alert')
         @section('content')
             @include('components.alert')
         @endsection
 
-        <Div>
-            <h1>¡Compra y Reserva productos para tu mascota! Paga un 50% al hacer el pedido o el total y recógelo en
+        <Div style="width: 90%; margin: auto; text-align: center; background-color: rgba(240, 255, 255, 0.507);border-radius: 20px; padding: 20px">
+            <h2>¡Compra y Reserva productos para tu mascota! Paga un 50% al hacer el pedido o el total y recógelo en
                 nuestra veterinaria.
-            </h1>
+            </h2>
         </Div>
 
         <div class="store-wrapper">
             <!-- Listado de categorías -->
             <div class="category_list">
-                <a href="#" class="category_item" category="all">Todo</a>
-                <a href="#" class="category_item" category="gato">Gato</a>
-                <a href="#" class="category_item" category="perro">Perro</a>
-                <a href="#" class="category_item" category="snack-gato">snacks Gato</a>
-                <a href="#" class="category_item" category="snack-perro">Snacks Perro</a>
-                <a href="#" class="category_item" category="humeda-gato">Comida humeda Gato</a>
-                <a href="#" class="category_item" category="humeda-perro">Comida humeda Perro</a>
+                <a href="javascript:void(0);" class="category_item" category="all">Todo</a>
+                <a href="javascript:void(0);" class="category_item" category="gato">Gato</a>
+                <a href="javascript:void(0);" class="category_item" category="perro">Perro</a>
+                <a href="javascript:void(0);" class="category_item" category="snack-gato">snacks Gato</a>
+                <a href="javascript:void(0);" class="category_item" category="snack-perro">Snacks Perro</a>
+                <a href="javascript:void(0);" class="category_item" category="humedo-gato">Comida humeda Gato</a>
+                <a href="javascript:void(0);" class="category_item" category="humedo-perro">Comida humeda Perro</a>
+                {{-- para agregar otro filtro se debe utilizar en el href javascript:void(0); para evitar que no se agreguen los productos al carro. --}}
                 <div class="price-filter">
                     <h4>Filtrar por precio</h4>
                     <input type="range" id="price-range" min="0" max="50000" value="50000" step="1000">
@@ -50,17 +51,13 @@
                             </p>
                             <p>Stock: {{ $producto->stock_unidades }}</p>
                             @if ($producto->stock_unidades == 0)
-                                <button class="add-to-cart add-to-cart-button" data-product-id="{{ $producto->id }}"
+                                <button class="add-to-cart add-to-cart-button" data-product-id="{{ $producto->id }}" data-product-name="{{ $producto->nombre }}" 
                                     onclick="event.stopPropagation();">Realizar pedido</button>
-                                <span id="adding-cart-{{ $producto->id }}"
-                                    class="btn btn-warning btn-block text-center added-msg"
-                                    style="display:none;">Añadido!</span>
+
                             @else
-                                <button class="add-to-cart add-to-cart-button" data-product-id="{{ $producto->id }}"
+                                <button class="add-to-cart add-to-cart-button" data-product-id="{{ $producto->id }}" data-product-name="{{ $producto->nombre }}" 
                                     onclick="event.stopPropagation();">Agregar al carrito</button>
-                                <span id="adding-cart-{{ $producto->id }}"
-                                    class="btn btn-warning btn-block text-center added-msg"
-                                    style="display:none;">Añadido!</span>
+
                             @endif
                         </div>
                     </div>
@@ -71,6 +68,16 @@
                     }
                 </script>
             </section>
+
+                    <!-- Contenedor de alerta -->
+        <div id="customAlert" class="alert alert-dismissible fixed-bottom fade" style="display: flex; align-items: center; justify-content: space-between">
+            <span id="alertMessage"></span>
+            <button type="button" class="close no-style" aria-label="Close" id="closeAlertButton">
+                <p id="aceptar">Aceptar</p>
+            </button>
+        </div>
+        
+        
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -202,4 +209,40 @@
             bindCartButtons();
         });
     </script>
+
+<script>
+    // Función para mostrar la alerta
+    function showAlert(message) {
+        const alertBox = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+
+        // Insertar el mensaje y mostrar la alerta
+        alertMessage.textContent = message;
+        alertBox.style.display = 'flex';
+        alertBox.classList.add('show');
+
+        // Ocultar automáticamente después de 3 segundos
+        setTimeout(closeAlert, 3000);
+    }
+
+    // Función para cerrar la alerta
+    function closeAlert() {
+        const alertBox = document.getElementById('customAlert');
+
+        // Ocultar la alerta y remover la clase 'show'
+        alertBox.style.display = 'none';
+        alertBox.classList.remove('show');
+    }
+
+    // Agregar eventos a los botones de "Agregar al carrito"
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButtons = document.querySelectorAll('.add-to-cart-button');
+        cartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const productName = this.dataset.productName; // Obtiene el nombre del producto
+                showAlert(`"${productName}" ha sido agregado al carrito.`);
+            });
+        });
+    });
+</script>
 </x-home>
