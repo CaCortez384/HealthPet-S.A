@@ -329,7 +329,7 @@
         <!-- Content -->
         <div class="content">
             <h2>¡Hola, {{ $data['nombre'] }}!</h2>
-            <p>Gracias por tu compra en nuestro Hospital Veterinario. Aquí tienes los detalles de tu pedido:</p>
+            <p>{{ $data['mensaje2'] }}</p>
 
             <p><strong>ID del Pedido:</strong> {{ $data['pedido_id'] }}</p>
             <p><strong>Monto Pagado:</strong> ${{ number_format($data['monto_pagado'], 0, ',', '.') }}</p>

@@ -8,6 +8,8 @@ use App\Models\Producto;
 use App\Models\User;
 use App\Models\DetallePedido;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\MiCorreo;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -66,7 +68,42 @@ class PedidoController extends Controller
         $pedido->estado_pedido = $request->input('estado_pedido');
         $pedido->save();
 
+        if ($pedido->estado_pedido == 3) {
+            $this->enviarCorreoEstado($pedido->id);
+        }
+
         return redirect()->route('pedidos.index')->with('success', 'Estado del pedido ' . $id . ' actualizado correctamente.');
+
+    }
+
+    public function enviarCorreoEstado ($pedidoId)
+    {
+        $pedido = Pedido::findOrFail($pedidoId);
+        $detallesPedido = DetallePedido::where('pedido_id', $pedidoId)->get();
+        $datos = [
+            'nombre' => $pedido->nombre_cliente,
+            'mensaje' => 'Este es un mensaje de prueba de actualizacion de pedido.',
+            'mensaje2' => 'Tu pedido esta listo para retiro en nuestra veterinaria!. Aquí tienes los detalles de tu pedido:',
+            'pedido_id' => $pedido->id,
+            'monto_pagado' => $pedido->monto_pagado,
+            'pago_restante' => $pedido->total - $pedido->monto_pagado,
+            'estado_pedido' => $pedido->estado_pedido,
+            'productos' =>
+            $detallesPedido->map(function ($detalle) {
+                $producto = Producto::find($detalle->id_producto);
+                return [
+                    'nombre' => $producto->nombre,
+                    'cantidad' => $detalle->cantidad,
+                    'precio' => $producto->precio_de_venta,
+                    'subtotal' => $detalle->descuento == 0 ? $producto->precio_de_venta : $detalle->descuento
+                ];
+            })
+
+        ];
+
+        Mail::to('destinatario@example.com')->send(new MiCorreo($datos));
+
+        return "Correo enviado exitosamente.";
     }
 
 

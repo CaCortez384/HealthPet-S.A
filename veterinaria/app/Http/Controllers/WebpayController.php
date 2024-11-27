@@ -112,6 +112,7 @@ class WebpayController extends Controller
         $datos = [
             'nombre' => $pedido->nombre_cliente,
             'mensaje' => 'Este es un mensaje de prueba.',
+            'mensaje2' => 'Gracias por tu compra en nuestro Hospital Veterinario. Aquí tienes los detalles de tu pedido:',
             'pedido_id' => $pedido->id,
             'monto_pagado' => $pedido->monto_pagado,
             'pago_restante' => $pedido->total - $pedido->monto_pagado,
