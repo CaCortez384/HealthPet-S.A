@@ -7,6 +7,8 @@ use App\Models\Pedido;
 use App\Models\Producto;
 use App\Models\DetallePedido;
 use Transbank\Webpay\WebpayPlus\Transaction;
+use App\Mail\MiCorreo;
+use Illuminate\Support\Facades\Mail;
 
 class WebpayController extends Controller
 {
@@ -83,6 +85,8 @@ class WebpayController extends Controller
             // Guardar cambios en el pedido
             $pedido->save();
 
+            $this->enviarCorreo($pedido->id);
+
             // Limpiar el carrito solo si todos los productos fueron procesados correctamente
             if (!$hayFaltaDeStock) {
                 session()->forget('cart');
@@ -101,6 +105,20 @@ class WebpayController extends Controller
         }
     }
 
+    public function enviarCorreo($pedidoId)
+    {
+        $pedido = Pedido::findOrFail($pedidoId);
+        $datos = [
+            'nombre' => 'Carlos',
+            'mensaje' => 'Este es un mensaje de prueba.',
+            'pedido_id' => $pedido->id,
+            'monto_pagado' => $pedido->monto_pagado
+        ];
+
+        Mail::to('destinatario@example.com')->send(new MiCorreo($datos));
+
+        return "Correo enviado exitosamente.";
+    }
 
     public function getStatus(Request $request)
     {
