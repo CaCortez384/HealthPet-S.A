@@ -26,7 +26,7 @@ class MiCorreo extends Mailable
     public function build()
     {
         return $this->view('emails.mi_correo')
-                    ->subject('Asunto del correo')
-                    ->with('data', $this->data);
+                    ->subject('Resumen de tu Pedido')
+                ->with($this->data);
     }
 }

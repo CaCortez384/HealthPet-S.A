@@ -79,8 +79,8 @@ class WebpayController extends Controller
             }
 
             // Actualizar estado_pago y estado_pedido
-            $pedido->estado_pago = $hayFaltaDeStock ? 1 : 2;
-            $pedido->estado_pedido = $hayFaltaDeStock ? 1 : 2;
+            $pedido->estado_pago = $hayFaltaDeStock ? 1 : 1;
+            $pedido->estado_pedido = $hayFaltaDeStock ? 1 : 1;
 
             // Guardar cambios en el pedido
             $pedido->save();
@@ -108,13 +108,26 @@ class WebpayController extends Controller
     public function enviarCorreo($pedidoId)
     {
         $pedido = Pedido::findOrFail($pedidoId);
+        $detallesPedido = DetallePedido::where('pedido_id', $pedidoId)->get();
         $datos = [
-            'nombre' => 'Carlos',
+            'nombre' => $pedido->nombre_cliente,
             'mensaje' => 'Este es un mensaje de prueba.',
             'pedido_id' => $pedido->id,
-            'monto_pagado' => $pedido->monto_pagado
-        ];
+            'monto_pagado' => $pedido->monto_pagado,
+            'pago_restante' => $pedido->total - $pedido->monto_pagado,
+            'estado_pedido' => $pedido->estado_pedido,
+            'productos' =>
+            $detallesPedido->map(function ($detalle) {
+                $producto = Producto::find($detalle->id_producto);
+                return [
+                    'nombre' => $producto->nombre,
+                    'cantidad' => $detalle->cantidad,
+                    'precio' => $producto->precio_de_venta,
+                    'subtotal' => $detalle->subtotal
+                ];
+            })
 
+        ];
         Mail::to('destinatario@example.com')->send(new MiCorreo($datos));
 
         return "Correo enviado exitosamente.";
