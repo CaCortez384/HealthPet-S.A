@@ -351,7 +351,7 @@
                             <td>{{ $producto['nombre'] }}</td>
                             <td>{{ $producto['cantidad'] }}</td>
                             <td>$ {{ $producto['precio'] }}</td>
-                            <td>$ {{ number_format($producto['subtotal'], 0, ',', '.') }}</td>
+                            <td>$ {{ $producto['subtotal'] }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -123,7 +123,7 @@ class WebpayController extends Controller
                     'nombre' => $producto->nombre,
                     'cantidad' => $detalle->cantidad,
                     'precio' => $producto->precio_de_venta,
-                    'subtotal' => $detalle->subtotal
+                    'subtotal' => $detalle->descuento == 0 ? $producto->precio_de_venta : $detalle->descuento
                 ];
             })
 
