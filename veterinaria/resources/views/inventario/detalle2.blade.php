@@ -217,8 +217,8 @@
                             <h5>{{ $detalleWeb ? $detalleWeb->marca : '' }}</h5>
                         </div>
                         <div class="card">
-                            <p>Fecha de Creación</p>
-                            <h5>{{ $detalleWeb ? $detalleWeb->contenido_neto : '' }}</h5>
+                            <p>Contenido</p>
+                            <h5>{{ $detalleWeb ? number_format($detalleWeb->contenido_neto, 0) : '' }}</h5>
                         </div>
                         <div class="card">
                             <p>Descripción</p>
