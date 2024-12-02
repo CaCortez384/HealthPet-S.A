@@ -107,13 +107,9 @@ Luego, abre tu navegador y visita [http://localhost:8000](http://localhost:8000)
 - Página principal con información sobre los servicios de la veterinaria.
 - Sección de contacto y tienda de productos para mascotas.
 
-## Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio que desees realizar.
-
 ## Licencia
 
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para obtener más detalles.
+Este proyecto está licenciado bajo la Licencia MIT.
 
 ---
 
