@@ -74,7 +74,12 @@ veterinaria/
     php artisan key:generate
     ```
 
-6. **Ejecuta las migraciones para crear las tablas en la base de datos:**
+6. **Crear enlace simbolico para el almacenamiento de imagenes:**
+    ```sh
+    php artisan storage:link
+    ```
+
+7. **Ejecuta las migraciones para crear las tablas en la base de datos:**
     ```sh
     php artisan migrate
     ```
