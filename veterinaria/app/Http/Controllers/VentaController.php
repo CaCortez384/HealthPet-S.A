@@ -28,7 +28,6 @@ class VentaController extends Controller
     }
 
 
-
     public function listarVentas(Request $request)
     {
         // Obtener filtros desde la solicitud
@@ -140,11 +139,8 @@ class VentaController extends Controller
         $venta->tipo_pago_id = $request->tipo_pago_id;
         $venta->numero_cliente = $request->numero_cliente; //celular del cliente
         $venta->email_cliente = $request->email_cliente; //celular del cliente
-
-
-
-        //Descomentar al momento de poner el proyecto en producción
-        //$venta->nombre_vendedor = $nombreUsuario;
+        $nombreUsuario = Auth::user()->name;
+        $venta->nombre_vendedor = $nombreUsuario;
 
         if ($montoPagado < $total) {
             $venta->estado_pago = 0; // No pagado completamente
@@ -275,27 +271,22 @@ class VentaController extends Controller
         $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
 
         // Formatear los valores numéricos
-
         $venta->subtotal = number_format($venta->subtotal, 0, ',', '.');
         $venta->monto_pagado = number_format($venta->monto_pagado, 0, ',', '.');
 
         return view('ventas.detalle', compact('venta', 'detallesVenta'));
     }
 
-
-
     // Función para exportar a PDF
     public function exportPdf($id)
     {
         $venta = Venta::findOrFail($id);
-
         // Datos que pasarás a la vista para generar el PDF
         $data = [
             'venta' => $venta,
         ];
 
         $detallesVenta = DetalleVenta::where('venta_id', $id)->get();
-
 
         $data2 = [
             'detalle' => $detallesVenta,
@@ -307,16 +298,7 @@ class VentaController extends Controller
         return $pdf->stream('venta.pdf');
     }
 
-
-
-
-
-
-
-
     // aqui abajo controladoir par actualizar venta
-
-
     public function edit($id)
     {
         // Recuperar la venta por ID
@@ -328,18 +310,9 @@ class VentaController extends Controller
         $productos = Producto::all();
         $tipoPago = TipoPago::all();
 
-
-        // Aquí puedes cargar cualquier otra información que necesites para el formulario,
-        // como productos, clientes, etc.
-
         // Retornar la vista de edición con la venta
         return view('ventas.editar', compact('venta', 'productos', 'tipoPago', 'productosVendidos'));
     }
-
-
-
-
-
 
     public function actualizarVenta(Request $request, $id)
     {
@@ -352,20 +325,20 @@ class VentaController extends Controller
         // Llamar a la función que devuelve el stock de la venta existente
         $this->devolverStock($venta);
 
+        $venta_id = $request->venta_id;
+        $deuda_id = Deuda::where('venta_id', $venta_id)->first();
 
-
-        // Eliminar los detalles de la venta existentes
-        Venta::where('id', $id)->delete();
-
-
-
-
-
+        // Eliminar la venta existentes
+        if ($deuda_id) {
+            Pago::where('deuda_id', $deuda_id->id)->delete();
+            Deuda::where('venta_id', $venta_id)->delete();
+        }
+        DetalleVenta::where('venta_id', $venta_id)->delete();
+        Venta::where('id', $venta_id)->delete();
 
         // Limpiar los valores de subtotal y total eliminando puntos y comas
         $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
         $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
-
 
         // Convertir a valores numéricos
         $subtotal = (float) $subtotalLimpiado;
@@ -374,6 +347,7 @@ class VentaController extends Controller
         // Asignar un valor por defecto para el RUT si está vacío
         $rut_cliente = $request->rut_cliente ?: '11111111-1'; // Si el RUT es vacío o nulo, usar 11111111-1
         $montoPagado = str_replace([',', '.'], '', $request->input('monto_pagado'));
+        // Crear la venta actualizada
         // Crear la venta
         $venta = new Venta();
         $venta->id = $request->venta_id;
@@ -389,9 +363,8 @@ class VentaController extends Controller
         $venta->tipo_pago_id = $request->tipo_pago_id;
         $venta->numero_cliente = $request->numero_cliente; //celular del cliente
         $venta->email_cliente = $request->email_cliente; //celular del cliente
-
-        //Descomentar al momento de poner el proyecto en producción
-        //$venta->nombre_vendedor = $nombreUsuario;
+        $nombreUsuario = Auth::user()->name;
+        $venta->nombre_vendedor = $nombreUsuario;
 
         if ($montoPagado < $total) {
             $venta->estado_pago = 0; // No pagado completamente
@@ -400,10 +373,6 @@ class VentaController extends Controller
         }
 
         $venta->save(); // Guardar la venta
-
-
-        // Eliminar los detalles de la venta existentes
-        DetalleVenta::where('venta_id', $id)->delete();
 
 
         // Guardar los productos asociados
@@ -431,6 +400,13 @@ class VentaController extends Controller
             $deuda->venta_id = $venta->id;
             $deuda->monto_adeudado = $total - $montoPagado;
             $deuda->save();
+
+            $pago = new Pago();
+            $pago->deuda_id = $deuda->id;
+            $pago->monto_pagado = $montoPagado;
+            $pago->monto_restante = $deuda->monto_adeudado;
+            $pago->tipo_pago_id = $request->tipo_pago_id;
+            $pago->save();
         }
 
         // Descontar el stock de los productos vendidos
@@ -459,24 +435,6 @@ class VentaController extends Controller
 
         return redirect()->route('ventas.index')->with('success', 'Venta actualizada correctamente y el stock ha sido devuelto.');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private function devolverStock($venta)
     {
