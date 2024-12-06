@@ -3,7 +3,10 @@
     <!-- Asegúrate de cargar jQuery primero -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/Web/scriptPetShop.js') }}" defer></script>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Obtener el token CSRF desde una meta tag
+    </script>
 
     <!-- Contenido de la página -->
 
