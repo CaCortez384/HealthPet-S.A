@@ -36,9 +36,8 @@
 
                     <div class="form-group">
                         <label for="telefono">Teléfono</label>
-                        <input type="text" id="telefono" name="telefono" pattern="\+569[0-9]{8}"
-                            placeholder="+569XXXXXXXX" value="+569 {{ Auth::user()->movile }}" required disabled
-                            oninput="if(!this.value.startsWith('+569')) this.value='+569' + this.value.slice(4)">
+                        <input type="text" id="telefono" name="telefono" value="+569{{ Auth::user()->movile }}" required disabled>
+                        <input type="hidden" name="telefono" value="+569{{ Auth::user()->movile }}">
                     </div>
                 @else
                     <div class="form-group">

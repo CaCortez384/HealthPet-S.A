@@ -31,35 +31,55 @@ class VentaController extends Controller
 
     public function listarVentas(Request $request)
     {
+        // Obtener filtros desde la solicitud
         $filtros = [
-            'rut' => request('rut'),
-            'deuda' => request('deuda'), // Esto debería ser el valor actual de la deuda, que puede ser 0 o cualquier otro número
-            'fecha_inicio' => request('fecha_inicio'),
-            'fecha_fin' => request('fecha_fin'),
+            'rut' => $request->input('rut'),
+            'deuda' => $request->input('deuda'),
+            'fecha_inicio' => $request->input('fecha_inicio'),
+            'fecha_fin' => $request->input('fecha_fin'),
         ];
-
+    
+        // Construir la consulta base
         $ventas = venta::query();
-
+    
+        // Normalizar el RUT para aplicar el filtro
         if (!empty($filtros['rut'])) {
-            $ventas->where('rut_cliente', 'like', '%' . $filtros['rut'] . '%');
+            $rutNormalizado = $this->normalizarRut($filtros['rut']);
+            $ventas->whereRaw("REPLACE(REPLACE(REPLACE(rut_cliente, '.', ''), '-', ''), ' ', '') LIKE ?", ["%$rutNormalizado%"]);
         }
-
+    
+        // Filtrar por deuda
         if (!is_null($filtros['deuda'])) {
             $ventas->where('estado_pago', $filtros['deuda']);
         }
-
-        // Filtrado por rango de fechas
+    
+        // Filtrar por rango de fechas
         if (!empty($filtros['fecha_inicio']) && !empty($filtros['fecha_fin'])) {
-            // Convertir las fechas al formato Y-m-d
             $fechaInicio = Carbon::createFromFormat('Y-m-d', $filtros['fecha_inicio'])->startOfDay();
             $fechaFin = Carbon::createFromFormat('Y-m-d', $filtros['fecha_fin'])->endOfDay();
-
+    
             $ventas->whereBetween('fecha_venta', [$fechaInicio, $fechaFin]);
         }
-
-        $ventas = $ventas->paginate(10);
-
+    
+        // Aplicar paginación con los filtros actuales
+        $ventas = $ventas->paginate(10)->appends($request->query());
+    
+        // Retornar vista con datos y filtros
         return view('ventas.listar', compact('ventas', 'filtros'));
+    }
+    
+    /**
+     * Función para normalizar un RUT eliminando puntos, guiones y ceros iniciales.
+     */
+    private function normalizarRut($rut)
+    {
+        // Eliminar puntos y espacios en blanco
+        $rut = str_replace(['.', ' ', '-'], '', $rut);
+    
+        // Eliminar ceros iniciales
+        $rut = ltrim($rut, '0');
+    
+        return $rut;
     }
 
 
@@ -89,6 +109,11 @@ class VentaController extends Controller
 
         ]);
 
+        $nombreUsuario = Auth::user()->name;  // O el campo que tenga el nombre de usuario, por ejemplo, 'name'
+
+        // Asignar el nombre del vendedor al campo nombre_vendedor
+
+
         // Limpiar los valores de subtotal y total eliminando puntos y comas
         $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
         $totalLimpiado = str_replace(['.', ','], ['', ''], $request->total);
@@ -111,7 +136,7 @@ class VentaController extends Controller
         $venta->total = $total; // Usar el valor limpiado
         $venta->monto_pagado = $montoPagado;
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
-        $venta->nombre_vendedor = "nombre vendedor";
+        $venta->nombre_vendedor = $nombreUsuario;
         $venta->tipo_pago_id = $request->tipo_pago_id;
         $venta->numero_cliente = $request->numero_cliente; //celular del cliente
         $venta->email_cliente = $request->email_cliente; //celular del cliente

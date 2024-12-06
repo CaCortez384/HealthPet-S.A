@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 
 class LoginController extends Controller
@@ -24,7 +26,7 @@ class LoginController extends Controller
 
         // Verificar si el usuario ya existe
         if (User::where('email', $request->email)->exists()) {
-            return redirect()->back()->with('success', 'El email ya está registrado en el sistema.');
+            return redirect()->back()->with('errors', 'El email ya está registrado en el sistema.');
         } else {
             // Validar los datos
             // Validar los datos con mensajes personalizados
@@ -101,44 +103,62 @@ class LoginController extends Controller
         return redirect(route('listar.usuarios'))->with('success', 'Registro exitoso. Nuevo administrador registrado.');
     }
 
-public function login(Request $request)
-{
-    // Validaciones
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|min:1',
-    ]);
+    public function login(Request $request)
+    {
+        // Validaciones
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:1',
+        ]);
+    
+        // Generar una clave única para rastrear los intentos
+        $key = $request->ip();
+    
+        // Verificar si el usuario está bloqueado
+        if (RateLimiter::tooManyAttempts($key, 8)) {
+            $seconds = RateLimiter::availableIn($key);
+    
 
-    // Define las credenciales de autenticación
-    $credentials = [
-        "email" => $request->email,
-        "password" => $request->password,
-    ];
-
-    // Verifica si el checkbox 'remember' está marcado
-    $remember = $request->has('remember') ? true : false;
-
-    // Intentar autenticar al usuario con las credenciales y el valor de 'remember'
-    if (Auth::attempt($credentials, $remember)) {
-        // Regenera la sesión para proteger contra ataques de fijación de sesión
-        $request->session()->regenerate();
-
-        // Obtener el usuario autenticado
-        $user = Auth::user();
-
-        // Verificar el rol del usuario y redirigir según el rol
-        if ($user->role === 'admin' || $user->role === 'editor') {
-            // Redirigir a la página establecida
-            return redirect()->intended(route('inicio'));
-        } elseif ($user->role === 'user') {
-            // Redirigir al index de la web para usuarios tipo 'user'
-            return redirect()->route('home');
+            return redirect(route('login'))->with('errors', "Demasiados intentos fallidos. Intenta de nuevo en $seconds segundos.");
         }
-    } else {
-        // Redirige de nuevo al login en caso de fallo, puedes agregar un mensaje de error
-        return redirect(route('login'))->with('success', 'Usuario o Contraseña incorrecto.');
+    
+        // Define las credenciales de autenticación
+        $credentials = [
+            "email" => $request->email,
+            "password" => $request->password,
+        ];
+    
+        // Verifica si el checkbox 'remember' está marcado
+        $remember = $request->has('remember') ? true : false;
+    
+        // Intentar autenticar al usuario con las credenciales y el valor de 'remember'
+        if (Auth::attempt($credentials, $remember)) {
+            // Regenera la sesión para proteger contra ataques de fijación de sesión
+            $request->session()->regenerate();
+    
+            // Limpiar intentos fallidos al iniciar sesión correctamente
+            RateLimiter::clear($key);
+    
+            // Obtener el usuario autenticado
+            $user = Auth::user();
+    
+            // Verificar el rol del usuario y redirigir según el rol
+            if ($user->role === 'admin' || $user->role === 'editor') {
+                // Redirigir a la página establecida
+                return redirect()->intended(route('inicio'));
+            } elseif ($user->role === 'user') {
+                // Personalizar el mensaje con el nombre del usuario
+                $nombre = $user->name; // Ajusta 'name' al campo correcto en tu modelo User
+                return redirect()->route('home')->with('success', "¡Bienvenido/a, $nombre! Has iniciado sesión exitosamente.");
+            }
+        } else {
+            // Incrementar los intentos fallidos y bloquear por 2 minutos si se excede el límite
+            RateLimiter::hit($key, 120); // 120 segundos de bloqueo
+    
+            return redirect(route('login'))->with('errors', 'Usuario o Contraseña incorrecto.');
+        }
     }
-}
+    
 
     public function logout(Request $request)
     {

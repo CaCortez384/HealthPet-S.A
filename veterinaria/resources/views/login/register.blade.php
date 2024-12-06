@@ -21,6 +21,13 @@
 <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
 
+@include('components.alert')
+
+
+{{-- alerta que muestra cuando un producto se agrego con exito --}}
+
+
+<!-- Resto del contenido de la página -->
 
 <div class="contenedor-registro">
 
@@ -65,9 +72,9 @@
     </form>
     
     <!-- Contenedor de alerta -->
-    <div id="customAlert" class="alert alert-dismissible fixed-bottom fade" style="display: flex; align-items: center; justify-content: space-between">
-        <span id="alertMessage"></span>
-        <button type="button" class="close no-style" aria-label="Close" id="closeAlertButton">
+    <div id="customAlerts" class="alert alert-dismissible fixed-bottom fade" >
+        <span id="alertMessages"></span>
+        <button type="button" class="close no-style" aria-label="Close" id="closeAlertsButton">
             <p id="aceptar">Aceptar</p>
         </button>
     </div>
@@ -75,8 +82,8 @@
     <script>
         // Función para mostrar la alerta
         function showAlert(message) {
-            const alertBox = document.getElementById('customAlert');
-            const alertMessage = document.getElementById('alertMessage');
+            const alertBox = document.getElementById('customAlerts');
+            const alertMessage = document.getElementById('alertMessages');
     
             // Insertar el mensaje y mostrar la alerta
             alertMessage.textContent = message;
@@ -86,7 +93,7 @@
     
         // Función para cerrar la alerta
         function closeAlert() {
-            const alertBox = document.getElementById('customAlert');
+            const alertBox = document.getElementById('customAlerts');
     
             // Ocultar la alerta y remover la clase 'show'
             alertBox.style.display = 'none';
@@ -94,7 +101,7 @@
         }
     
         // Evento para cerrar la alerta al hacer clic en "Aceptar"
-        document.getElementById('closeAlertButton').addEventListener('click', closeAlert);
+        document.getElementById('closeAlertsButton').addEventListener('click', closeAlert);
     
         // Validación del formulario
         document.getElementById('form').addEventListener('submit', function (e) {

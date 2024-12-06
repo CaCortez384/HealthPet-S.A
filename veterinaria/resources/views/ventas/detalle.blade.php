@@ -43,37 +43,37 @@
                         <h2>Detalle de la Venta #{{ $venta->id }}</h2>
                     </div>
                     <div class="buttons">
-                        <a  href="{{ route('ventas.edit', $venta->id) }}">
-                            <md-fab size="small" aria-label="Edit">
-                                <md-icon slot="icon">edit</md-icon>
-                            </md-fab>
-                        </a>
-                        <!-- Botón para dialogo alerta eliminar -->
-                        <a id="openDialogButton_{{ $venta->id }}">
-                            <md-fab class="boton-tabla" size="small" aria-label="Delete">
-                                <md-icon slot="icon">delete</md-icon>
-                            </md-fab>
-                        </a>
-
-
-                        {{-- area para imprimir en pdf (exportar y generer recibo) --}}
+                        {{-- Solo mostrar el botón de editar si el estado de pago no es 'Anulada' (estado_pago != 2) --}}
+                        @if($venta->estado_pago !== 2)
+                            <a href="{{ route('ventas.edit', $venta->id) }}">
+                                <md-fab size="small" aria-label="Edit">
+                                    <md-icon slot="icon">edit</md-icon>
+                                </md-fab>
+                            </a>
+                        @endif
+                    
+                        {{-- Solo mostrar el botón de eliminar si el estado de pago no es 'Anulada' (estado_pago != 2) --}}
+                        @if($venta->estado_pago !== 2)
+                            <a id="openDialogButton_{{ $venta->id }}">
+                                <md-fab class="boton-tabla" size="small" aria-label="Delete">
+                                    <md-icon slot="icon">delete</md-icon>
+                                </md-fab>
+                            </a>
+                        @endif
+                    
+                        {{-- Área para imprimir el recibo --}}
                         <div>
-                            <a href="#" id="inventarioDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" id="inventarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <md-fab class="boton-tabla" size="small" aria-label="Imprimir">
                                     <md-icon slot="icon">print</md-icon>
                                 </md-fab>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="inventarioDropdown"
                                 style="background-color: #e8def8; color: var(--md-sys-color-on-primary); border-radius: 20px; box-shadow: var(--md-sys-elevation-3);">
-
-                                <li><a class="dropdown-item"  target="_blank"  href="{{ route('venta.recibo', $venta->id) }}"
+                                <li><a class="dropdown-item" target="_blank" href="{{ route('venta.recibo', $venta->id) }}"
                                         style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Generar Recibo</a></li>
-
                             </ul>
                         </div>
-
-    
                     </div>
                 </div>
 

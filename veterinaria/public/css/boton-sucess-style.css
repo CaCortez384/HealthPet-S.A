@@ -36,3 +36,25 @@
     color: #9072f9;
     transition-duration: 0.2s;
 }
+
+
+
+/* estilo del dialofgo agregar producto exito */
+
+.alert.fixed-bottom {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    z-index: 1050; /* Asegúrate de que esté en un nivel alto para que se superponga a otros elementos */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#customAlerts{
+    background-color: #3C3940;
+    color: white;
+    
+}
+
