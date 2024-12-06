@@ -108,10 +108,6 @@ class VentaController extends Controller
 
         ]);
 
-        $nombreUsuario = Auth::user()->name;  // O el campo que tenga el nombre de usuario, por ejemplo, 'name'
-
-        // Asignar el nombre del vendedor al campo nombre_vendedor
-
 
         // Limpiar los valores de subtotal y total eliminando puntos y comas
         $subtotalLimpiado = str_replace(['.', ','], ['', ''], $request->subtotal);
@@ -135,7 +131,6 @@ class VentaController extends Controller
         $venta->total = $total; // Usar el valor limpiado
         $venta->monto_pagado = $montoPagado;
         $venta->fecha_venta = now(); // O puedes usar Carbon::now()
-        $venta->nombre_vendedor = $nombreUsuario;
         $venta->tipo_pago_id = $request->tipo_pago_id;
         $venta->numero_cliente = $request->numero_cliente; //celular del cliente
         $venta->email_cliente = $request->email_cliente; //celular del cliente
