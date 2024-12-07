@@ -111,7 +111,7 @@ class WebpayController extends Controller
         $detallesPedido = DetallePedido::where('pedido_id', $pedidoId)->get();
         $datos = [
             'nombre' => $pedido->nombre_cliente,
-            'correo' => $pedido->correo_cliente,
+            'correo' => $pedido->email_cliente,
             'mensaje' => 'Este es un mensaje de prueba.',
             'mensaje2' => 'Gracias por tu compra en nuestro Hospital Veterinario. Aquí tienes los detalles de tu pedido:',
             'pedido_id' => $pedido->id,
@@ -130,7 +130,7 @@ class WebpayController extends Controller
             })
 
         ];
-        Mail::to('destinatario@example.com')->send(new MiCorreo($datos));
+        Mail::to($pedido->email_cliente)->send(new MiCorreo($datos));
 
         return "Correo enviado exitosamente.";
     }
