@@ -130,7 +130,7 @@ class WebpayController extends Controller
             })
 
         ];
-        Mail::to('destinatario@example.com')->send(new MiCorreo($datos));
+        Mail::to($pedido->correo_cliente)->send(new MiCorreo($datos));
 
         return "Correo enviado exitosamente.";
     }
