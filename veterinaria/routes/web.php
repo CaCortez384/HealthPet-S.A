@@ -19,71 +19,71 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Cita;
 
 #rutas uri para acceder mediante el navegador
-Route::get('/', [HomeController::class, 'index'])->middleware('role:admin')->name('inicio');
+Route::get('/', [HomeController::class, 'index'])->middleware('role:admin,editor')->name('inicio');
 Route::get('/nose', [HomeController::class, 'nose'])->name('welcome');
 
 //rutas para gestion de inventario
 // esta ruta tiene restriccion de acceso, solo admin puede ingresar. 
-Route::get('/inventario', [InventarioController::class, 'listar'])->middleware('role:admin')->name('listar.productos');
-Route::get('/inventario/crear', [InventarioController::class, 'crear'])->middleware('role:admin')->name('inventario.crear');
-Route::post('/inventario', [InventarioController::class, 'store'])->middleware('role:admin')->name('inventario.store');
-Route::get('/inventario/{producto}/editar', [InventarioController::class, 'editar'])->middleware('role:admin')->name('editar.producto');
-ROUTE::put('/inventario/{producto}', [InventarioController::class, 'update'])->middleware('role:admin')->name('actualizar.producto');
-Route::delete('/inventario/{producto}', [InventarioController::class, 'eliminar'])->middleware('role:admin')->name('eliminar.producto');
+Route::get('/inventario', [InventarioController::class, 'listar'])->middleware('role:admin,editor')->name('listar.productos');
+Route::get('/inventario/crear', [InventarioController::class, 'crear'])->middleware('role:admin,editor')->name('inventario.crear');
+Route::post('/inventario', [InventarioController::class, 'store'])->middleware('role:admin,editor')->name('inventario.store');
+Route::get('/inventario/{producto}/editar', [InventarioController::class, 'editar'])->middleware('role:admin,editor')->name('editar.producto');
+ROUTE::put('/inventario/{producto}', [InventarioController::class, 'update'])->middleware('role:admin,editor')->name('actualizar.producto');
+Route::delete('/inventario/{producto}', [InventarioController::class, 'eliminar'])->middleware('role:admin,editor')->name('eliminar.producto');
 // validar id del producto antes de agregar
-Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCodigo'])->middleware('role:admin')->name('inventario.validarCodigo');
+Route::get('/validar-codigo/{codigo}', [InventarioController::class, 'validarCodigo'])->middleware('role:admin,editor')->name('inventario.validarCodigo');
 // validar id del producto antes de aditar producto
-Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->middleware('role:admin')->name('inventario.validarCodigoEdit');
-Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'])->middleware('role:admin')->name('detalle2.producto');
+Route::get('/validar-codigo/{codigo}/{id}', [InventarioController::class, 'validarCodigoEdit'])->middleware('role:admin,editor')->name('inventario.validarCodigoEdit');
+Route::get('/inventario/detalle2/{id}', [InventarioController::class, 'detallee'])->middleware('role:admin,editor')->name('detalle2.producto');
 
 
 
 // rutas para el login
 Route::get('/inicio-sesion', [LoginController::class, 'loguearse'])-> name('login');
 Route::view('/registro',"login.register")->name('registro');
-Route::view('/registro-admin',"login.registerAdmin")->middleware('role:admin')->name('registro-admin');
-Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->middleware('role:admin')->name('listar.usuarios');
-Route::delete('/usuarios/{id}', [LoginController::class, 'destroy'])->middleware('role:admin')->name('usuarios.destroy');
-Route::get('/usuarios/{id}/edit', [LoginController::class, 'edit'])->middleware('role:admin')->name('usuarios.edit');
-Route::put('/usuarios/{id}', [LoginController::class, 'update'])->middleware('role:admin')->name('usuarios.update');
+Route::view('/registro-admin',"login.registerAdmin")->middleware('role:editor')->name('registro-admin');
+Route::get('/usuarios', [LoginController::class, 'listarUsuarios'])->middleware('role:editor')->name('listar.usuarios');
+Route::delete('/usuarios/{id}', [LoginController::class, 'destroy'])->middleware('role:editor')->name('usuarios.destroy');
+Route::get('/usuarios/{id}/edit', [LoginController::class, 'edit'])->middleware('role:editor')->name('usuarios.edit');
+Route::put('/usuarios/{id}', [LoginController::class, 'update'])->middleware('role:editor')->name('usuarios.update');
 Route::post('/validar-registro', [LoginController::class, 'register'])->name('validar-regitro');
-Route::post('/admin-registro', [LoginController::class, 'registerAdmin'])->middleware('role:admin')->name('validar-regitro-admin');
+Route::post('/admin-registro', [LoginController::class, 'registerAdmin'])->middleware('role:editor')->name('validar-regitro-admin');
 Route::post('/iniciar-sesion', [LoginController::class, 'login'])->name('iniciar-sesion');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rutas para ventas
-Route::get('/ventas', [VentaController::class, 'listarVentas'])->middleware('role:admin')->name('ventas.index'); // Mostrar todas las ventas
-Route::get('/ventas/create', [VentaController::class, 'create'])->middleware('role:admin')->name('ventas.create'); // Formulario para crear una nueva venta
-Route::post('/ventas', [VentaController::class, 'store'])->middleware('role:admin')->name('ventas.store'); // Guardar una nueva venta
-Route::get('/ventas/{id}', [VentaController::class, 'show'])->middleware('role:admin')->name('ventas.show'); // Ver el detalle de una venta específica
-Route::put('/ventas/{id}', [VentaController::class, 'update'])->middleware('role:admin')->name('ventas.update'); // Actualizar una venta existente
-Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->middleware('role:admin')->name('ventas.destroy'); // Eliminar una venta
+Route::get('/ventas', [VentaController::class, 'listarVentas'])->middleware('role:admin,editor')->name('ventas.index'); // Mostrar todas las ventas
+Route::get('/ventas/create', [VentaController::class, 'create'])->middleware('role:admin,editor')->name('ventas.create'); // Formulario para crear una nueva venta
+Route::post('/ventas', [VentaController::class, 'store'])->middleware('role:admin,editor')->name('ventas.store'); // Guardar una nueva venta
+Route::get('/ventas/{id}', [VentaController::class, 'show'])->middleware('role:admin,editor')->name('ventas.show'); // Ver el detalle de una venta específica
+Route::put('/ventas/{id}', [VentaController::class, 'update'])->middleware('role:admin,editor')->name('ventas.update'); // Actualizar una venta existente
+Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->middleware('role:admin,editor')->name('ventas.destroy'); // Eliminar una venta
 
 // Mostrar el formulario para editar una venta
-Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->middleware('role:admin')->name('ventas.edit');
+Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->middleware('role:admin,editor')->name('ventas.edit');
 
 // Actualizar una venta (manteniendo el ID)
-Route::put('/ventas/{id}', [VentaController::class, 'actualizarVenta'])->middleware('role:admin')->name('ventas.update');
+Route::put('/ventas/{id}', [VentaController::class, 'actualizarVenta'])->middleware('role:admin,editor')->name('ventas.update');
 
 // Devolver el stock de una venta y mantenerla
-Route::post('/ventas/{id}/devolver-stock', [VentaController::class, 'devolverStock'])->middleware('role:admin')->name('ventas.devolverStock');
+Route::post('/ventas/{id}/devolver-stock', [VentaController::class, 'devolverStock'])->middleware('role:admin,editor')->name('ventas.devolverStock');
 // imprimir recibo en PDF
-Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->middleware('role:admin')->name('venta.recibo');
+Route::get('/venta/{id}/recibo', [VentaController::class, 'exportPdf'])->middleware('role:admin,editor')->name('venta.recibo');
 
 // routes/api.php
-Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->middleware('role:admin')->name('buscar-productos');
+Route::get('/buscar-productos', [InventarioController::class, 'buscar'])->middleware('role:admin,editor')->name('buscar-productos');
 
 //rutas para deudas
-Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('role:admin')->name('deudas.index');
-Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin')->name('deuda.detalle');
-Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin')->name('pago.create'); // Formulario para pagar una deuda
-Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin')->name('pago.store'); // Guardar un pago
+Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('role:admin,editor')->name('deudas.index');
+Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin,editor')->name('deuda.detalle');
+Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin,editor')->name('pago.create'); // Formulario para pagar una deuda
+Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin,editor')->name('pago.store'); // Guardar un pago
 
 //rutas para pedidos
-Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin')->name('pedidos.index');
-Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('role:admin')->name('pedidos.show');
-Route::get('/pedidos/{id}/edit', [PedidoController::class, 'edit'])->middleware('role:admin')->name('pedidos.edit');
-Route::put('/pedidos/{id}', [PedidoController::class, 'update'])->middleware('role:admin')->name('pedidos.update');
+Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin,editor')->name('pedidos.index');
+Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->middleware('role:admin,editor')->name('pedidos.show');
+Route::get('/pedidos/{id}/edit', [PedidoController::class, 'edit'])->middleware('role:admin,editor')->name('pedidos.edit');
+Route::put('/pedidos/{id}', [PedidoController::class, 'update'])->middleware('role:admin,editor')->name('pedidos.update');
 
 
 
@@ -149,3 +149,6 @@ Route::post('/contacto', [ContactController::class, 'sendContact']);
 Route::get('/ventas/datos/{tipo}', [HomeController::class, 'getSalesData'])->name('ventas.datos');
 Route::get('/ingresos/tipo', [HomeController::class, 'getIngresosPorTipoData']);
 
+
+
+Route::get('/productos', [WebController::class, 'index'])->name('productos.index');
