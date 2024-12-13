@@ -33,9 +33,9 @@ class HomeController extends Controller
     {
         // Datos básicos del dashboard
         $productosBajoStock = Producto::whereColumn('stock_unidades', '<', 'cantidad_minima_requerida')->get();
-        $nuevosPedidos = Pedido::whereDate('created_at', Carbon::today())->count();
+        $nuevosPedidos = Pedido::whereDate('created_at', Carbon::today())->where('estado_pedido', '!=', 0)->count();
         $pedidosActivos = Pedido::whereIn('estado_pedido', [1, 2, 3])->count();
-        $ingresosHoy = Venta::whereDate('fecha_venta', Carbon::today())->sum('monto_pagado') + Pedido::whereDate('created_at', Carbon::today())->sum('monto_pagado');
+        $ingresosHoy = Venta::whereDate('fecha_venta', Carbon::today())->sum('monto_pagado') + Pedido::whereDate('created_at', Carbon::today())->where('estado_pedido', '!=', 0)->sum('monto_pagado');
         $ventas = Venta::whereDate('fecha_venta', Carbon::today())->count();
         $deudoresActuales = Deuda::where('estado', 0)->count();
         $promedioVentasDiario = Venta::avg('monto_pagado') ?? 0; // Asegura que no sea null
@@ -102,7 +102,7 @@ class HomeController extends Controller
 
         $ingresosPorTipo = [
             'Ventas' => Venta::whereMonth('fecha_venta', $mesActual)->whereYear('fecha_venta', $anioActual)->sum('total'),
-            'Pedidos' => Pedido::whereMonth('created_at', $mesActual)->whereYear('created_at', $anioActual)->sum('monto_pagado'),
+            'Pedidos' => Pedido::whereMonth('created_at', $mesActual)->whereYear('created_at', $anioActual)->where('estado_pedido', '!=', 0)->sum('monto_pagado'),
         ];
 
         return response()->json([
