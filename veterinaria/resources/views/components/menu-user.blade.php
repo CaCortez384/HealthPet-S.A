@@ -1,6 +1,23 @@
 
-<div style="display: flex; width: 100%; margin: auto">
-<div style=" height: 100%; margin-right: 30px;">
+<style>
+  #contenedor-completo{
+    display: flex; width: 100%; margin: auto;
+  }
+  #contenedos-list{
+    height: 100%; margin-right: 30px;
+  }
+  #nav-expand{
+    height:100%; border-radius: 20px; margin: auto; margin-top: 50px; box-shadow: 5px 5px 20px black;
+  }
+  #lista-md{
+    max-width: 300px; border-radius: 20px; display: flex; justify-content: center;
+  }
+
+
+</style>
+
+<div id="contenedor-completo">
+<div id="contenedos-list" >
 
   <style>
     /* Mostrar 'Perfil' por defecto */
@@ -13,17 +30,33 @@
     .perfil-text {
         display: none;
     }
+    md-list{
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      margin: 10px;
+      flex-direction: row;
+      width: 100%;
+      margin: auto;
+    }
+    #contenedor-completo{
+      flex-direction: column;
+      margin: auto;
+    }
+    #contenedos-list{
+      margin: auto
+    }
 }
   </style>
 
-<nav class="navbar navbar-expand-lg   " style="height:100%; border-radius: 20px; margin: auto; margin-top: 50px; box-shadow: 5px 5px 20px black;" >
+<nav id="nav-expand" class="navbar navbar-expand-lg   " >
     <div class="container-fluid">
 
 
         <nav class="nav flex-column"  >
 
 
-            <md-list style="max-width: 300px; border-radius: 20px">
+            <md-list id="lista-md" >
 
 
               <a href="{{route('profile.edit')}}"  style="text-decoration: none">
@@ -47,7 +80,7 @@
 
                 <md-divider></md-divider>
 
-                <a href="" style="text-decoration: none">
+                <a  href="{{ route('buscar.pedido') }}" style="text-decoration: none">
                 <md-list-item>
                     <md-icon >two_pager_store</md-icon>
                   <span class="perfil-text">Consultar Pedidos</span>

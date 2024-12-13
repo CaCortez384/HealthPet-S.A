@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cache;
+
 
 class ProfileController extends Controller
 {
@@ -24,16 +26,35 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
+    
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Obtener el usuario autenticado
+        $user = $request->user();
+    
+        // Verificar si el usuario tiene un cooldown activo
+        $cacheKey = "user_update_{$user->id}";
+        if (Cache::has($cacheKey)) {
+            $remainingTime = Cache::get($cacheKey) - now()->timestamp;
+            return redirect()->route('profile.edit')->withErrors([
+                'cooldown' => "Debes esperar $remainingTime segundos antes de actualizar nuevamente."
+            ]);
         }
-
-        $request->user()->save();
-
+    
+        // Llenar los datos validados en el modelo del usuario
+        $user->fill($request->validated());
+    
+        // Si el correo cambia, anular la verificación del correo
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+    
+        // Guardar los cambios del usuario
+        $user->save();
+    
+        // Establecer un cooldown de 2 minutos (120 segundos)
+        Cache::put($cacheKey, now()->addMinutes(2)->timestamp, 120);
+    
         return redirect()->route('profile.edit')->with('success', 'Usuario actualizado correctamente');
     }
 

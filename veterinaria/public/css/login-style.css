@@ -181,7 +181,7 @@
   }
 
           /* Ocultar el div a 700px o menos */
-          @media (max-width: 700px) {
+          @media (max-width: 1100px) {
             .husky {
                 display: none;
             }
@@ -197,7 +197,7 @@
             color: #888;
         }
         
-        @media (max-width: 700px) {
+        @media (max-width: 1000px) {
             .form_main {
                 width: 90%;
             padding: 20px;}
