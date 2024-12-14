@@ -99,10 +99,10 @@
                         <tr>
                             <td>{{ $deuda->id }}</td>
                             <td>{{ $deuda->created_at->format('d/m/Y') }}</td>
-                            <td>{{ $deuda->venta->rut_cliente }}</td>
+                            <td>{{ number_format(substr($deuda->venta->rut_cliente, 0, -1), 0, '', '.') . '-' . substr($deuda->venta->rut_cliente, -1) }}</td>
                             <td>{{ $deuda->venta->nombre_cliente }}</td>
-                            <td>{{ $deuda->monto_adeudado }}</td>
-                            <td>{{ $deuda->venta->total }}</td>
+                            <td>{{ '$' . number_format($deuda->monto_adeudado, 0, ',', '.') }}</td>
+                            <td>{{ '$' . number_format($deuda->venta->total, 0, ',', '.') }}</td>
                             <td>
                                 @switch($deuda->estado)
                                     @case(0)

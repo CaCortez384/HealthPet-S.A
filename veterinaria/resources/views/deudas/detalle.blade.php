@@ -144,10 +144,10 @@
             <tbody>
                 @foreach ($deuda->pagos as $pago)
                     <tr>
-                        <td>${{ $pago->monto_pagado }}</td>
+                        <td>${{ number_format($pago->monto_pagado, 0, ',', '.') }}</td>
                         <td>{{ \Carbon\Carbon::parse($pago->created_at)->format('d-m-Y') }}</td>
                         <td>{{ $pago->tipoPago->nombre }}</td>
-                        <td>${{ $pago->monto_restante }}</td> {{-- ajustar para realizar bien el calculo de monto restante --}}
+                        <td>${{ number_format($pago->monto_restante, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -206,8 +206,8 @@
             @csrf
             <input type="hidden" name="deuda_id" value="{{ $deuda->id }}">
             <div class="contact-row">
-                <md-filled-text-field type="number" name="monto_pagado" autofocus label="Monto a pagar"
-                    required></md-filled-text-field>
+                <md-filled-text-field type="text" name="monto_pagado" autofocus label="Monto a pagar" placeholder="$" required
+                    oninput="this.value = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');"></md-filled-text-field>
                 <md-filled-select class="input-uniforme" name="tipo_pago_id" id="tipo_pago" required>
                     <md-select-option value="" selected>Seleccione el Tipo de Pago</md-select-option>
                     @foreach ($tipoPago1 as $tipo)
