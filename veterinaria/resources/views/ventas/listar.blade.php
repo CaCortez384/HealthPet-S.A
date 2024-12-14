@@ -204,7 +204,7 @@
                         <td>{{ $venta->fecha_venta->format('d/m/Y') }}</td>
                         <td>{{ $venta->nombre_vendedor }}</td>
                         <td>{{ $venta->nombre_cliente }}</td>
-                        <td>{{ $venta->total }}</td>
+                        <td>${{ number_format($venta->total, 0, ',', '.') }}</td>
                         <td>{{ $venta->tipoPago->nombre }}</td>
                         <td>
                             @switch($venta->estado_pago)

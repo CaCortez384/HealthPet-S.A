@@ -50,6 +50,11 @@
                         <p>Stock actual</p>
                         <h3>{{ $producto->stock_unidades }}</h3>
                         <p>Stock mínimo: {{ $producto->cantidad_minima_requerida }}</p>
+                        @if ($producto->stock_unidades < $producto->cantidad_minima_requerida)
+                            <div class="alert alert-warning" style="background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                                <strong>¡Atención!</strong> El stock está por debajo del mínimo requerido.
+                            </div>
+                        @endif
                     </div>
 
                     @if ($producto->id_presentacion)

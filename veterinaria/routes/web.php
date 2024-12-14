@@ -10,9 +10,9 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PedidoController;
-use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BusquedaController;
 
 // rutas login nueva
 use App\Http\Controllers\ProfileController;
@@ -78,6 +78,7 @@ Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('rol
 Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin,editor')->name('deuda.detalle');
 Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin,editor')->name('pago.create'); // Formulario para pagar una deuda
 Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin,editor')->name('pago.store'); // Guardar un pago
+Route::post('/deudas/{id}', [DeudaController::class, 'destroy'])->middleware('role:admin,editor')->name('deuda.eliminar'); // Eliminar una deuda
 
 //rutas para pedidos
 Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin,editor')->name('pedidos.index');
@@ -152,3 +153,4 @@ Route::get('/ingresos/tipo', [HomeController::class, 'getIngresosPorTipoData']);
 
 
 Route::get('/productos', [WebController::class, 'index'])->name('productos.index');
+Route::get('/buscar', [BusquedaController::class, 'buscar'])->name('buscar.ajax');

@@ -118,7 +118,7 @@
                     </div>
                     <div class="purchase-price">
                         <p>Subtotal:</p>
-                        <h3>{{ $venta->subtotal}} CLP</h3>
+                        <h3>${{ $venta->subtotal}}</h3>
                     </div>
                     <div class="purchase-price">
                         <p>Descuento:</p>
@@ -126,11 +126,11 @@
                     </div>
                     <div class="purchase-price">
                         <p>Total:</p>
-                        <h3>{{$venta->total}} CLP</h3>
+                        <h3>${{ number_format($venta->total, 0, ',', '.') }}</h3>
                     </div>
                     <div class="purchase-price">
                         <p>Monto Pagado:</p>
-                        <h3>{{ $venta->monto_pagado}} CLP</h3>
+                        <h3>${{ $venta->monto_pagado}}</h3>
                     </div>                    
                     <div class="purchase-price">
                         <p>Estado de Pago:</p>
@@ -171,8 +171,8 @@
                     <tr>
                         <td>{{ $detalle->producto->nombre }}</td>
                         <td>{{ $detalle->cantidad }} ({{ ucwords($detalle->tipo_venta) }})</td>
-                        <td>{{ number_format($detalle->precio_unitario, 0, ',', '.') }} CLP  ({{ ucwords($detalle->tipo_venta) }})</td>
-                        <td>{{ number_format($detalle->precio_unitario * $detalle->cantidad, 0, ',', '.') }} CLP</td>
+                        <td>${{ number_format($detalle->precio_unitario, 0, ',', '.') }}   ({{ ucwords($detalle->tipo_venta) }})</td>
+                        <td>${{ number_format($detalle->precio_unitario * $detalle->cantidad, 0, ',', '.') }} </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -3,27 +3,31 @@
 
     <div class="container mt-4">
         <h1 class="text-center mb-4">Dashboard - Datos Interesantes</h1>
-
         {{-- Alerta de productos bajo stock --}}
         @if ($productosBajoStock->count() > 0)
             <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-                <strong>Atención!</strong> Tienes {{ $productosBajoStock->count() }} productos con bajo stock.
-                <button type="button" class="btn btn-primary btn-sm mx-2" data-bs-toggle="collapse"
-                    data-bs-target="#productosBajoStock">
-                    Ver productos
-                </button>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>Atención!</strong> Tienes {{ $productosBajoStock->count() }} productos con bajo stock.
+            <button type="button" class="btn btn-primary btn-sm mx-2" data-bs-toggle="collapse"
+                data-bs-target="#productosBajoStock">
+                Ver productos
+            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <div id="productosBajoStock" class="collapse mt-3">
-                <ul class="list-group">
-                    @foreach ($productosBajoStock as $producto)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $producto->nombre }}
-                            <span class="badge bg-danger">Stock: {{ $producto->stock_unidades }} (Min:
-                                {{ $producto->cantidad_minima_requerida }})</span>
-                        </li>
-                    @endforeach
-                </ul>
+            <ul class="list-group">
+                @foreach ($productosBajoStock as $producto)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ $producto->nombre }}
+                    <div class="d-flex align-items-center">
+                    <span class="badge bg-danger me-2">Stock: {{ $producto->stock_unidades }} (Min:
+                        {{ $producto->cantidad_minima_requerida }})</span>
+                    <a href="{{ route('detalle2.producto', ['id' => $producto->id]) }}" class="btn btn-icon btn-sm btn-primary material-icons">
+                        Ver
+                    </a>
+                    </div>
+                </li>
+                @endforeach
+            </ul>
             </div>
         @endif
 

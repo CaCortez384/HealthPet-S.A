@@ -83,7 +83,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">ID venta</th>
                         <th scope="col">Fecha de deuda</th>
                         <th scope="col">Rut cliente</th>
                         <th scope="col">Cliente</th>
@@ -97,12 +96,12 @@
                     {{-- recorrer todas las deudas --}}
                     @forelse ($deudas as $deuda)
                         <tr>
-                            <td>{{ $deuda->id }}</td>
                             <td>{{ $deuda->created_at->format('d/m/Y') }}</td>
-                            <td>{{ $deuda->venta->rut_cliente }}</td>
+                            <td>{{ number_format(substr($deuda->venta->rut_cliente, 0, -1), 0, '', '.') . '-' . substr($deuda->venta->rut_cliente, -1) }}
+                            </td>
                             <td>{{ $deuda->venta->nombre_cliente }}</td>
-                            <td>{{ $deuda->monto_adeudado }}</td>
-                            <td>{{ $deuda->venta->total }}</td>
+                            <td>{{ '$' . number_format($deuda->monto_adeudado, 0, ',', '.') }}</td>
+                            <td>{{ '$' . number_format($deuda->venta->total, 0, ',', '.') }}</td>
                             <td>
                                 @switch($deuda->estado)
                                     @case(0)
@@ -128,8 +127,9 @@
                                     </md-fab>
                                 </a>
 
-                                <!-- Botón para diálogo alerta eliminar -->
-                                <a id="openDialogButton_{{ $deuda->id }}">
+                                {{-- Mostrar el botón de anular solo si la venta no está anulada --}}
+                                <a id="openDialogButton_{{ $deuda->id }}"
+                                    @if ($deuda->estado === 2) style="display:none;" @endif>
                                     <md-fab class="boton-tabla" size="small" aria-label="Delete">
                                         <md-icon slot="icon">delete</md-icon>
                                     </md-fab>
@@ -139,10 +139,9 @@
                                     <div slot="headline">
                                         Anular deuda "{{ $deuda->id }}"
                                     </div>
-                                    <form slot="content" action="" id="form-id-{{ $deuda->id }}"
-                                        method="POST">
+                                    <form slot="content" action="{{ route('deuda.eliminar', ['id' => $deuda->id]) }}"
+                                        id="form-id-{{ $deuda->id }}" method="POST">
                                         @csrf
-                                        @method('DELETE')
                                         Una vez que la deuda haya sido anulada, no será posible revertir los cambios
                                         realizados.
                                         ¿Está seguro que desea Anular la deuda?

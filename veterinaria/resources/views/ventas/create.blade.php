@@ -79,6 +79,10 @@
                     <br>
                     <div id="scanner-container"></div>
 
+                    <md-fab id="activarScanner">
+                        <md-icon slot="icon">camera_alt</md-icon>
+                    </md-fab>
+
                     <div class="formulario-crear-agregar">
 
                         <select class="input-uniforme" id="productos" name="producto[][id_producto]"
@@ -99,10 +103,10 @@
                         <input type="text" id="codigo_lector" placeholder="Escanea un código"
                             style="display: none;" />
 
-
-
                         <script>
                             $(document).ready(function() {
+                                let scannerActive = false;
+
                                 // Inicializa Select2 en el select de productos
                                 $('#productos').select2({
                                     theme: 'filled',
@@ -167,12 +171,21 @@
 
                                         // Detener Quagga después de procesar el código
                                         Quagga.stop();
+                                        scannerActive = false;
+                                        $('#activarScanner').prop('disabled', false).text('');
                                     });
 
                                 }
 
-                                // Iniciar el escáner cuando el documento está listo
-                                initScanner();
+                                // Activa o desactiva el escáner cuando se hace clic en el botón
+                                $('#activarScanner').on('click', function() {
+                                    if (!scannerActive) {
+                                        initScanner();
+                                    } else {
+                                        Quagga.stop();
+                                    }
+                                    scannerActive = !scannerActive;
+                                });
 
                                 // Activa el campo oculto para que reciba el enfoque
                                 $(document).on('keypress', function() {
