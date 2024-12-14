@@ -297,7 +297,7 @@
 
             <div id="logo">
                 <a href="{{ route('inicio') }}" class="nav_logo">
-                    <img src="{{ asset('storage/img/logo.png') }}" alt="Logo" class="nav_logo-icon"
+                    <img src="/img/logo.png" alt="Logo" class="nav_logo-icon"
                         style="width: 80px; height: 80px;">
                 </a>
 
