@@ -243,13 +243,16 @@ function toggleMontoPagado() {
 }
 
 function updateMontoPagado() {
-    const total = parseFloat(document.getElementById('total').value) || 0;
-    const montoPagado = parseFloat(document.getElementById('monto_pagado').value) || 0;
+    const total = parseFloat(document.getElementById('total').value.replace(/\./g, '')) || 0;
+    const montoPagadoInput = document.getElementById('monto_pagado');
+    const montoPagado = parseFloat(montoPagadoInput.value.replace(/\./g, '')) || 0;
 
     // Asegurarse de que el monto pagado no exceda el total
     if (montoPagado > total) {
         alert('El monto pagado no puede ser mayor que el total.');
-        document.getElementById('monto_pagado').value = total; // Reinicia al total
+        montoPagadoInput.value = new Intl.NumberFormat('es-CL').format(total); // Reinicia al total
+    } else {
+        montoPagadoInput.value = new Intl.NumberFormat('es-CL').format(montoPagado); // Formatear el valor ingresado
     }
 }
 
