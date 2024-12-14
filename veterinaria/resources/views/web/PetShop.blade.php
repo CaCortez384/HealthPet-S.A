@@ -1,5 +1,5 @@
 <x-home>
-    <link href="{{ asset('css/home/PetShop.css') }}" rel="stylesheet">
+
     <!-- Asegúrate de cargar jQuery primero -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/Web/scriptPetShop.js') }}" defer></script>
@@ -7,6 +7,7 @@
     <script>
         var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Obtener el token CSRF desde una meta tag
     </script>
+        <link href="{{ asset('css/home/PetShop.css') }}" rel="stylesheet">|
 
     <!-- Contenido de la página -->
 
@@ -17,14 +18,11 @@
             @include('components.alert')
         @endsection
 
-        <Div style="width: 90%; margin: auto; text-align: center; background-color: rgba(240, 255, 255, 0.507);border-radius: 20px; padding: 20px">
-            <h2>¡Compra y Reserva productos para tu mascota! Paga un 50% al hacer el pedido o el total y recógelo en
-                nuestra veterinaria.
-            </h2>
-        </Div>
+        <div id="contenedor-titulo-filtos" >
+            <h4>¡Compra y reserva productos para tu mascota! Si el producto está disponible en stock, paga el total y retíralo de inmediato en nuestra veterinaria. Si es un pedido, abona el 50% al hacer la compra y paga el resto cuando el producto esté listo para retirar
+            </h4>
 
-        <div class="store-wrapper">
-            <!-- Listado de categorías -->
+
             <div class="category_list">
                 <a href="javascript:void(0);" class="category_item" category="all">Todo</a>
                 <a href="javascript:void(0);" class="category_item" category="gato">Gato</a>
@@ -34,14 +32,20 @@
                 <a href="javascript:void(0);" class="category_item" category="humedo-gato">Comida humeda Gato</a>
                 <a href="javascript:void(0);" class="category_item" category="humedo-perro">Comida humeda Perro</a>
                 {{-- para agregar otro filtro se debe utilizar en el href javascript:void(0); para evitar que no se agreguen los productos al carro. --}}
-                <div class="price-filter">
-                    <h4>Filtrar por precio</h4>
-                    <input type="range" id="price-range" min="0" max="50000" value="50000" step="1000">
-                    <p>Precio máximo: $<span id="price-display">50000</span></p>
-                    <button id="apply-price-filter">Aplicar filtro</button>
-                </div>
+
 
             </div>
+            <div class="price-filter">
+                <h4>Filtrar por precio</h4>
+                <input type="range" id="price-range" min="0" max="50000" value="50000" step="1000">
+                <p>Precio máximo: $<span id="price-display">50000</span></p>
+                <button id="apply-price-filter">Aplicar filtro</button>
+            </div>
+        </div>
+
+        <div class="store-wrapper">
+            <!-- Listado de categorías -->
+
             <!-- Listado de productos -->
             <section class="products-list">
                 @foreach ($productos as $producto)
@@ -82,7 +86,10 @@
         
         
         </div>
+
     </div>
+
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {

@@ -7,7 +7,6 @@ $(document).ready(function () {
         console.log('Categoría:', categoria);   // Imprime la categoría seleccionada
         console.log('Precio máximo:', precioMaximo);  // Imprime el precio máximo
 
-
         $.ajax({
             url: '/filtrar-productos',
             method: 'GET',
@@ -16,7 +15,8 @@ $(document).ready(function () {
                 precio: precioMaximo,
             },
             success: function (response) {
-                $('.products-list').empty();
+                $('.products-list').empty(); // Limpiar lista de productos
+                $('.product-summary').remove(); // Limpiar resumen de productos si existe
 
                 if (!response.success) {
                     // Si no hay productos, mostrar el mensaje
@@ -29,6 +29,18 @@ $(document).ready(function () {
                     return;
                 }
 
+                // Variables para contar productos
+                let totalProductos = response.productos.length;
+                let category = categoria;
+
+                // Mostrar el resumen de productos
+                const summaryHTML = `
+                    <div class="product-summary">
+                        <p>${category} (${totalProductos} productos)</p>
+                    </div>
+                `;
+                $('.products-list').before(summaryHTML); // Insertar resumen antes de la lista de productos
+
                 // Mostrar los productos si hay resultados
                 response.productos.forEach(function (producto) {
                     const productHTML = `
@@ -40,20 +52,23 @@ $(document).ready(function () {
                                 <p>Stock: ${producto.stock_unidades}</p>
                                 ${producto.stock_unidades === 0
                             ? `
-                                            <button class="add-to-cart add-to-cart-button" data-product-id="${producto.id}" data-product-name="${producto.nombre}" 
-                                                onclick="event.stopPropagation();">Realizar pedido</button>
-                                                    `
+                                    <button class="add-to-cart add-to-cart-button" data-product-id="${producto.id}" data-product-name="${producto.nombre}" 
+                                        onclick="event.stopPropagation();">Realizar pedido</button>
+                                `
                             : `
-                                            <button class="add-to-cart add-to-cart-button" data-product-id="${producto.id}" data-product-name="${producto.nombre}" 
-                                                onclick="event.stopPropagation();">Agregar al carrito</button>
-                                                    `
+                                    <button class="add-to-cart add-to-cart-button" data-product-id="${producto.id}" data-product-name="${producto.nombre}" 
+                                        onclick="event.stopPropagation();">Agregar al carrito</button>
+                                `
                         }
                             </div>
                         </div>
                     `;
 
                     $('.products-list').append(productHTML);
+                    
                 });
+       
+
 
                 $(document).ready(function() {
                     function updateCartContent() {
@@ -214,11 +229,11 @@ $(document).ready(function () {
             case 'snack-gato':
                 obtenerProductosFiltrados('snack-gato', maxPrice);
                 break;
-            case 'humeda-gato':
-                obtenerProductosFiltrados('humeda-gato', maxPrice);
+            case 'humedo-gato':
+                obtenerProductosFiltrados('humedo-gato', maxPrice);
                 break;
-            case 'humeda-perro':
-                obtenerProductosFiltrados('humeda-gato', maxPrice);
+            case 'humedo-perro':
+                obtenerProductosFiltrados('humedo-perro', maxPrice);
                 break;
             default:
                 obtenerProductosFiltrados('all', maxPrice);

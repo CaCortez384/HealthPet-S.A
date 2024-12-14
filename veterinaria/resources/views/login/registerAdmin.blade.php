@@ -1,61 +1,30 @@
 <x-app-layout>
-    <!DOCTYPE html>
-    <html lang="en">
+   
+  
+    <link href="{{ asset('css\registrar-admin-style.css') }}" rel="stylesheet">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>registrate</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
-        <script src="https://esm.run/@material/web/all.js" type="module"></script>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link href="{{ asset('css\registro-usuario-style.css') }}" rel="stylesheet">
 
-        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-        <link rel="stylesheet"
-            href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <script src="https://esm.run/@material/web/all.js" type="module"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-    </head>
 
-    <style>
-        #fondo {
-            background-image: url('{{ asset('img/listo_fondo.jpeg') }}');
-            /* O usando la ruta directa */
-            height: 80vh;
-            /* Ajusta la altura al 100% de la ventana */
-            background-size: cover;
-            /* La imagen cubrirá todo el contenedor */
-            background-position: center;
-            /* Centra la imagen */
-            background-repeat: no-repeat;
-            /* Evita que la imagen se repita */
-        }
 
-        @media (max-width: 1300px) {
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet"
+        href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
 
-            #fondo {
-                background-image: url('{{ asset('img/listo_fondo.jpeg') }}');
-                /* O usando la ruta directa */
-                height: 100vh;
-                /* Ajusta la altura al 100% de la ventana */
-                background-size: cover;
-                /* La imagen cubrirá todo el contenedor */
-                background-position: center;
-                /* Centra la imagen */
-                background-repeat: repeat;
-                /* Evita que la imagen se repita */
-            }
-        }
-    </style>
 
-    </head>
 
-    <body id="fondo">
 
-        <div id="modal">
 
+
+
+        <div id="contenedor">
+
+
+          
             @include('components.alert')
 
 
@@ -65,12 +34,33 @@
 
                 <!-- Resto del contenido de la página -->
             @endsection
-            <div id="logo">
 
-                <img src="img\logo-vet.png" alt="logo" width="100px">
-                <h5>Registrar Administrador</h5>
 
-            </div>
+                <div id="volver-titulo">
+
+                    <md-icon-button id="openDialogButton">
+                        <md-icon>arrow_back</md-icon>
+                    </md-icon-button>
+    
+                    <h6>Registrar Administrador</h6>
+    
+                    <md-dialog id="deleteDialog" type="alert">
+                        <div slot="headline">¿Desea volver a la p&aacute;gina anterior?</div>
+                        <form slot="content" id="form-id" method="dialog">
+                            Si regresa, los datos no se guardar&aacute;n.
+                        </form>
+                        <div slot="actions">
+                            <md-text-button id="cancelButton" value="cancel">Cancel</md-text-button>
+                            <a href="javascript:history.back()"><md-text-button value="delete">Volver</md-text-button></a>
+                        </div>
+                    </md-dialog>
+    
+                </div>
+
+                
+            <md-divider inset></md-divider>
+
+
 
             <form action="{{ route('validar-regitro-admin') }}" method="POST" id="form">
                 @csrf
@@ -174,11 +164,33 @@
             }
         </script>
 
+<script>
+    // Obtener los elementos del DOM
+    const openDialogButton = document.getElementById('openDialogButton');
+    const deleteDialog = document.getElementById('deleteDialog');
+    const cancelButton = document.getElementById('cancelButton');
+    const deleteButton = document.getElementById('deleteButton');
+
+    // Abrir el diálogo al hacer clic en el botón
+    openDialogButton.addEventListener('click', async () => {
+        await deleteDialog.show();
+    });
+
+    // Acción al hacer clic en el botón "Cancelar"
+    cancelButton.addEventListener('click', async () => {
+        await deleteDialog.close();
+    });
+
+    // Acción al hacer clic en el botón "Eliminar"
+    deleteButton.addEventListener('click', async () => {
+        // Aquí puedes añadir la lógica para eliminar el elemento.
+        console.log('Item deleted');
+        await deleteDialog.close();
+    });
+</script>
 
 
 
 
-    </body>
 
-    </html>
 </x-app-layout>
