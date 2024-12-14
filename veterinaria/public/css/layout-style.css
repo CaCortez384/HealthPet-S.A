@@ -40,6 +40,25 @@ body {
     display: none;
 }
 
+#resultados-busqueda {
+    border: 1px solid #ddd;
+    background-color: white;
+    max-height: 300px;
+    max-width: 60%;
+    overflow-y: auto;
+    border-radius: 12px; /* Updated for Material Design 3 rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+#resultados-busqueda .list-group-item {
+    cursor: pointer;
+    border-radius: 8px; /* Updated for Material Design 3 rounded corners */
+}
+
+#resultados-busqueda .list-group-item:hover {
+    background-color: #f1f1f1;
+}
 
 
 

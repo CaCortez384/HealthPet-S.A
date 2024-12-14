@@ -10,9 +10,9 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebpayController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PedidoController;
-use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BusquedaController;
 
 // rutas login nueva
 use App\Http\Controllers\ProfileController;
@@ -152,3 +152,4 @@ Route::get('/ingresos/tipo', [HomeController::class, 'getIngresosPorTipoData']);
 
 
 Route::get('/productos', [WebController::class, 'index'])->name('productos.index');
+Route::get('/buscar', [BusquedaController::class, 'buscar'])->name('buscar.ajax');
