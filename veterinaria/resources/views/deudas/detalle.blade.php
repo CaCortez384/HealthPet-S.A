@@ -93,7 +93,7 @@
                     </div>
                     <div class="purchase-price">
                         <p>Total por pagar:</p>
-                        <h3>${{ $deuda->monto_adeudado }} CLP</h3>
+                        <h3>${{ number_format($deuda->monto_adeudado, 0, ',', '.') }} </h3>
                     </div>
                     <div class="purchase-price">
                         <p>Estado de Pago:</p>

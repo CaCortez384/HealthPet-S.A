@@ -78,6 +78,7 @@ Route::get('/deudas', [DeudaController::class, 'listarDeudas'])->middleware('rol
 Route::get('/deudas/{id}', [DeudaController::class, 'detalleDeuda'])->middleware('role:admin,editor')->name('deuda.detalle');
 Route::get('/deudas/pagar', [DeudaController::class, 'create'])->middleware('role:admin,editor')->name('pago.create'); // Formulario para pagar una deuda
 Route::post('/pago/store', [DeudaController::class, 'storePago'])->middleware('role:admin,editor')->name('pago.store'); // Guardar un pago
+Route::post('/deudas/{id}', [DeudaController::class, 'destroy'])->middleware('role:admin,editor')->name('deuda.eliminar'); // Eliminar una deuda
 
 //rutas para pedidos
 Route::get('/pedidos', [PedidoController::class, 'listar'])->middleware('role:admin,editor')->name('pedidos.index');

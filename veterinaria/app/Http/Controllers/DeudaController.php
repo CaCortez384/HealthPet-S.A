@@ -94,4 +94,16 @@ class DeudaController extends Controller
 
         return redirect()->route('deuda.detalle', $deuda->id)->with('success', 'Pago realizado con éxito');
     }
+
+    public function destroy($id)
+    {
+        $deuda = Deuda::find($id);
+        if (!$deuda) {
+            return redirect()->back()->with('error', 'Deuda no encontrada');
+        }
+        $deuda->estado = 2; // 2 = Anulada
+        $deuda->monto_adeudado = 0; // Monto adeudado pasa a 0
+        $deuda->save();
+        return redirect()->route('deudas.index')->with('success', 'Deuda anulada con éxito');
+    }
 }
