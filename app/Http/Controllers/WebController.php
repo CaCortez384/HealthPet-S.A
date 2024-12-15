@@ -23,7 +23,7 @@ class WebController extends Controller
         // Supongamos que '1' es el id de la categoría de alimentos en tu base de datos
         $productos = Producto::where('mostrar_web', 1)->get(); 
 
-        return view('web.petshop', compact('productos')); 
+        return view('web.petShop', compact('productos')); 
     }
     
     public function detalle($id) {
