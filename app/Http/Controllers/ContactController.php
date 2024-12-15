@@ -41,7 +41,7 @@ class ContactController extends Controller
             ];
     
             Mail::send('emails.contacto', $data, function ($message) {
-                $message->to('admin@example.com') // Cambia esto al correo real de los administradores
+                $message->to('eldegorronegro@gmail.com') // Cambia esto al correo real de los administradores
                     ->subject('Nuevo mensaje desde el formulario de contacto');
             });
     

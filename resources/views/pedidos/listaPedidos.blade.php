@@ -141,7 +141,7 @@
                                 <tbody>
                                     @foreach ($pedido->detallePedidos as $detalle)
                                         <tr>
-                                            <td>{{ $detalle->producto->nombre }}</td>
+                                            <td>{{ $detalle->producto ? $detalle->producto->nombre : 'Producto no disponible' }}</td>
                                             <td>{{ $detalle->cantidad }}</td>
                                             <td>${{ number_format($detalle->precio, 0, ',', '.') }}</td>
                                             <td>${{ number_format($detalle->cantidad * $detalle->precio, 0, ',', '.') }}
