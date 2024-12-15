@@ -1,0 +1,342 @@
+
+/* Estilos generales */
+* {
+	margin: 0;
+	padding: 0;
+
+}
+
+#fondo {
+	
+	font-family: 'Arial', sans-serif;
+	background-image: url('/img/clientes/fondo-cliente.png'); 
+    height: 150%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: fixed; /* Permite que el fondo se quede en su lugar */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ancho completo */
+    height: 100vh; /* Altura completa */
+    filter: blur(8px); /* Aplica el desenfoque al fondo */
+    -webkit-filter: blur(8px); /* Soporte para navegadores basados en WebKit */
+    z-index: -1; /* Envía el fondo detrás del contenido */	
+}
+/* Estilo para el mensaje deslizante */
+.nav-deslizable {
+    position: relative;
+    top: 31px;
+    left: 100%;
+    background-color: #00BFFF; /* Color celeste brillante */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    transition: left 15s linear;
+    animation: slide 15s infinite;
+}
+
+#contenedor-titulo-filtos{
+    width: 95%; margin: auto; text-align: center; background-color: rgba(240, 255, 255, 0.507);border-radius: 20px; padding: 20px
+}
+
+
+/* Animación para hacer que el mensaje se deslice */
+@keyframes slide {
+    0% {
+        left: 100%;
+    }
+    50% {
+        left: 0%;
+    }
+    100% {
+        left: -100%;
+    }
+}
+
+/* Para hacer que se vea mejor en pantallas pequeñas */
+@media screen and (max-width: 600px) {
+    .nav-deslizable {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+
+.wrap > h1 {
+	color: #4961C2;
+	font-weight: 400;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	margin: 15px 0px;
+}
+
+.wrap {
+    width: 90%;
+    margin: auto;
+    padding: 50px;
+}
+
+
+.store-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 20px; /* Espacio adicional en la parte superior dentro de .wrap */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 4px 8px rgba(233, 59, 59, 0.1);
+
+}
+
+
+/* Categorías */
+.category_list {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
+.category_list .category_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+	width: 100%;
+	padding: 15px 0;
+	margin-bottom: 20px;
+	background: #4961C2;
+	border-radius: 10px;
+	text-align: center;
+	text-decoration: none;
+	color: #fff;
+    margin: 5px;
+    height: 70px;
+	transition: background-color 0.3s ease;
+}
+
+.category_list .category_item:hover {
+	background: #354a91;
+}
+
+.category_list .ct_item-active {
+	background: #2D3E50;
+}
+
+/* Productos */
+.products-list {
+	display: flex;
+	flex-wrap: wrap;
+    margin: auto;
+}
+
+.products-list .product-item {
+    margin: 20px;
+    margin: auto;
+    margin-bottom: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column; /* Garantiza alineación vertical */
+    justify-content: space-between; /* Espacio entre contenido y botón */
+    align-items: center;
+    background-color: #ffffff;
+    transition: transform 0.4s;
+    padding: 15px;
+    box-sizing: border-box;
+    height: 350px; /* Asegura que todas las tarjetas tengan la misma altura */
+    width: 250px;
+}
+
+
+.products-list .product-item:hover {
+	transform: scale(1.05);
+}
+
+.products-list .product-item img {
+    width: 100%;
+    max-height: 120px; /* Limita la altura máxima de la imagen */
+    object-fit: cover; /* Asegura que las imágenes mantengan su proporción */
+    border-radius: 8px;
+}
+
+.product-details {
+    padding-top: 61px;
+    text-align: center;
+    flex-grow: 1; /* Permite que el contenido se adapte al espacio disponible */
+}
+
+.product-details h4 {
+    color: #333;
+    font-weight: bold;
+    margin: 8px 0;
+    font-size: 14px; /* Ajusta el tamaño de la fuente */
+    line-height: 1.2; /* Controla el espaciado entre líneas */
+    overflow: hidden; /* Oculta el texto que se exceda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es muy largo */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    height: 1.5em; /* Controla la altura del contenedor de texto */
+}
+.product-details p {
+	margin: 4px 0;
+	color: #666;
+	
+}
+
+.product-details .price {
+	color: #4961C2;
+	font-weight: bold;
+}
+
+.product-details .offer {
+	color: #E84C3D;
+	font-weight: bold;
+}
+
+/* Botón Agregar al Carrito */
+.add-to-cart {
+    display: block; 
+    margin-top: 20px; /* Aumenta este valor según el espacio que necesites */
+    padding: 10px 39px;
+    background-color: #4961C2;
+    color: white;
+    text-decoration: none;
+    border-radius: 18px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 10px; 
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+
+
+
+.add-to-cart:hover {
+	background-color: #354a91;
+}
+
+/* Responsivo */
+@media screen and (max-width: 1100px) {
+	.products-list .product-item {
+		width: 30.3%;
+	}
+    .store-wrapper{
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 900px) {
+	.category_list,
+	.products-list {
+		width: 100%;
+        margin: 0;
+	}
+    .wrap{
+        width: 100%;
+        padding: 0;
+    }
+    .store-wrapper{
+        width: 98%;
+    }
+    .category_list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas con el mismo ancho */
+        gap: 20px; /* Espaciado entre los elementos */
+    }
+    #contenedor-titulo-filtos{
+        margin-top: 10px;
+    }
+
+	.category_list .category_item {
+		align-self: flex-start;
+		width: 15%;
+		font-size: 14px;
+	}
+
+	.products-list .product-item {
+		margin-left: 4.5%;
+	}
+
+	.products-list .product-item:nth-child(3n+1) {
+		margin-left: 0px;
+	}
+
+    .category_list {
+		flex-direction: column;
+	}
+	.category_list .category_item {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+}
+
+
+@media screen and (max-width: 600px) {
+	.products-list .product-item {
+		width: 47.5%;
+	}
+
+	.products-list .product-item:nth-child(3n+1) {
+		margin-left: 4.5%;
+	}
+
+	.products-list .product-item:nth-child(2n+1) {
+		margin-left: 0px;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.products-list .product-item {
+		width: 100%;
+		margin-left: 0px;
+	}
+}
+.price-filter {
+
+    padding: 15px; /* Espacio interior */
+    text-align: center;
+    margin: 15px 0; /* Separación con otros elementos */
+
+	margin-left: -9px;
+}
+.price-filter h4 {
+    margin-bottom: 10px; /* Espacio debajo del título */
+}
+.price-filter p {
+    margin-top: 10px; /* Espacio arriba del texto de precio máximo */
+}
+.price-filter input[type="range"] {
+    width: 100%; /* Ajustar el ancho del control deslizante */
+}
+.price-filter button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4961C2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.price-filter button:hover {
+    background-color: #354a91;
+}
+.product-item img {
+    width: 100%;             /* Ajusta la imagen al ancho del contenedor */
+    max-width: 120px;        /* Define el ancho máximo de la imagen */
+    height: auto;            /* Mantiene la proporción de la imagen */
+    object-fit: cover;       /* Corta los bordes si la imagen tiene otra proporción */
+    border-radius: 10px;     /* Opcional: agrega bordes redondeados */
+}
