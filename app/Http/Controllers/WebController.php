@@ -20,10 +20,9 @@ class WebController extends Controller
     // Método para PetShop
     public function petShop() {
         // Aquí puedes filtrar los productos que pertenecen a la categoría de alimentos
-        // Supongamos que '1' es el id de la categoría de alimentos en tu base de datos
         $productos = Producto::where('mostrar_web', 1)->get(); 
 
-        return view('web.petShop', compact('productos')); 
+        return view('web.PetShop', compact('productos')); 
     }
     
     public function detalle($id) {
