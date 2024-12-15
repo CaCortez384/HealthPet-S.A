@@ -48,7 +48,6 @@
                             </md-assist-chip>
                         @endif
                         @if (isset($filtros['Estado_pedido']))
-                            {{-- Cambiado a isset --}}
                             <md-assist-chip>
                                 Estado de pedido:
                                 @switch($filtros['Estado_pedido'])
