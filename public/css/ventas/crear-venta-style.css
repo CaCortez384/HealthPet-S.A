@@ -96,9 +96,11 @@ button:hover {
 
 
 @media (max-width: 768px) {
+
     #formulario-crear {
         grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */
         margin-top: 20px;
+        flex-direction: column;
     }
 
     #campos-adicionales {
