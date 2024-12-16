@@ -76,7 +76,7 @@ class DeudaController extends Controller
 
         $pago = new Pago();
         $pago->deuda_id = $deuda->id;
-        $pago->monto_pagado = intval(str_replace('.', '', $request->input('monto_pagado')));
+        $pago->monto_pagado = $request->monto_pagado;
         $pago->monto_restante = $montoRestante;
         $pago->tipo_pago_id = $request->tipo_pago_id;
         $pago->save();
