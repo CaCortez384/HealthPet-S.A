@@ -786,6 +786,12 @@ h5 {
 }
 
 
+@media (max-width: 1100px) {
+  .whatsapp-icon {
+      left: 85%;
+  }
+}
+
 
 
 

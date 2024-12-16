@@ -89,7 +89,7 @@
         </div>
 
         {{-- Gráfico de ventas mensuales e ingresos por tipo --}}
-        <div class="grid-container mt-5">
+        <div id="contenedor-graficos" class="grid-container ">
             <div class="ventas-chart">
                 <div class="card shadow-sm">
                     <div class="card-header bg-dark text-white text-center">

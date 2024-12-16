@@ -45,10 +45,12 @@
 }
         
 .grid-container {
+    margin-top: 20px;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-rows: auto;
     gap: 20px;
+    width: 90%;
 }
 
 .ventas-chart {
@@ -59,4 +61,16 @@
 .ingresos-chart {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    #contenedor-graficos  {
+        display: flex;
+        width: 85%;
+        flex-direction: column;
+        margin: auto;
+        margin-top: 20px;
+    }
 }

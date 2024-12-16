@@ -115,7 +115,7 @@
                                 style="position: absolute; z-index: 1000; display: none; width: 100%;"></ul>
                         </li>
                     </ul>
-                </div>
+              
                 <script>
                     document.getElementById('buscador').addEventListener('input', function() {
                         const query = this.value.trim();
@@ -175,101 +175,7 @@
                 </script>
 
 
-                <div style="margin-right: 50px; position: relative;">
-                    <a href="#" id="inventarioDropdown1" role="button" aria-expanded="false">
-                        <md-fab class="boton-tabla" size="small" aria-label="Imprimir">
-                            <md-icon slot="icon">notifications</md-icon>
-                            @if ($productosBajoStock->count() > 0)
-                                <span class="badge"
-                                    style="position: absolute; top: 0; right: 0; background-color: red; color: white; border-radius: 50%; padding: 5px; font-size: 12px;">
-                                    {{ $productosBajoStock->count() }}
-                                </span>
-                            @endif
-                        </md-fab>
-                    </a>
-
-                    <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
-                        style="background-color: #f5f5f5; color: #333; border-radius: 20px; 
-                            box-shadow: var(--md-sys-elevation-3); display: none; 
-                            max-height: 300px; overflow-y: auto; padding: 10px; 
-                            margin-left: -188px; /* Sin margen izquierdo para acercarlo a la izquierda */
-                            width: 300px;">
-
-                        <li style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">
-                            Notificaciones de Stock Bajo
-                        </li>
-
-                        @if ($productosBajoStock->count() > 0)
-                            @foreach ($productosBajoStock as $producto)
-                                <li style="padding: 10px; background-color: #fff; 
-                                        border-radius: 10px; margin: 5px 0; 
-                                        display: flex; align-items: center; 
-                                        border: 1px solid #ddd; cursor: pointer;"
-                                    onclick="window.location='{{ route('detalle2.producto', ['id' => $producto->id]) }}'"
-                                    onmouseover="this.style.backgroundColor='#f0f0f0';"
-                                    onmouseout="this.style.backgroundColor='#fff';">
-
-                                    <i class="fas fa-exclamation-triangle"
-                                        style="color: orange; margin-right: 10px;"></i>
-
-                                    <div>
-                                        <strong>{{ $producto->nombre }}</strong> -
-                                        <span style="color: red;">Stock: {{ $producto->stock_unidades }}</span>
-                                        (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
-                                    </div>
-                                </li>
-                            @endforeach
-                        @else
-                            <li style="padding: 10px; background-color: #fff; border-radius: 10px; margin: 5px 0;">
-                                No hay productos con stock bajo.
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-
-
-                <script>
-                    // Control del evento click en el botón del dropdown
-                    document.getElementById('inventarioDropdown1').addEventListener('click', function(event) {
-                        event.preventDefault(); // Evita el comportamiento por defecto del enlace
-
-                        // Selecciona el menú dropdown actual
-                        const dropdownMenu = this.nextElementSibling;
-
-                        // Cierra otros dropdowns abiertos
-                        document.querySelectorAll('.dropdown-menu-a').forEach(function(menu) {
-                            if (menu !== dropdownMenu) {
-                                menu.style.display = 'none'; // Cierra otros dropdowns
-                            }
-                        });
-
-                        // Alterna la visibilidad del menú dropdown actual
-                        if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
-                            dropdownMenu.style.display = 'block';
-                        } else {
-                            dropdownMenu.style.display = 'none';
-                        }
-                    });
-
-                    // Evita que el menú se cierre al hacer clic en un ítem
-                    document.querySelectorAll('.dropdown-menu-a').forEach(function(item) {
-                        item.addEventListener('click', function(event) {
-                            event.stopPropagation(); // Detiene la propagación del clic para que no cierre el menú
-                        });
-                    });
-
-                    // Cierra el dropdown si se hace clic fuera
-                    document.addEventListener('click', function(event) {
-                        const dropdown = document.getElementById('inventarioDropdown1');
-                        const dropdownMenu = dropdown.nextElementSibling;
-
-                        // Cierra el menú solo si el clic ocurre fuera del dropdown
-                        if (!dropdown.contains(event.target)) {
-                            dropdownMenu.style.display = 'none';
-                        }
-                    });
-                </script>
-
+               
 
 
                 <div id="usuario">
@@ -289,6 +195,106 @@
                 </div>
 
             </div>
+
+            
+        </div>
+
+        <div style="margin-left: 67%; position: absolute;">
+            <a href="#" id="inventarioDropdown1" role="button" aria-expanded="false">
+                <md-fab class="boton-tabla" size="small" aria-label="Imprimir">
+                    <md-icon slot="icon">notifications</md-icon>
+                    @if ($productosBajoStock->count() > 0)
+                        <span class="badge"
+                            style="position: absolute; top: 0; right: 0; background-color: red; color: white; border-radius: 50%; padding: 5px; font-size: 12px;">
+                            {{ $productosBajoStock->count() }}
+                        </span>
+                    @endif
+                </md-fab>
+            </a>
+
+            <ul class="dropdown-menu a" aria-labelledby="inventarioDropdown1"
+                style="background-color: #f5f5f5; color: #333; border-radius: 20px; 
+                    box-shadow: var(--md-sys-elevation-3); display: none; 
+                    max-height: 300px; overflow-y: auto; padding: 10px; 
+                    margin-left: -188px; /* Sin margen izquierdo para acercarlo a la izquierda */
+                    width: 300px;">
+
+                <li style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">
+                    Notificaciones de Stock Bajo
+                </li>
+
+                @if ($productosBajoStock->count() > 0)
+                    @foreach ($productosBajoStock as $producto)
+                        <li style="padding: 10px; background-color: #fff; 
+                                border-radius: 10px; margin: 5px 0; 
+                                display: flex; align-items: center; 
+                                border: 1px solid #ddd; cursor: pointer;"
+                            onclick="window.location='{{ route('detalle2.producto', ['id' => $producto->id]) }}'"
+                            onmouseover="this.style.backgroundColor='#f0f0f0';"
+                            onmouseout="this.style.backgroundColor='#fff';">
+
+                            <i class="fas fa-exclamation-triangle"
+                                style="color: orange; margin-right: 10px;"></i>
+
+                            <div>
+                                <strong>{{ $producto->nombre }}</strong> -
+                                <span style="color: red;">Stock: {{ $producto->stock_unidades }}</span>
+                                (Mínimo requerido: {{ $producto->cantidad_minima_requerida }})
+                            </div>
+                        </li>
+                    @endforeach
+                @else
+                    <li style="padding: 10px; background-color: #fff; border-radius: 10px; margin: 5px 0;">
+                        No hay productos con stock bajo.
+                    </li>
+                @endif
+            </ul>
+        </div>
+
+
+
+        <script>
+            // Control del evento click en el botón del dropdown
+            document.getElementById('inventarioDropdown1').addEventListener('click', function(event) {
+                event.preventDefault(); // Evita el comportamiento por defecto del enlace
+
+                // Selecciona el menú dropdown actual
+                const dropdownMenu = this.nextElementSibling;
+
+                // Cierra otros dropdowns abiertos
+                document.querySelectorAll('.dropdown-menu-a').forEach(function(menu) {
+                    if (menu !== dropdownMenu) {
+                        menu.style.display = 'none'; // Cierra otros dropdowns
+                    }
+                });
+
+                // Alterna la visibilidad del menú dropdown actual
+                if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+                    dropdownMenu.style.display = 'block';
+                } else {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+
+            // Evita que el menú se cierre al hacer clic en un ítem
+            document.querySelectorAll('.dropdown-menu-a').forEach(function(item) {
+                item.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Detiene la propagación del clic para que no cierre el menú
+                });
+            });
+
+            // Cierra el dropdown si se hace clic fuera
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('inventarioDropdown1');
+                const dropdownMenu = dropdown.nextElementSibling;
+
+                // Cierra el menú solo si el clic ocurre fuera del dropdown
+                if (!dropdown.contains(event.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+        </script>
+
     </div>
     </nav>
     </div>

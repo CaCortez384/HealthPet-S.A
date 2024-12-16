@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 
-    
+
 
 </head>
 
@@ -47,41 +47,40 @@
 <body>
 
     <style>
-
         /* cursor */
-        *{
-            cursor: url('{{ asset("img/cursor-gato.png") }}'), auto;
-  
+        * {
+            cursor: url('{{ asset('img/cursor-gato.png') }}'), auto;
 
-}
 
-a:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        }
 
-ul:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        a:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
 
-li:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        ul:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
 
-button:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        li:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
 
-.btn:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        button:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
 
-md-icon:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        .btn:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
 
-#imagen-home:hover{
-    cursor: url('{{ asset("img/cursor-gato-hover.png") }}'), auto;
-}
+        md-icon:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
+
+        #imagen-home:hover {
+            cursor: url('{{ asset('img/cursor-gato-hover.png') }}'), auto;
+        }
 
 
 
@@ -177,7 +176,7 @@ md-icon:hover{
     </script>
 
 
-            
+
     <!--Main Navigation-->
     <header style="background-color: rgb(73, 97, 194)">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -190,7 +189,7 @@ md-icon:hover{
                     <!-- Left elements -->
                     <div class="col-md-4 d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">
                         <a id="imagen-home" href="{{ route('home') }}" class="ms-md-2">
-                            <img  id="imagen-home" src="{{ asset('img/logo-vet.png') }}" height="80" alt="Logo">
+                            <img id="imagen-home" src="{{ asset('img/logo-vet.png') }}" height="80" alt="Logo">
                         </a>
                     </div>
                     <!-- Left elements -->
@@ -224,20 +223,40 @@ md-icon:hover{
 
                                     {{-- Menú para usuarios no autenticados --}}
                                     @guest
-                                    <li><a class="dropdown-item" href="{{ route('login') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Inicia Sesión</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('registro') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Registrarse</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('buscar.pedido') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('login') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Inicia
+                                                Sesión</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('registro') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Registrarse</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ route('buscar.pedido') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a>
+                                        </li>
                                     @endguest
 
                                     {{-- Menú para usuarios autenticados --}}
                                     @auth
-                                    <li><a class="dropdown-item" href="{{route('profile.edit')}}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi Perfil</a></li>
-                                    <li><a class="dropdown-item" href="{{route('profile.pedidos')}}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mis Pedidos</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('buscar.pedido') }}" style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('logout') }}"  style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Cerrar Sesión</a></li>
+                                        {{-- Opciones comunes para todos los usuarios autenticados --}}
+                                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mi
+                                                Perfil</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('profile.pedidos') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Mis
+                                                Pedidos</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('buscar.pedido') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Seguimiento</a>
+                                        </li>
 
-                                        {{-- Formulario para cerrar sesión --}}
+                                        {{-- Menú solo para usuarios con rol de administrador o editor --}}
+                                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
+                                            <li><a class="dropdown-item" href="{{ route('inicio') }}"
+                                                    style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Inicio</a>
+                                            </li>
+                                        @endif
 
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                                style="color: var(--md-sys-color-on-primary); padding: 10px 20px; border-radius: 20px;">Cerrar
+                                                Sesión</a></li>
                                     @endauth
 
                                 </ul>
@@ -246,7 +265,7 @@ md-icon:hover{
 
                             <!-- Cart -->
                             <div class="nav_link dropdown">
-                                <a href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown" 
+                                <a href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown"
                                     href="#" id="carritoMostrar" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                     style="text-decoration: none; color: white;display: flex; align-items: center; justify-content: center;  flex-direction: column;">
@@ -261,7 +280,7 @@ md-icon:hover{
             </div>
             <!-- Right elements -->
         </div>
-   
+
 
         <!-- Jumbotron -->
         <!-- Navbar -->
@@ -280,7 +299,8 @@ md-icon:hover{
                         <a class="nav-link" href="{{ route('home') }}"><i class="fa-solid fa-house"></i>Inicio</a>
                     </li>
                     <li class="nav-item {{ Request::routeIs('petshop') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('petshop') }}"><i class="fa-solid fa-shop"></i>PetShop</a>
+                        <a class="nav-link" href="{{ route('petshop') }}"><i
+                                class="fa-solid fa-shop"></i>PetShop</a>
                     </li>
 
                     {{-- <li class="nav-item {{ Request::routeIs('citas.create') ? 'active' : '' }}">
@@ -317,10 +337,11 @@ md-icon:hover{
                         <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                             <h6 class="text-uppercase mb-4 font-weight-bold">
                                 Ubicacion
-                            </h6>  
+                            </h6>
                             <p>
-                                <a class="ubication-a" href="https://maps.app.goo.gl/cvM6DDjENhJK61bA6" target="_blank">
-                                San Agustín 202 MELIPILLA
+                                <a class="ubication-a" href="https://maps.app.goo.gl/cvM6DDjENhJK61bA6"
+                                    target="_blank">
+                                    San Agustín 202 MELIPILLA
                                 </a>
                             </p>
                         </div>
@@ -332,11 +353,11 @@ md-icon:hover{
                             <p><i class="fas fa-phone mr-3"></i>23207 3072</p>
                             <p><i class="fas fa-phone mr-3"></i>997220946</p>
                             <p><i class="fas fa-phone mr-3"></i>965895159 Peluquería🐩</p>
-                            
+
                         </div>
                         <!-- Grid column -->
 
-                        
+
                         <!-- Grid column -->
                         <hr class="w-100 clearfix d-md-none" />
 
@@ -346,7 +367,8 @@ md-icon:hover{
 
                             <!-- Facebook -->
                             <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998"
-                                href="https://www.facebook.com/HospitalClinicoVeterinarioSanAgustin202/"  target="_blank" role="button"><i class="fab fa-facebook-f"></i></a>
+                                href="https://www.facebook.com/HospitalClinicoVeterinarioSanAgustin202/"
+                                target="_blank" role="button"><i class="fab fa-facebook-f"></i></a>
 
                             <!-- Twitter -->
                             {{-- <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee"
@@ -354,11 +376,13 @@ md-icon:hover{
 
                             <!-- Google -->
                             <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39"
-                            href="mailto:veterinariasanagustin202@gmail.com?subject=Consulta sobre servicios&body=Hola, quisiera saber más sobre los servicios ofrecidos." role="button"><i class="fab fa-google"></i></a>
+                                href="mailto:veterinariasanagustin202@gmail.com?subject=Consulta sobre servicios&body=Hola, quisiera saber más sobre los servicios ofrecidos."
+                                role="button"><i class="fab fa-google"></i></a>
 
                             <!-- Instagram -->
                             <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac"
-                                href="https://www.instagram.com/hospvetsanagustinmelipilla/" target="_blank" role="button"><i class="fab fa-instagram"></i></a>
+                                href="https://www.instagram.com/hospvetsanagustinmelipilla/" target="_blank"
+                                role="button"><i class="fab fa-instagram"></i></a>
 
 
                         </div>
@@ -372,7 +396,8 @@ md-icon:hover{
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
                 © 2024 Copyright:
-                <a class="text-white" href="#">Alchemy Software</a> <img src="img/logoAlchemy.png" alt="logo alchemy" width="30px" style="border-radius: 50px">
+                <a class="text-white" href="#">Alchemy Software</a> <img src="img/logoAlchemy.png"
+                    alt="logo alchemy" width="30px" style="border-radius: 50px">
             </div>
             <!-- Copyright -->
         </footer>
