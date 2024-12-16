@@ -206,7 +206,7 @@
             @csrf
             <input type="hidden" name="deuda_id" value="{{ $deuda->id }}">
             <div class="contact-row">
-                <md-filled-text-field type="text" name="monto_pagado" autofocus label="Monto a pagar" placeholder="$" required></md-filled-text-field>
+                <md-filled-text-field type="text" name="monto_pagado" autofocus label="Monto a pagar" placeholder="$" required oninput="this.value = this.value.replace(/\./g, '')"></md-filled-text-field>
                 <md-filled-select class="input-uniforme" name="tipo_pago_id" id="tipo_pago" required>
                     <md-select-option value="" selected>Seleccione el Tipo de Pago</md-select-option>
                     @foreach ($tipoPago1 as $tipo)
