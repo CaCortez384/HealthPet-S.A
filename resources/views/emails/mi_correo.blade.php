@@ -34,13 +34,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each $data['productos'] }}
+                        @foreach ($data['productos'] as $producto)
                         <tr>
-                            <td style="padding: 10px; border-bottom: 1px solid #eee;">{{ nombre }}</td>
-                            <td style="text-align: center; padding: 10px; border-bottom: 1px solid #eee;">{{ cantidad }}</td>
-                            <td style="text-align: center; padding: 10px; border-bottom: 1px solid #eee;">{{ precio }}</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #eee;">{{ $producto['nombre'] }}</td>
+                            <td style="text-align: center; padding: 10px; border-bottom: 1px solid #eee;">{{ $producto['cantidad'] }}</td>
+                            <td style="text-align: center; padding: 10px; border-bottom: 1px solid #eee;">{{ $producto['precio'] }}</td>
                         </tr>
-                        {{/each}}
+                        @endforeach
                     </tbody>
                 </table>
 
