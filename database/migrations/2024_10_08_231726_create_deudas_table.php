@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('venta_id');
             $table->integer('monto_adeudado'); // Monto que falta por pagar
-            $table->boolean('estado')->default(0); // 0 = Pendiente, 1 = Pagado
+            $table->integer('estado')->default(0); // 0 = Pendiente, 1 = Pagado, 2 anulado
             $table->timestamps();
 
 
