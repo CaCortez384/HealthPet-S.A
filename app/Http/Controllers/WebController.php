@@ -42,15 +42,11 @@ class WebController extends Controller
    // Filtramos según la categoría seleccionada
    switch ($categoria) {
     case 'perro':
-        $query->where('id_categoria', 2) // Alimento
-              ->where('id_especie', 1)  // Perro
-              ->where('id_presentacion', 4) // Seco
+        $query->where('id_especie', 1)  // Perro
               ->where('mostrar_web', 1); //para la web
         break;
     case 'gato':
-        $query->where('id_categoria', 2) // Alimento
-              ->where('id_especie', 2)  // Gato
-              ->where('id_presentacion', 4) // Seco
+        $query->where('id_especie', 2)  // Gato
               ->where('mostrar_web', 1); //para la web
         break;
     case 'snack-perro':
