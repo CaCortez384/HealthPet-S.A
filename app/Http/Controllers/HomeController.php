@@ -71,15 +71,15 @@ class HomeController extends Controller
                 ->orderBy('dia', 'asc')
                 ->get();
 
-            // Transformar datos para el gráfico
+            // Transformar datos para el gráfico de barras
             $labels = $ventasPorDia->map(fn($venta) => $venta->dia);
             $data = $ventasPorDia->pluck('total');
         } else {
             // Obtener ventas mensuales
-            $ventasPorMes = Venta::selectRaw('MONTH(fecha_venta) as mes, YEAR(fecha_venta) as anio, SUM(total) as total')
+            $ventasPorMes = Venta::selectRaw('EXTRACT(MONTH FROM fecha_venta) as mes, EXTRACT(YEAR FROM fecha_venta) as anio, SUM(total) as total')
                 ->groupBy('anio', 'mes')
                 ->orderBy('anio', 'asc')
-                ->orderBy('mes', 'asc')
+                ->orderBy('mes', 'asc') 
                 ->get();
 
             // Transformar datos para el gráfico
