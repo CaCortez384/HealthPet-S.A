@@ -44,7 +44,7 @@ class VentaController extends Controller
         // Normalizar el RUT para aplicar el filtro
         if (!empty($filtros['rut'])) {
             $rutNormalizado = $this->normalizarRut($filtros['rut']);
-            $ventas->whereRaw("REPLACE(REPLACE(REPLACE(rut_cliente, '.', ''), '-', ''), ' ', '') LIKE ?", ["%$rutNormalizado%"]);
+            $ventas->whereRaw("REPLACE(REPLACE(REPLACE(CAST(rut_cliente AS TEXT), '.', ''), '-', ''), ' ', '') LIKE ?", ["%$rutNormalizado%"]);
         }
     
         // Filtrar por deuda
