@@ -45,7 +45,7 @@
                 </table>
 
                 <!-- Total -->
-                <p style="margin: 20px 0; text-align: right; font-size: 18px; font-weight: bold;">Total: {{ $data['total'] }}</p>
+                <p style="margin: 20px 0; text-align: right; font-size: 18px; font-weight: bold;">Total: ${{ number_format($data['monto_pagado'], 0, ',', '.') }}</p>
             </td>
         </tr>
 
