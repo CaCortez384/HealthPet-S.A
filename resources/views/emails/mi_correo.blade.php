@@ -1,30 +1,4 @@
 <style>
-    @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
-
-    @-webkit-keyframes scaleIn {
-        from {
-            transform: scale(0.5, 0.5);
-            opacity: 0.2;
-        }
-
-        to {
-            transform: scale(2, 2);
-            opacity: 0;
-        }
-    }
-
-    @keyframes scaleIn {
-        from {
-            transform: scale(0.5, 0.5);
-            opacity: 0.2;
-        }
-
-        to {
-            transform: scale(2, 2);
-            opacity: 0;
-        }
-    }
-
     * {
         box-sizing: border-box;
     }
