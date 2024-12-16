@@ -49,7 +49,7 @@
                         </md-filled-select>
 
                         <md-filled-text-field class="input-uniforme" label="Codigo" value="{{ $producto->codigo }}"
-                            type="number" name="codigo" min="0" max="999999999" id="codigo" required>
+                            type="number" name="codigo" min="0" id="codigo" required>
                         </md-filled-text-field>
 
                         <md-filled-select class="input-uniforme" label="Categoría" name="categoria" id="categoria"
