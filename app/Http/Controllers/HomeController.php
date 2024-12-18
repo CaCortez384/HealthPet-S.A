@@ -95,7 +95,7 @@ class HomeController extends Controller
     }
 
 
-    public function getIngresosPorTipoData()
+    public function getIngresosPorTipoData()// 'mes' por defecto
     {
         $mesActual = Carbon::now()->month;
         $anioActual = Carbon::now()->year;
