@@ -51,7 +51,7 @@ veterinaria/
 1. **Clona el repositorio:**
     ```sh
     git clone https://github.com/CaCortez384/HealthPet-S.A.git
-    cd veterinaria
+    cd HealthPet-S.A
     ```
 
 2. **Instala las dependencias de PHP con Composer:**
